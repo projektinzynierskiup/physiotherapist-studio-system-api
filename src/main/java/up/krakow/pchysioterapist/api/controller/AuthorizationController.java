@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import up.krakow.pchysioterapist.api.config.jwt.JwtUtils;
 import up.krakow.pchysioterapist.api.dto.UserCredentialsDTO;
 
-@RestController
+@RestController(value = "/auth")
 public class AuthorizationController {
     private JwtUtils jwtUtils;
     private AuthenticationManager authenticationManager;
