@@ -5,7 +5,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import up.krakow.pchysioterapist.api.entity.Users;
+import up.krakow.pchysioterapist.api.model.Users;
 import up.krakow.pchysioterapist.api.repository.UsersRepository;
 
 @Service
