@@ -6,17 +6,38 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
+import up.krakow.pchysioterapist.api.dto.UserCredentialsDTO;
+import up.krakow.pchysioterapist.api.entity.Users;
 
 import java.util.*;
 
 @Component
 public class JwtUtils {
+    @Autowired
+    private AuthenticationManager authenticationManager;
     public String generateToken(Authentication authentication){
         return Jwts.builder()
                 .setSubject(authentication.getName())
-                .claim("roles", authentication.getAuthorities())
+                .claim("role", authentication.getAuthorities())
+                .setIssuedAt(new Date())
+                .setExpiration(new Date(new Date().getTime() + JwtConstants.JWT_EXPIRATION))
+                .signWith(SignatureAlgorithm.HS256, JwtConstants.JWT_SECRET)
+                .compact();
+    }
+
+    public String generateToken(Users users){
+        return Jwts.builder()
+                .setSubject(users.getUsername())
+                .claim("role", users.getRole())
+                .claim("email", users.getEmail())
+                .claim("id", users.getId())
+                .claim("username", users.getUsername())
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(new Date().getTime() + JwtConstants.JWT_EXPIRATION))
                 .signWith(SignatureAlgorithm.HS256, JwtConstants.JWT_SECRET)
@@ -29,7 +50,7 @@ public class JwtUtils {
                 .parseClaimsJws(tokenFromCookie)
                 .getBody();
 
-        List<Map<String, String>> authorities = (List<Map<String, String>>) claims.get("roles");
+        List<Map<String, String>> authorities = (List<Map<String, String>>) claims.get("role");
 
         for(Map<String, String> authority: authorities) {
             roles.add(authority.get("authority"));
@@ -69,5 +90,11 @@ public class JwtUtils {
 
         return cookie.map(Cookie::getValue)
                 .orElse(null);
+    }
+
+    public Authentication getAuthentication(UserCredentialsDTO userCredentialsDTO) {
+        return authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(userCredentialsDTO.getEmail(),
+                        userCredentialsDTO.getPassword()));
     }
 }

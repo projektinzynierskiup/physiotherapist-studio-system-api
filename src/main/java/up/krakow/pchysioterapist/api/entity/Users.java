@@ -20,6 +20,9 @@ public class Users implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String username;
+    private String surname;
+    @Column(name = "email")
+    private String email;
     private String password;
     @Enumerated(EnumType.STRING)
     private Roles role;
@@ -48,5 +51,7 @@ public class Users implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
+
 }
 

@@ -9,14 +9,17 @@ import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import up.krakow.pchysioterapist.api.config.jwt.JwtAuthenticationFilter;
 import up.krakow.pchysioterapist.api.config.jwt.JwtUtils;
 import up.krakow.pchysioterapist.api.repository.UsersRepository;
 import up.krakow.pchysioterapist.api.service.CustomUserDetailsService;
+import up.krakow.pchysioterapist.api.utils.ControllerEndpoints;
 
 @Configuration
 @EnableWebSecurity
@@ -27,20 +30,25 @@ public class Security {
     @Bean
     public SecurityFilterChain securityFilterChainOne(HttpSecurity http) throws Exception {
         http
-                .csrf(Customizer.withDefaults())
+                .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/x").permitAll()
-                        .requestMatchers("/pw").permitAll()
-                        .requestMatchers("/test").authenticated()
-                        .anyRequest().authenticated())
+                        .requestMatchers(ControllerEndpoints.GUEST + "/**").permitAll()
+                        .requestMatchers(ControllerEndpoints.USER + "/**").authenticated()
+                        .requestMatchers(ControllerEndpoints.MOD + "/**").authenticated()
+                        .requestMatchers(ControllerEndpoints.ADMIN + "/**").authenticated()
+                        .anyRequest().authenticated()
+                )
+                .sessionManagement(session -> session
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(new JwtAuthenticationFilter(
                         new JwtUtils(),
-                        new CustomUserDetailsService(usersRepository)), UsernamePasswordAuthenticationFilter.class);
+                        new CustomUserDetailsService(usersRepository)), UsernamePasswordAuthenticationFilter.class)
+                .httpBasic(Customizer.withDefaults());
         return http.build();
     }
 
     @Bean
-    public AuthenticationManager authenticationManager(UserDetailsService userDetailsService) {
+    public AuthenticationManager authenticationManager(CustomUserDetailsService userDetailsService) {
 
         DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
         authenticationProvider.setUserDetailsService(userDetailsService);
@@ -51,5 +59,10 @@ public class Security {
     @Bean
     public UserDetailsService userDetailsService(UsersRepository usersRepository) {
         return usersRepository::findByUsername;
+    }
+
+    @Bean
+    public BCryptPasswordEncoder bCryptPasswordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 }
