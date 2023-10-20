@@ -64,4 +64,9 @@ public class UserServiceImpl implements UserService{
         throw new UserExistsException("Użytkownik o takim emailu jest już w bazie");
     }
 
+    @Override
+    public Integer getIdByEmail(String email) {
+        return usersRepository.findByEmail(email).get().getId();
+    }
+
 }

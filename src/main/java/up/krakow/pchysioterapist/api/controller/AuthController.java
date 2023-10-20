@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import up.krakow.pchysioterapist.api.config.jwt.JwtUtils;
+import up.krakow.pchysioterapist.api.entity.Users;
 import up.krakow.pchysioterapist.api.utils.ControllerEndpoints;
 import up.krakow.pchysioterapist.api.dto.UserCredentialsDTO;
 import up.krakow.pchysioterapist.api.dto.UsersDTO;
@@ -23,9 +24,8 @@ public class AuthController {
     @PostMapping(value = ControllerEndpoints.LOGIN)
     public ResponseEntity<String> login(@RequestBody @Valid UserCredentialsDTO userCredentialsDTO) {
         userService.isUserValid(userCredentialsDTO);
-        Authentication authentication = jwtUtils.getAuthentication(userCredentialsDTO);
-        authentication.getName();
-        return ResponseEntity.ok(jwtUtils.generateToken(authentication));
+        Users users = userService.getUserByEmail(userCredentialsDTO.getEmail());
+        return ResponseEntity.ok(jwtUtils.generateToken(users));
     }
 
     @PostMapping(value = ControllerEndpoints.REGISTER)

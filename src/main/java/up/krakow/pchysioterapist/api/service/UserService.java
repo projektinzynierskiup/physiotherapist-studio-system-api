@@ -10,4 +10,5 @@ public interface UserService {
     boolean isPasswordValid(String usersPassword, String dtoPassword);
     void save(UsersDTO usersDTO);
     void registerUser(UsersDTO usersDTO) throws Exception;
+    Integer getIdByEmail(String email);
 }
