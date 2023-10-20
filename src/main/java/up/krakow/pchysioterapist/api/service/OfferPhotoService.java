@@ -9,9 +9,9 @@ public interface OfferPhotoService {
 
     OfferPhoto addOfferPhoto(OfferPhotoDTO dto);
 
-    OfferPhoto getOfferPhoto(UUID offerPhotoId);
+    OfferPhoto getOfferPhoto(Integer offerPhotoId);
 
-    OfferPhoto updateOfferPhoto(OfferPhotoDTO dto, UUID offerPhotoId);
+    OfferPhoto updateOfferPhoto(OfferPhotoDTO dto, Integer offerPhotoId);
 
-    void deleteOfferPhoto(UUID offerPhotoId);
+    void deleteOfferPhoto(Integer offerPhotoId);
 }

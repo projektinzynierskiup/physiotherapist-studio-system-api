@@ -11,11 +11,11 @@ public interface OfferService {
 
     Offer createOffer(OfferDTO dto);
 
-    Offer getOfferById(UUID offerId);
+    Offer getOfferById(Integer offerId);
 
-    Offer editOffer(OfferDTO dto, UUID offerId);
+    Offer editOffer(OfferDTO dto, Integer offerId);
 
-    void deleteOffer(UUID offerId);
+    void deleteOffer(Integer offerId);
 
     List<Offer> getAllOffers();
 

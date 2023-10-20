@@ -1,20 +1,22 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/postgres?currentSchema=floralstudio
+    url: jdbc:postgresql://localhost:5432/postgres
     username: postgres
     password: password
     driver-class-name: org.postgresql.Driver
   jpa:
+    hibernate:
+      ddl-auto: update
     properties:
       hibernate:
-        default_schema: floralstudio
+        default_schema: pchysioterapist
   flyway:
     baseline-on-migrate: true
     driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://localhost:5432/postgres
     user: postgres
     password: password
-    schemas: floralstudio
+    schemas: pchysioterapist
 
 server:
   port: 8080

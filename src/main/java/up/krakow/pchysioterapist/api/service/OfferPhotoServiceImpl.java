@@ -26,13 +26,13 @@ public class OfferPhotoServiceImpl implements OfferPhotoService{
     }
 
     @Override
-    public OfferPhoto getOfferPhoto(UUID offerPhotoId) {
+    public OfferPhoto getOfferPhoto(Integer offerPhotoId) {
         return offerPhotoRepository.findById(offerPhotoId).orElseThrow(() ->
                 new NoSuchElementException("Photo with id: " + offerPhotoId + "does not exist"));
     }
 
     @Override
-    public OfferPhoto updateOfferPhoto(OfferPhotoDTO dto, UUID offerPhotoId) {
+    public OfferPhoto updateOfferPhoto(OfferPhotoDTO dto, Integer offerPhotoId) {
         OfferPhoto offerPhoto = offerPhotoRepository.findById(offerPhotoId).orElseThrow(() ->
                 new NoSuchElementException("Photo with id: " + offerPhotoId + "does not exist"));
         offerPhoto.setPhotoByte(dto.getPhotoByte());
@@ -43,7 +43,7 @@ public class OfferPhotoServiceImpl implements OfferPhotoService{
     }
 
     @Override
-    public void deleteOfferPhoto(UUID offerPhotoId) {
+    public void deleteOfferPhoto(Integer offerPhotoId) {
         offerPhotoRepository.deleteById(offerPhotoId);
     }
 }

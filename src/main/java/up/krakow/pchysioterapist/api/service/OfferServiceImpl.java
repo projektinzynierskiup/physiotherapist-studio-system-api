@@ -9,7 +9,6 @@ import up.krakow.pchysioterapist.api.repository.OfferRepository;
 
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.UUID;
 
 @Service
 @AllArgsConstructor
@@ -24,32 +23,32 @@ public class OfferServiceImpl implements OfferService{
         offer.setDuration(dto.getDuration());
         offer.setName(dto.getName());
         offer.setPrice(dto.getPrice());
-        offer.setType(dto.getType());
+        offer.setAppointmentType(dto.getType());
         offerRepository.save(offer);
         return offer;
     }
 
     @Override
-    public Offer getOfferById(UUID offerId) {
+    public Offer getOfferById(Integer offerId) {
         return offerRepository.findById(offerId).orElseThrow(() ->
                 new NoSuchElementException("Offer with id:" + offerId + " does not exist!"));
     }
 
     @Override
-    public Offer editOffer(OfferDTO dto, UUID offerId) {
+    public Offer editOffer(OfferDTO dto, Integer offerId) {
         Offer offer = offerRepository.findById(offerId).orElseThrow(() ->
                 new NoSuchElementException("Offer with id:" + offerId + " does not exist!"));
         offer.setDescription(dto.getDescription());
         offer.setDuration(dto.getDuration());
         offer.setName(dto.getName());
         offer.setPrice(dto.getPrice());
-        offer.setType(dto.getType());
+        offer.setAppointmentType(dto.getType());
         offerRepository.save(offer);
         return offer;
     }
 
     @Override
-    public void deleteOffer(UUID offerId) {
+    public void deleteOffer(Integer offerId) {
         offerRepository.deleteById(offerId);
     }
 
@@ -60,6 +59,6 @@ public class OfferServiceImpl implements OfferService{
 
     @Override
     public List<Offer> getAllOfferByType(EAppointmentType type) {
-        return offerRepository.findAllByType(type);
+        return offerRepository.findAllByAppointmentType(type);
     }
 }

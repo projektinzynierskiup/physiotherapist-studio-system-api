@@ -8,7 +8,6 @@ import up.krakow.pchysioterapist.api.model.enums.ERole;
 
 import java.util.Collection;
 
-
 @Entity
 @Table(name = "users")
 @Getter
@@ -21,6 +20,9 @@ public class Users implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String username;
+    private String surname;
+    @Column(name = "email")
+    private String email;
     private String password;
     @Enumerated(EnumType.STRING)
     private ERole role;
@@ -49,5 +51,6 @@ public class Users implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
-}
 
+
+}

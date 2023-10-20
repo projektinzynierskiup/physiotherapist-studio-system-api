@@ -6,10 +6,9 @@ import up.krakow.pchysioterapist.api.model.Offer;
 import up.krakow.pchysioterapist.api.model.enums.EAppointmentType;
 
 import java.util.List;
-import java.util.UUID;
 
 @Repository
-public interface OfferRepository extends JpaRepository<Offer, UUID> {
+public interface OfferRepository extends JpaRepository<Offer, Integer> {
 
-    List<Offer> findAllByType(EAppointmentType type);
+    List<Offer> findAllByAppointmentType(EAppointmentType type);
 }

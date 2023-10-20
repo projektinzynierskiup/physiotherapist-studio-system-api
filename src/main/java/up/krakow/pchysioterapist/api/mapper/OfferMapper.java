@@ -6,7 +6,7 @@ import up.krakow.pchysioterapist.api.model.Offer;
 
 import java.util.List;
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface OfferMapper {
 
     Offer mapToOffer(OfferDTO dto);

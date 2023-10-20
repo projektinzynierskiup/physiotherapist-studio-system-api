@@ -7,7 +7,6 @@ import up.krakow.pchysioterapist.api.model.Appointment;
 import up.krakow.pchysioterapist.api.repository.AppointmentRepository;
 
 import java.util.NoSuchElementException;
-import java.util.UUID;
 
 @Service
 @AllArgsConstructor
@@ -20,32 +19,32 @@ public class AppointmentServiceImpl implements AppointmentService {
         Appointment appointment = new Appointment();
         appointment.setStartDate(dto.getStartDate());
         appointment.setEndDate(dto.getEndDate());
-        appointment.setType(dto.getType());
+        appointment.setAppointmentType(dto.getType());
         appointment.setUserId(dto.getUserId());
         appointmentRepository.save(appointment);
         return appointment;
     }
 
     @Override
-    public Appointment getAppointment(UUID appointmentId) {
+    public Appointment getAppointment(Integer appointmentId) {
         return appointmentRepository.findById(appointmentId).orElseThrow(() ->
                 new NoSuchElementException("Appointment with id: " + appointmentId + "does not exist!"));
     }
 
     @Override
-    public Appointment editAppointment(AppointmentDTO dto, UUID appointmentId) {
+    public Appointment editAppointment(AppointmentDTO dto, Integer appointmentId) {
         Appointment appointment = appointmentRepository.findById(appointmentId).orElseThrow(() ->
                 new NoSuchElementException("Appointment with id: " + appointmentId + "does not exist!"));
         appointment.setStartDate(dto.getStartDate());
         appointment.setEndDate(dto.getEndDate());
-        appointment.setType(dto.getType());
+        appointment.setAppointmentType(dto.getType());
         appointment.setUserId(dto.getUserId());
         appointmentRepository.save(appointment);
         return appointment;
     }
 
     @Override
-    public void deleteAppointment(UUID appointmentId) {
+    public void deleteAppointment(Integer appointmentId) {
         appointmentRepository.deleteById(appointmentId);
     }
 }

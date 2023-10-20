@@ -4,6 +4,7 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import up.krakow.pchysioterapist.api.model.Users;
 import up.krakow.pchysioterapist.api.model.enums.EAppointmentType;
@@ -14,12 +15,13 @@ import java.util.UUID;
 @Getter
 @Setter
 @AllArgsConstructor
+@NoArgsConstructor
 public class AppointmentDTO {
 
-    private UUID id;
+    private Integer id;
     private LocalDate startDate;
     private LocalDate endDate;
     @Enumerated(EnumType.STRING)
     private EAppointmentType type;
-    private Users userId;
+    private Integer userId;
 }

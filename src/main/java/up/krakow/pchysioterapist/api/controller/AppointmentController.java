@@ -6,10 +6,12 @@ import org.springframework.web.bind.annotation.*;
 import up.krakow.pchysioterapist.api.dto.AppointmentDTO;
 import up.krakow.pchysioterapist.api.mapper.AppointmentMapper;
 import up.krakow.pchysioterapist.api.service.AppointmentService;
+import up.krakow.pchysioterapist.api.utils.ControllerEndpoints;
 
 import java.util.UUID;
 
-@RestController(value = "/appointment")
+@RestController
+@RequestMapping(value = ControllerEndpoints.GUEST + "/appointment")
 @AllArgsConstructor
 public class AppointmentController {
 
@@ -23,17 +25,17 @@ public class AppointmentController {
     }
 
     @GetMapping("/{appointmentId}")
-    ResponseEntity<AppointmentDTO> getAppointment(@PathVariable UUID appointmentId) {
+    ResponseEntity<AppointmentDTO> getAppointment(@PathVariable Integer appointmentId) {
         return ResponseEntity.ok(appointmentMapper.mapToAppointmentDTO(appointmentService.getAppointment(appointmentId)));
     }
 
     @PutMapping("/{appointmentId}")
-    ResponseEntity<AppointmentDTO> createAppointment(@RequestBody AppointmentDTO dto, @PathVariable UUID appointmentId) {
+    ResponseEntity<AppointmentDTO> createAppointment(@RequestBody AppointmentDTO dto, @PathVariable Integer appointmentId) {
         return ResponseEntity.ok(appointmentMapper.mapToAppointmentDTO(appointmentService.editAppointment(dto, appointmentId)));
     }
 
     @DeleteMapping("/{appointmentId}")
-    void deleteAppointment(@PathVariable UUID appointmentId) {
+    void deleteAppointment(@PathVariable Integer appointmentId) {
         appointmentService.deleteAppointment(appointmentId);
     }
 

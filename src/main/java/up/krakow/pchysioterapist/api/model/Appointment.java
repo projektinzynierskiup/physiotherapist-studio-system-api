@@ -8,7 +8,6 @@ import lombok.Setter;
 import up.krakow.pchysioterapist.api.model.enums.EAppointmentType;
 
 import java.time.LocalDate;
-import java.util.UUID;
 
 @Entity
 @Table(name = "appointment")
@@ -20,13 +19,10 @@ public class Appointment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private UUID id;
+    private Integer id;
     private LocalDate startDate;
     private LocalDate endDate;
     @Enumerated(EnumType.STRING)
-    private EAppointmentType type;
-
-    @ManyToOne
-    @JoinColumn(name = "user_id_id")
-    private Users userId;
+    private EAppointmentType appointmentType;
+    private Integer userId;
 }

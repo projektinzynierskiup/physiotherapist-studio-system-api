@@ -18,12 +18,9 @@ public class OfferPhoto {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private UUID id;
+    private Integer id;
     private String photoName;
     private byte[] photoByte;
     private String photoType;
-
-    @ManyToOne
-    @JoinColumn(name = "offer_id_id")
-    private Offer offerId;
+    private Integer offerId;
 }

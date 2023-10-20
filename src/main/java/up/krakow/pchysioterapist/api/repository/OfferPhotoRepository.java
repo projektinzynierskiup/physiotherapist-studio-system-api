@@ -7,5 +7,5 @@ import up.krakow.pchysioterapist.api.model.OfferPhoto;
 import java.util.UUID;
 
 @Repository
-public interface OfferPhotoRepository extends JpaRepository<OfferPhoto, UUID> {
+public interface OfferPhotoRepository extends JpaRepository<OfferPhoto, Integer> {
 }

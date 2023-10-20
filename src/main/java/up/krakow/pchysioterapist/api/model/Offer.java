@@ -7,8 +7,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import up.krakow.pchysioterapist.api.model.enums.EAppointmentType;
 
-import java.util.UUID;
-
 @Entity
 @Table(name = "offer")
 @Getter
@@ -19,11 +17,12 @@ public class Offer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private UUID id;
+    private Integer id;
+    @Column(name = "offer_name")
     private String name;
     private String description;
     @Enumerated(EnumType.STRING)
-    private EAppointmentType type;
+    private EAppointmentType appointmentType;
     private double duration;
     private int price;
 }
