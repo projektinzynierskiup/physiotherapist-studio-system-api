@@ -1,12 +1,12 @@
-package up.krakow.pchysioterapist.api.entity;
+package up.krakow.pchysioterapist.api.model;
 
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import up.krakow.pchysioterapist.api.model.enums.ERole;
 
 import java.util.Collection;
-
 
 @Entity
 @Table(name = "users")
@@ -25,7 +25,7 @@ public class Users implements UserDetails {
     private String email;
     private String password;
     @Enumerated(EnumType.STRING)
-    private Roles role;
+    private ERole role;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -54,4 +54,3 @@ public class Users implements UserDetails {
 
 
 }
-

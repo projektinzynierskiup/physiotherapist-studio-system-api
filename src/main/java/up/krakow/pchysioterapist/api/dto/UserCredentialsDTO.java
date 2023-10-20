@@ -1,9 +1,11 @@
 package up.krakow.pchysioterapist.api.dto;
 
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 import up.krakow.pchysioterapist.api.utils.ValidatorUtils;
-
 
 @Getter
 @Setter

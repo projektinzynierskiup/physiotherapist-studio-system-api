@@ -5,7 +5,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import up.krakow.pchysioterapist.api.entity.Users;
+import up.krakow.pchysioterapist.api.model.Users;
 import up.krakow.pchysioterapist.api.repository.UsersRepository;
 
 @Service
@@ -14,10 +14,9 @@ public class CustomUserDetailsService implements UserDetailsService {
     private UsersRepository usersRepository;
 
     @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        Users users = usersRepository.findByEmail(email).get();
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        Users users = usersRepository.findByUsername(username);
         return Users.builder()
-                .email(email)
                 .username(users.getUsername())
                 .password(users.getPassword())
                 .role(users.getRole())

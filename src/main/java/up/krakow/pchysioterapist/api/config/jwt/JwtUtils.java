@@ -6,17 +6,15 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
-import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 import up.krakow.pchysioterapist.api.dto.UserCredentialsDTO;
-import up.krakow.pchysioterapist.api.entity.Users;
+import up.krakow.pchysioterapist.api.model.Users;
 
 import java.util.*;
-
 @Component
 public class JwtUtils {
     @Autowired

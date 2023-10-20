@@ -2,18 +2,19 @@ package up.krakow.pchysioterapist.api.service;
 
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import up.krakow.pchysioterapist.api.dto.UserCredentialsDTO;
 import up.krakow.pchysioterapist.api.dto.UsersDTO;
-import up.krakow.pchysioterapist.api.entity.Roles;
-import up.krakow.pchysioterapist.api.entity.Users;
 import up.krakow.pchysioterapist.api.exception.BadPasswordException;
 import up.krakow.pchysioterapist.api.exception.UserExistsException;
+import up.krakow.pchysioterapist.api.model.Users;
+import up.krakow.pchysioterapist.api.model.enums.ERole;
 import up.krakow.pchysioterapist.api.repository.UsersRepository;
 import up.krakow.pchysioterapist.api.utils.StringUtils;
+
+import java.util.UUID;
 
 @Service
 @AllArgsConstructor
@@ -48,7 +49,7 @@ public class UserServiceImpl implements UserService{
                 .username(StringUtils.capitalizeFirstLetter(usersDTO.getUsername()))
                 .surname(StringUtils.capitalizeFirstLetter(usersDTO.getSurname()))
                 .password(bCryptPasswordEncoder.encode(usersDTO.getPassword()))
-                .role(Roles.USER)
+                .role(ERole.USER)
                 .build();
 
         usersRepository.save(users);

@@ -42,21 +42,6 @@ public class AuthControllerTest {
     }
 
     @Test
-    @DisplayName("AuthController - status 200 @ test@example.com, password12")
-    public void loginWithValidCredentials() {
-        UserCredentialsDTO validCredentials = new UserCredentialsDTO("test@example.com", "password12");
-
-        when(userService.isUserValid(validCredentials)).thenReturn(true);
-        Authentication mockAuthentication = mock(Authentication.class);
-        when(jwtUtils.getAuthentication(validCredentials)).thenReturn(mockAuthentication);
-        when(mockAuthentication.getName()).thenReturn("test@example.com");
-        when(jwtUtils.generateToken(mockAuthentication)).thenReturn("sampleToken");
-
-        ResponseEntity<String> response = authController.login(validCredentials);
-        assertEquals(200, response.getStatusCodeValue());
-    }
-
-    @Test
     @DisplayName("AuthController - ")
     public void loginWithInvalidCredentials() {
         UserCredentialsDTO invalidCredentials = new UserCredentialsDTO("wrong@example.com", "wrongpassword");

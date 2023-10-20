@@ -2,7 +2,9 @@ package up.krakow.pchysioterapist.api.service;
 
 import up.krakow.pchysioterapist.api.dto.UserCredentialsDTO;
 import up.krakow.pchysioterapist.api.dto.UsersDTO;
-import up.krakow.pchysioterapist.api.entity.Users;
+import up.krakow.pchysioterapist.api.model.Users;
+
+import java.util.UUID;
 
 public interface UserService {
     Users getUserByEmail(String email);
