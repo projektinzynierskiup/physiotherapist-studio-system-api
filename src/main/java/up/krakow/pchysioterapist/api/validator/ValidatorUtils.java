@@ -1,0 +1,10 @@
+package up.krakow.pchysioterapist.api.validator;
+
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
+
+@Service
+public class ValidatorUtils {
+    public static final String NO_WHITE_SPACE = "^[^\\s]*$";
+    public static final String AT_LEAST_UPPER_LETTER_AND_LOWER_LETTER = "^(?=.*[A-Za-z])(?=.*\\d).+$\n";
+}

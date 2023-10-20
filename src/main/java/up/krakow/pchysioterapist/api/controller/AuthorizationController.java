@@ -22,7 +22,7 @@ public class AuthorizationController {
     @GetMapping("/x")
     String getToken(@RequestBody UserCredentialsDTO userCredentialsDTO) {
         Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(userCredentialsDTO.getUsername(),
+                new UsernamePasswordAuthenticationToken(userCredentialsDTO.getEmail(),
                         userCredentialsDTO.getPassword()));
         return jwtUtils.generateToken(authentication);
     }

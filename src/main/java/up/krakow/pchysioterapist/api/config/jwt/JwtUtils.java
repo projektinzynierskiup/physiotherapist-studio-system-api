@@ -6,13 +6,20 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
+import up.krakow.pchysioterapist.api.dto.UserCredentialsDTO;
 
 import java.util.*;
 
 @Component
 public class JwtUtils {
+    @Autowired
+    private AuthenticationManager authenticationManager;
     public String generateToken(Authentication authentication){
         return Jwts.builder()
                 .setSubject(authentication.getName())
@@ -69,5 +76,11 @@ public class JwtUtils {
 
         return cookie.map(Cookie::getValue)
                 .orElse(null);
+    }
+
+    public Authentication getAuthentication(UserCredentialsDTO userCredentialsDTO) {
+        return authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(userCredentialsDTO.getEmail(),
+                        userCredentialsDTO.getPassword()));
     }
 }
