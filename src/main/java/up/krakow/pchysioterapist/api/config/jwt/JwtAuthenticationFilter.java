@@ -33,16 +33,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                                     HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
 
-        System.out.println("123");
-
         if (request.getRequestURI().startsWith("/guest")) {
-            System.out.println("test2222");
             filterChain.doFilter(request, response);
             return;
         }
-
-        System.out.println("test");
-
         String authHeader = request.getHeader("Authorization");
 
         if (authHeader == null || authHeader.startsWith(CustomAuthorizationHeader.AUTHORIZATION_HEADER + " ")) {
