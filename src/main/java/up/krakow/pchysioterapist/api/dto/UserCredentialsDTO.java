@@ -1,10 +1,8 @@
 package up.krakow.pchysioterapist.api.dto;
 
-import jakarta.annotation.Nullable;
-import jakarta.validation.Validator;
 import jakarta.validation.constraints.*;
 import lombok.*;
-import up.krakow.pchysioterapist.api.validator.ValidatorUtils;
+import up.krakow.pchysioterapist.api.utils.ValidatorUtils;
 
 
 @Getter

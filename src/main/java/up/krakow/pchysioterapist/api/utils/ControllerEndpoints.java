@@ -1,4 +1,4 @@
-package up.krakow.pchysioterapist.api.controller.utils;
+package up.krakow.pchysioterapist.api.utils;
 
 import org.springframework.context.annotation.Configuration;
 

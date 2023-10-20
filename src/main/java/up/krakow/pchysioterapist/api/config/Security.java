@@ -10,16 +10,12 @@ import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import up.krakow.pchysioterapist.api.config.jwt.JwtAuthenticationFilter;
 import up.krakow.pchysioterapist.api.config.jwt.JwtUtils;
-import up.krakow.pchysioterapist.api.controller.utils.ControllerEndpoints;
 import up.krakow.pchysioterapist.api.repository.UsersRepository;
 import up.krakow.pchysioterapist.api.service.CustomUserDetailsService;
 

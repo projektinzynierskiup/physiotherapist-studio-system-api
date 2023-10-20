@@ -20,6 +20,7 @@ public class Users implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String username;
+    private String surname;
     @Column(name = "email")
     private String email;
     private String password;

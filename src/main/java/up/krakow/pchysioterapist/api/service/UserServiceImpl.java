@@ -10,7 +10,10 @@ import up.krakow.pchysioterapist.api.dto.UserCredentialsDTO;
 import up.krakow.pchysioterapist.api.dto.UsersDTO;
 import up.krakow.pchysioterapist.api.entity.Roles;
 import up.krakow.pchysioterapist.api.entity.Users;
+import up.krakow.pchysioterapist.api.exception.BadPasswordException;
+import up.krakow.pchysioterapist.api.exception.UserExistsException;
 import up.krakow.pchysioterapist.api.repository.UsersRepository;
+import up.krakow.pchysioterapist.api.utils.StringUtils;
 
 @Service
 @AllArgsConstructor
@@ -19,13 +22,13 @@ public class UserServiceImpl implements UserService{
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     @Override
     public Users getUserByEmail(String email) {
-        return usersRepository.findByEmail(email).get();
+        return usersRepository.findByEmail(email).orElseThrow(
+                () -> new UsernameNotFoundException("Nie odnaleziono osoby o takim emailu"));
     }
 
     @Override
     public boolean isUserValid(UserCredentialsDTO userCredentialsDTO) {
         Users users = getUserByEmail(userCredentialsDTO.getEmail());
-        System.out.println("email valid" + users.getEmail());
         return isPasswordValid(users.getPassword(), userCredentialsDTO.getPassword());
     }
 
@@ -34,20 +37,31 @@ public class UserServiceImpl implements UserService{
         if(bCryptPasswordEncoder.matches(dtoPassword, usersPassword)) {
             return true;
         }
-        throw new UsernameNotFoundException("nie ma takiego hasla");
+        throw new BadPasswordException("Wprowadzono nieprawidłowe haslo");
     }
 
     @Transactional
     @Override
     public void save(UsersDTO usersDTO) {
         Users users = Users.builder()
-                .email(usersDTO.getEmail())
-                .username(usersDTO.getUsername())
+                .email(usersDTO.getEmail().toLowerCase())
+                .username(StringUtils.capitalizeFirstLetter(usersDTO.getUsername()))
+                .surname(StringUtils.capitalizeFirstLetter(usersDTO.getSurname()))
                 .password(bCryptPasswordEncoder.encode(usersDTO.getPassword()))
                 .role(Roles.USER)
                 .build();
 
         usersRepository.save(users);
+    }
+
+    @Override
+    public void registerUser(UsersDTO usersDTO) {
+        try {
+            Users users = getUserByEmail(usersDTO.getEmail());
+        } catch (UsernameNotFoundException e) {
+            save(usersDTO);
+        }
+        throw new UserExistsException("Użytkownik o takim emailu jest już w bazie");
     }
 
 }
