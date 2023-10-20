@@ -14,10 +14,12 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import up.krakow.pchysioterapist.api.config.jwt.JwtAuthenticationFilter;
 import up.krakow.pchysioterapist.api.config.jwt.JwtUtils;
 import up.krakow.pchysioterapist.api.repository.UsersRepository;
 import up.krakow.pchysioterapist.api.service.CustomUserDetailsService;
+import up.krakow.pchysioterapist.api.utils.ControllerEndpoints;
 
 @Configuration
 @EnableWebSecurity
@@ -30,11 +32,11 @@ public class Security {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/guest/**").permitAll()
-//                        .requestMatchers(new AntPathRequestMatcher("/user/**", null, false)).authenticated()
-//                        .requestMatchers(new AntPathRequestMatcher("/mod/**", null, false)).authenticated()
-//                        .requestMatchers(new AntPathRequestMatcher("/admin/**", null, false)).authenticated()
-//                        .anyRequest().authenticated()
+                        .requestMatchers(ControllerEndpoints.GUEST + "/**").permitAll()
+                        .requestMatchers(ControllerEndpoints.USER + "/**").authenticated()
+                        .requestMatchers(ControllerEndpoints.MOD + "/**").authenticated()
+                        .requestMatchers(ControllerEndpoints.ADMIN + "/**").authenticated()
+                        .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
