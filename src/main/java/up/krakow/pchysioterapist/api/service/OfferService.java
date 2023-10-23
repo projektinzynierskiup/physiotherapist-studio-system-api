@@ -18,6 +18,4 @@ public interface OfferService {
     void deleteOffer(Integer offerId);
 
     List<Offer> getAllOffers();
-
-    List<Offer> getAllOfferByType(EAppointmentType type);
 }

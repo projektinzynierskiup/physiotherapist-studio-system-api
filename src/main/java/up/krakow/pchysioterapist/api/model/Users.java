@@ -7,6 +7,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import up.krakow.pchysioterapist.api.model.enums.ERole;
 
 import java.util.Collection;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -26,6 +27,9 @@ public class Users implements UserDetails {
     private String password;
     @Enumerated(EnumType.STRING)
     private ERole role;
+
+    @OneToMany(mappedBy="users")
+    private Set<Appointment> appointments;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

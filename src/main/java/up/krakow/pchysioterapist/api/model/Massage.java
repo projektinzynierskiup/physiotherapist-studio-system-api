@@ -7,23 +7,27 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import up.krakow.pchysioterapist.api.model.enums.EAppointmentType;
 
+import java.util.Set;
+
 @Entity
-@Table(name = "offer")
+@Table(name = "massage")
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Offer {
+public class Massage {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @Column(name = "offer_name")
-    private String name;
-    private double duration;
-    private int price;
+    private String massageName;
+    private String description;
+    @Enumerated(EnumType.STRING)
+    private EAppointmentType appointmentType;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "masage_id", referencedColumnName = "id")
-    private Massage massage;
+    @ManyToMany(mappedBy = "massages")
+    Set<Appointment> appointments;
+
+    @OneToOne(mappedBy = "massage")
+    private Offer offer;
 }
