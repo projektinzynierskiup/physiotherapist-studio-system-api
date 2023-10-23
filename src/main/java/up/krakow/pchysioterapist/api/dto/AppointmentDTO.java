@@ -6,10 +6,12 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import up.krakow.pchysioterapist.api.model.Massage;
 import up.krakow.pchysioterapist.api.model.Users;
 import up.krakow.pchysioterapist.api.model.enums.EAppointmentType;
 
 import java.time.LocalDate;
+import java.util.Set;
 import java.util.UUID;
 
 @Getter
@@ -21,7 +23,6 @@ public class AppointmentDTO {
     private Integer id;
     private LocalDate startDate;
     private LocalDate endDate;
-    @Enumerated(EnumType.STRING)
-    private EAppointmentType type;
-    private Integer userId;
+    private Users users;
+    private Set<Massage> massages;
 }

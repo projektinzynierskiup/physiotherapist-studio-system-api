@@ -46,9 +46,4 @@ public class OfferController {
     ResponseEntity<List<OfferDTO>> getAllOffers() {
         return ResponseEntity.ok(offerMapper.mapToListOfOffersDTO(offerService.getAllOffers()));
     }
-
-    @GetMapping("/all/type")
-    ResponseEntity<List<OfferDTO>> getAllOffersByType(@RequestParam(name = "type") EAppointmentType type) {
-        return ResponseEntity.ok(offerMapper.mapToListOfOffersDTO(offerService.getAllOfferByType(type)));
-    }
 }

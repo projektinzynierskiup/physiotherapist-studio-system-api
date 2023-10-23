@@ -19,11 +19,9 @@ public class OfferServiceImpl implements OfferService{
     @Override
     public Offer createOffer(OfferDTO dto) {
         Offer offer = new Offer();
-        offer.setDescription(dto.getDescription());
         offer.setDuration(dto.getDuration());
         offer.setName(dto.getName());
         offer.setPrice(dto.getPrice());
-        offer.setAppointmentType(dto.getType());
         offerRepository.save(offer);
         return offer;
     }
@@ -38,11 +36,9 @@ public class OfferServiceImpl implements OfferService{
     public Offer editOffer(OfferDTO dto, Integer offerId) {
         Offer offer = offerRepository.findById(offerId).orElseThrow(() ->
                 new NoSuchElementException("Offer with id:" + offerId + " does not exist!"));
-        offer.setDescription(dto.getDescription());
         offer.setDuration(dto.getDuration());
         offer.setName(dto.getName());
         offer.setPrice(dto.getPrice());
-        offer.setAppointmentType(dto.getType());
         offerRepository.save(offer);
         return offer;
     }
@@ -55,10 +51,5 @@ public class OfferServiceImpl implements OfferService{
     @Override
     public List<Offer> getAllOffers() {
         return offerRepository.findAll();
-    }
-
-    @Override
-    public List<Offer> getAllOfferByType(EAppointmentType type) {
-        return offerRepository.findAllByAppointmentType(type);
     }
 }

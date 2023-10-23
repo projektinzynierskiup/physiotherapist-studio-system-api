@@ -19,8 +19,8 @@ public class AppointmentServiceImpl implements AppointmentService {
         Appointment appointment = new Appointment();
         appointment.setStartDate(dto.getStartDate());
         appointment.setEndDate(dto.getEndDate());
-        appointment.setAppointmentType(dto.getType());
-        appointment.setUserId(dto.getUserId());
+//        appointment.setAppointmentType(dto.getType());
+//        appointment.setUserId(dto.getUserId());
         appointmentRepository.save(appointment);
         return appointment;
     }
@@ -37,8 +37,8 @@ public class AppointmentServiceImpl implements AppointmentService {
                 new NoSuchElementException("Appointment with id: " + appointmentId + "does not exist!"));
         appointment.setStartDate(dto.getStartDate());
         appointment.setEndDate(dto.getEndDate());
-        appointment.setAppointmentType(dto.getType());
-        appointment.setUserId(dto.getUserId());
+//        appointment.setAppointmentType(dto.getType());
+//        appointment.setUserId(dto.getUserId());
         appointmentRepository.save(appointment);
         return appointment;
     }
