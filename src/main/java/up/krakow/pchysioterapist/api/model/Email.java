@@ -3,12 +3,9 @@ package up.krakow.pchysioterapist.api.model;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import lombok.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import up.krakow.pchysioterapist.api.model.enums.EEmail;
-import up.krakow.pchysioterapist.api.service.EmailService;
+import up.krakow.pchysioterapist.api.model.enums.EEmailStatus;
 
-import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Service
@@ -27,5 +24,5 @@ public class Email {
     private String eventName;
     private String description;
     @Enumerated(EnumType.STRING)
-    private EEmail email;
+    private EEmailStatus emailStatus;
 }

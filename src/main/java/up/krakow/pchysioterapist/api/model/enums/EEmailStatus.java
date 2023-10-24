@@ -1,5 +1,5 @@
 package up.krakow.pchysioterapist.api.model.enums;
 
-public enum EEmail {
+public enum EEmailStatus {
     ACCEPTATION, REJECTION, BAN
 }

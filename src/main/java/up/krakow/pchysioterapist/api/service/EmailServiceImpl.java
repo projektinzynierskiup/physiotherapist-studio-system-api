@@ -3,7 +3,6 @@ package up.krakow.pchysioterapist.api.service;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import jakarta.mail.util.ByteArrayDataSource;
-import lombok.extern.log4j.Log4j;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -11,7 +10,6 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import up.krakow.pchysioterapist.api.model.Email;
 import up.krakow.pchysioterapist.api.model.configuration.EmailConfiguration;
-import up.krakow.pchysioterapist.api.model.enums.EEmail;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -60,6 +58,7 @@ public class EmailServiceImpl implements EmailService{
                 "DTSTAMP:" + DateTimeFormatter.ofPattern("yyyyMMdd'T'HHmmss'Z'").format(LocalDateTime.now()) + "\r\n" +
                 "DTSTART:" + DateTimeFormatter.ofPattern("yyyyMMdd'T'HHmmss'Z'").format(startTime) + "\r\n" +
                 "DTEND:" + DateTimeFormatter.ofPattern("yyyyMMdd'T'HHmmss'Z'").format(endTime) + "\r\n" +
+                "ORGANIZER:MAILTO:"+"Twoj masazysta 69"+"\n" +
                 "SUMMARY:" + eventName + "\r\n" +
                 "DESCRIPTION:" + description + "\r\n" +
                 "END:VEVENT\r\n" +
@@ -68,7 +67,7 @@ public class EmailServiceImpl implements EmailService{
 
     @Override
     public void execute(Email email) throws MessagingException, IOException {
-        switch (email.getEmail()) {
+        switch (email.getEmailStatus()) {
             case ACCEPTATION:
                 //id wizyty - findby visit
                 sendInvitation(email.getRecipientEmail(),
