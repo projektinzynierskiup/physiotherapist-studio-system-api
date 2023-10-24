@@ -1,8 +1,9 @@
-create table offer(
-id serial PRIMARY KEY,
-offer_name varchar(45),
-description varchar(255),
-appointment_type varchar(255) CHECK (appointment_type IN ('RELAKSACYJNY', 'TERAPEUTYCZNY', 'GŁOWY', 'STÓP', 'TERAPIA_MANUALNA')),
-duration double precision,
-price integer
+drop table offer;
+CREATE TABLE offer (
+    id SERIAL PRIMARY KEY,
+    offer_name VARCHAR(255) NOT NULL,
+    duration DOUBLE PRECISION NOT NULL,
+    price INT NOT NULL,
+    masage_id INT,
+    FOREIGN KEY (masage_id) REFERENCES massage(id)
 );

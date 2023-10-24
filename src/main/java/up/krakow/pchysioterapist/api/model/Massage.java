@@ -20,8 +20,10 @@ public class Massage {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    @Column(name = "massage_name")
     private String massageName;
     private String description;
+    @Column(name = "appointment_type")
     @Enumerated(EnumType.STRING)
     private EAppointmentType appointmentType;
 
