@@ -14,7 +14,6 @@ import up.krakow.pchysioterapist.api.model.enums.EAppointmentType;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Offer {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
