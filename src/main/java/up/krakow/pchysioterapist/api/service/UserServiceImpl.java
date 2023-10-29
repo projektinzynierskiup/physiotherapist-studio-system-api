@@ -50,6 +50,7 @@ public class UserServiceImpl implements UserService{
                 .surname(StringUtils.capitalizeFirstLetter(usersDTO.getSurname()))
                 .password(bCryptPasswordEncoder.encode(usersDTO.getPassword()))
                 .role(ERole.USER)
+                .enabled(true)
                 .build();
 
         usersRepository.save(users);
@@ -59,10 +60,11 @@ public class UserServiceImpl implements UserService{
     public void registerUser(UsersDTO usersDTO) {
         try {
             Users users = getUserByEmail(usersDTO.getEmail());
+            if(users != null)
+                throw new UserExistsException("Użytkownik o takim emailu jest już w bazie");
         } catch (UsernameNotFoundException e) {
             save(usersDTO);
         }
-        throw new UserExistsException("Użytkownik o takim emailu jest już w bazie");
     }
 
     @Override

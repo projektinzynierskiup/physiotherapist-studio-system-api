@@ -1,0 +1,1 @@
+ALTER TABLE physioterapist.users add column enabled boolean default true;
