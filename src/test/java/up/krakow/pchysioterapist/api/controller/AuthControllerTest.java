@@ -70,7 +70,7 @@ public class AuthControllerTest {
 
         doNothing().when(userService).registerUser(newUser);
 
-        ResponseEntity<String> response = authController.register(newUser);
+        ResponseEntity<?> response = authController.register(newUser);
         assertEquals(200, response.getStatusCodeValue());
         assertEquals("Zarejestrowano", response.getBody());
     }

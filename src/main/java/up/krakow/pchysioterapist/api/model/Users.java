@@ -27,6 +27,7 @@ public class Users implements UserDetails {
     private String password;
     @Enumerated(EnumType.STRING)
     private ERole role;
+    private boolean enabled;
 
     @OneToMany(mappedBy="users")
     private Set<Appointment> appointments;

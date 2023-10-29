@@ -20,14 +20,14 @@ spring:
 #      ddl-auto: update
     properties:
       hibernate:
-        default_schema: pchysioterapist
+        default_schema: physioterapist
   flyway:
     baseline-on-migrate: true
     driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://localhost:5432/postgres
     user: postgres
     password: password
-    schemas: pchysioterapist
+    schemas: physioterapist
 
 server:
   port: 8080

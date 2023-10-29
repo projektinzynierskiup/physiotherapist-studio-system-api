@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import up.krakow.pchysioterapist.api.config.jwt.JwtUtils;
+import up.krakow.pchysioterapist.api.controller.advice.ResponseHelper;
 import up.krakow.pchysioterapist.api.dto.TokenDTO;
 import up.krakow.pchysioterapist.api.model.Users;
 import up.krakow.pchysioterapist.api.utils.ControllerEndpoints;
@@ -29,8 +30,8 @@ public class AuthController {
     }
 
     @PostMapping(value = ControllerEndpoints.REGISTER)
-    public ResponseEntity<String> register(@RequestBody @Valid UsersDTO userDTO) throws Exception {
+    public ResponseEntity<?> register(@RequestBody @Valid UsersDTO userDTO) throws Exception {
         userService.registerUser(userDTO);
-        return ResponseEntity.ok("Zarejestrowano");
+        return ResponseHelper.response200("Zarejestrowano");
     }
 }
