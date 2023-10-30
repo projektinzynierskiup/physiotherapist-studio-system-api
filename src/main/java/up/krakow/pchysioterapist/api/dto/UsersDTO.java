@@ -8,13 +8,17 @@ import up.krakow.pchysioterapist.api.utils.ValidatorUtils;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import java.time.LocalTime;
+import java.util.Set;
 
 @Getter
 @Setter
+@ToString
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 public class UsersDTO {
+    private Integer id;
     @NotNull
     @Email
     @Min(5)
@@ -26,4 +30,7 @@ public class UsersDTO {
     @Size(min = 8, max = 31)
     @Pattern(regexp = ValidatorUtils.NO_WHITE_SPACE, message = "Nie może zawierać białych znaków")
     private String password;
+    private LocalTime localTime;
+
+    private MassageDTO massageDTO;
 }

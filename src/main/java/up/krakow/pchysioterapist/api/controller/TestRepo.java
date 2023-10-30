@@ -13,16 +13,13 @@ public class TestRepo {
     UsersRepository usersRepository;
     @GetMapping("/test/{email}")
     Users get(@PathVariable String email) {
-        System.out.println(email);
         Users users = usersRepository.findByEmailWhoIsNotGuest(email).get();
-        System.out.println(users.getRole());
         return usersRepository.findByUsername(email);
     }
 
     @GetMapping("/test2")
     Users get2(String email) {
         Users users = usersRepository.findByEmail(email).get();
-        System.out.println(users.toString());
         return usersRepository.findByUsername(email);
     }
 }

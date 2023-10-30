@@ -11,6 +11,8 @@ import up.krakow.pchysioterapist.api.model.Users;
 import up.krakow.pchysioterapist.api.model.enums.EAppointmentType;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -22,6 +24,8 @@ public class AppointmentDTO {
     private Integer id;
     private LocalDate startDate;
     private LocalDate endDate;
-    private Users users;
-    private Set<Massage> massages;
+    private LocalTime startTime;
+    private LocalTime endTime;
+    private List<UsersDTO> users;
+    private Set<MassageDTO> massages;
 }

@@ -32,20 +32,17 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
-        if (!request.getRequestURI().startsWith("/test")) {
+        if (request.getRequestURI().startsWith("/guest")) {
             filterChain.doFilter(request, response);
             return;
         }
 
         String authHeader = request.getHeader("Authorization");
-
         if (authHeader == null || authHeader.startsWith(CustomAuthorizationHeader.AUTHORIZATION_HEADER + " ")) {
             filterChain.doFilter(request, response);
             return;
         }
-
         authHeader = authHeader.substring(7);
-
         try {
             if (jwtUtils.validateToken(authHeader)) {
                 List<String> roles = jwtUtils.getRolesFromJWT(authHeader);
@@ -60,7 +57,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                                 null,
                                 authorities
                         );
-
                 authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(authenticationToken);
             }

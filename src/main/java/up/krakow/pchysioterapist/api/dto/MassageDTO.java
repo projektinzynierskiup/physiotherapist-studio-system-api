@@ -2,14 +2,12 @@ package up.krakow.pchysioterapist.api.dto;
 
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import up.krakow.pchysioterapist.api.model.enums.EAppointmentType;
 
 @Getter
 @Setter
+@ToString
 @AllArgsConstructor
 @NoArgsConstructor
 public class MassageDTO {
