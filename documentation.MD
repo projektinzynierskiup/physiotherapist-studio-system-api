@@ -122,6 +122,7 @@ password 8<=length<=31
     "info": "Wprowadzono nieprawidłowe haslo"
 }
 ```
+---
 
 ### Endpoint: Calendar - /mod/calendar
 **GET /{date}**  
