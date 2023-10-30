@@ -21,7 +21,6 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AppointmentDTO {
-
     private Integer id;
     private LocalDate startDate;
     private LocalDate endDate;

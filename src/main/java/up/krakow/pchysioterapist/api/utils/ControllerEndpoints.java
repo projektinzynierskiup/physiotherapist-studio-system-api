@@ -12,5 +12,6 @@ public class ControllerEndpoints {
     public static final String REGISTER = "/register";
     public static final String EMAIL = "/email";
     public static final String MASSAGE = "/massage";
+    public static final String EAPPOINTMENT_TYPE = "/eappointment";
     public static final String CALENDAR = "/calendar";
 }
