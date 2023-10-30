@@ -19,8 +19,6 @@ public class AppointmentServiceImpl implements AppointmentService {
         Appointment appointment = new Appointment();
         appointment.setStartDate(dto.getStartDate());
         appointment.setEndDate(dto.getEndDate());
-//        appointment.setAppointmentType(dto.getType());
-//        appointment.setUserId(dto.getUserId());
         appointmentRepository.save(appointment);
         return appointment;
     }

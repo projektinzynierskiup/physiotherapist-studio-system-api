@@ -48,11 +48,7 @@ public class JwtUtils {
                 .parseClaimsJws(tokenFromCookie)
                 .getBody();
 
-        List<Map<String, String>> authorities = (List<Map<String, String>>) claims.get("role");
-
-        for(Map<String, String> authority: authorities) {
-            roles.add(authority.get("authority"));
-        }
+        roles.add((String) claims.get("role"));
 
         return roles;
     }
