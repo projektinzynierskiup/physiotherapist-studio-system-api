@@ -9,6 +9,7 @@ import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -29,12 +30,12 @@ public class Security {
     @Bean
     public SecurityFilterChain securityFilterChainOne(HttpSecurity http) throws Exception {
         http
-                .csrf(csrf -> csrf.disable())
+                .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(ControllerEndpoints.GUEST + "/**").permitAll()
-                        .requestMatchers(ControllerEndpoints.USER + "/**").authenticated()
-                        .requestMatchers(ControllerEndpoints.MOD + "/**").authenticated()
-                        .requestMatchers(ControllerEndpoints.ADMIN + "/**").authenticated()
+                        .requestMatchers(ControllerEndpoints.USER + "/**").hasAnyAuthority("USER")
+                        .requestMatchers(ControllerEndpoints.MOD + "/**").hasAnyAuthority("MOD", "ADMIN")
+                        .requestMatchers(ControllerEndpoints.ADMIN + "/**").hasAnyAuthority("ADMIN")
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session

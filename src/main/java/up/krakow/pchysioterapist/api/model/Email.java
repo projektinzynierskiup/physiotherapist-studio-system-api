@@ -19,7 +19,7 @@ public class Email {
     private int visitId;
     private String recipientEmail;
     private LocalDateTime startTime;
-    LocalDateTime endTime;
+    private LocalDateTime endTime;
     private String username;
     private String eventName;
     private String description;
