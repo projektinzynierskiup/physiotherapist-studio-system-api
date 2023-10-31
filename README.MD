@@ -154,7 +154,8 @@ public class MassageDTO {
     @Enumerated(EnumType.STRING)
     private EAppointmentType appointmentType;
 }
-```
+```  
+Request zwraca wszystkie umówione wizyty z zakresu *date - date + 7 dni*. JSON zwraca posortowany wg. *date* ASC 
 Przykładowy JSON
 ```json
 [{
