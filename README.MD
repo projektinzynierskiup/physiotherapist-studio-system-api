@@ -200,4 +200,48 @@ Przykładowy JSON
 ```
 ----
 
+### Endpoint Appointment - /guest/appointment
+public class AppointmentDTO {
+    private Integer id;
+    private LocalDateTime startDate;
+    private LocalDateTime endDate;
+    private Users user;
+    private Massage massage;
+}
+
+**POST /guest/appointment**
+**GET /guest/appointment/{appointmentId}**
+**PUT /guest/appointment/{appointmentId}**
+**DELETE /guest/appointment/{appointmentId}**
+
+### Endpoint Offer - /guest/offer
+public class AppointmentDTO {
+    private Integer id;
+    private LocalDateTime startDate;
+    private LocalDateTime endDate;
+    private Users user;
+    private Massage massage;
+}
+
+**POST /guest/offer**
+**GET /guest/offer/{offerId}**
+**GET /guest/offer/all**
+**PUT /guest/offer/{offerId}**
+**DELETE /guest/offer/{offerId}**
+
+### Endpoint Offer Photo - /guest**
+public class OfferPhotoDTO {
+
+    private Integer id;
+    private String photoName;
+    private byte[] photoByte;
+    private String photoType;
+    private Integer offerId;
+}
+
+**POST /guest/offer-photo**
+**GET /guest/offer-photo/{offerPhotoId}**
+**PUT /guest/offer-photo/{offerPhotoId}**
+**DELETE /guest//offer-photo/{offerPhotoId}**
+
 
