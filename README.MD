@@ -155,7 +155,7 @@ public class MassageDTO {
     private EAppointmentType appointmentType;
 }
 ```  
-Request zwraca wszystkie umówione wizyty z zakresu *date - date + 7 dni*. JSON zwraca posortowany wg. *date* ASC 
+Request zwraca wszystkie umówione wizyty z zakresu *date - date + 7 dni*. JSON zwraca posortowany wg. *date* ASC  
 Przykładowy JSON
 ```json
 [{
