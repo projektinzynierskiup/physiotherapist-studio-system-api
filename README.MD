@@ -17,7 +17,8 @@ W przypadku, gdy osoba została uwierzytelniona i ma już token JWT w cookies po
 wysyłania zapytania na endpoint, który jest jej umożliwiony dzięki roli na 
 serwerze token ten jest walidowany przez *JwtAuthenticationFilter* gdzie jest
 implementacja walidatora udostępniona przez pakiet *io.jsonwebtoken*. Filtr jest wywoływany
-przy każdym zapytaniu do API.
+przy każdym zapytaniu do API.  
+Jeżeli użytkownik wyśle zapytanie na endpoint do którego nie ma dostępu otrzymuje *Status code 401*
 
 ---
 
