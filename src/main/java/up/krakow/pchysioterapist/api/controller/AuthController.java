@@ -17,7 +17,7 @@ import up.krakow.pchysioterapist.api.dto.UsersDTO;
 import up.krakow.pchysioterapist.api.service.UserService;
 
 @RestController
-@RequestMapping(value = ControllerEndpoints.GUEST)
+@RequestMapping(ControllerEndpoints.GUEST)
 @AllArgsConstructor
 public class AuthController {
     private final JwtUtils jwtUtils;

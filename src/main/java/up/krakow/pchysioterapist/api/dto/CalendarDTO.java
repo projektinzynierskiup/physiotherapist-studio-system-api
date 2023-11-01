@@ -2,7 +2,7 @@ package up.krakow.pchysioterapist.api.dto;
 
 import lombok.*;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -11,6 +11,6 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 public class CalendarDTO {
-    private LocalDate localDate;
+    private LocalDateTime localDate;
     private List<UsersDTO> usersDTOList;
 }

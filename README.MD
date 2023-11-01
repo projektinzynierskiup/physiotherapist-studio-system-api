@@ -17,7 +17,8 @@ W przypadku, gdy osoba została uwierzytelniona i ma już token JWT w cookies po
 wysyłania zapytania na endpoint, który jest jej umożliwiony dzięki roli na 
 serwerze token ten jest walidowany przez *JwtAuthenticationFilter* gdzie jest
 implementacja walidatora udostępniona przez pakiet *io.jsonwebtoken*. Filtr jest wywoływany
-przy każdym zapytaniu do API.
+przy każdym zapytaniu do API.  
+Jeżeli użytkownik wyśle zapytanie na endpoint do którego nie ma dostępu otrzymuje *Status code 401*
 
 ---
 
@@ -122,6 +123,7 @@ password 8<=length<=31
     "info": "Wprowadzono nieprawidłowe haslo"
 }
 ```
+---
 
 ### Endpoint: Calendar - /mod/calendar
 **GET /{date}**  
@@ -153,7 +155,8 @@ public class MassageDTO {
     @Enumerated(EnumType.STRING)
     private EAppointmentType appointmentType;
 }
-```
+```  
+Request zwraca wszystkie umówione wizyty z zakresu *date - date + 7 dni*. JSON zwraca posortowany wg. *date* ASC  
 Przykładowy JSON
 ```json
 [{
@@ -196,5 +199,83 @@ Przykładowy JSON
     }]
 ```
 ----
+
+### Endpoint Appointment - /guest/appointment
+```
+public class AppointmentDTO {
+    private Integer id;
+    private LocalDateTime startDate;
+    private LocalDateTime endDate;
+    private Users user;
+    private Massage massage;
+    private String status;
+}
+```
+
+```
+public enum EAppointmentStatus {
+
+     FREE, BOOKED
+ }
+ ```
+
+**GET /guest/appointment/{appointmentId}**
+
+**PUT /guest/appointment/{appointmentId}/book** - zmienia status Appointment na BOOKED
+
+**PUT /guest/appointment/{appointmentId}/cancel** - zmienia status Appointment na FREE
+
+### Endpoint Offer - /guest/offer
+```
+public class AppointmentDTO {
+    private Integer id;
+    private LocalDateTime startDate;
+    private LocalDateTime endDate;
+    private Users user;
+    private Massage massage;
+}
+```
+
+**POST /guest/offer**
+
+**GET /guest/offer/{offerId}**
+
+**GET /guest/offer/all**
+
+**PUT /guest/offer/{offerId}**
+
+**DELETE /guest/offer/{offerId}**
+
+### Endpoint Offer Photo - /guest**
+```
+public class OfferPhotoDTO {
+
+    private Integer id;
+    private String photoName;
+    private byte[] photoByte;
+    private String photoType;
+    private Integer offerId;
+}
+```
+
+**POST /guest/offer-photo**
+
+**GET /guest/offer-photo/{offerPhotoId}**
+
+**PUT /guest/offer-photo/{offerPhotoId}**
+
+**DELETE /guest//offer-photo/{offerPhotoId}**
+
+### Endpointy dla MODA - /mod**
+
+**POST /mod/appointment** - tworzenie Appointment
+
+**POST /mod/appointment/all-day** - (startDate, endDate) tworzenie listy Appointment w danym dniu
+
+**GET /mod/appointment/{appointmentId}** 
+
+**PUT /mod/appointment/{appointmentId}**
+
+**DELETE /mod/appointment/{appointmentId}**
 
 
