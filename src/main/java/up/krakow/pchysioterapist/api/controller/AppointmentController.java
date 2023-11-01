@@ -8,8 +8,6 @@ import up.krakow.pchysioterapist.api.mapper.AppointmentMapper;
 import up.krakow.pchysioterapist.api.service.AppointmentService;
 import up.krakow.pchysioterapist.api.utils.ControllerEndpoints;
 
-import java.util.UUID;
-
 @RestController
 @RequestMapping(value = ControllerEndpoints.GUEST + "/appointment")
 @AllArgsConstructor
@@ -19,24 +17,19 @@ public class AppointmentController {
 
     private AppointmentMapper appointmentMapper;
 
-    @PostMapping
-    ResponseEntity<AppointmentDTO> createAppointment(@RequestBody AppointmentDTO dto) {
-        return ResponseEntity.ok(appointmentMapper.mapToAppointmentDTO(appointmentService.createAppointment(dto)));
-    }
-
     @GetMapping("/{appointmentId}")
     ResponseEntity<AppointmentDTO> getAppointment(@PathVariable Integer appointmentId) {
         return ResponseEntity.ok(appointmentMapper.mapToAppointmentDTO(appointmentService.getAppointment(appointmentId)));
     }
 
-    @PutMapping("/{appointmentId}")
-    ResponseEntity<AppointmentDTO> createAppointment(@RequestBody AppointmentDTO dto, @PathVariable Integer appointmentId) {
-        return ResponseEntity.ok(appointmentMapper.mapToAppointmentDTO(appointmentService.editAppointment(dto, appointmentId)));
+    @PutMapping("/{appointmentId}/book")
+    ResponseEntity<AppointmentDTO> bookAppointment(@PathVariable Integer appointmentId) {
+        return ResponseEntity.ok(appointmentMapper.mapToAppointmentDTO(appointmentService.bookAppointment(appointmentId)));
     }
 
-    @DeleteMapping("/{appointmentId}")
-    void deleteAppointment(@PathVariable Integer appointmentId) {
-        appointmentService.deleteAppointment(appointmentId);
+    @PutMapping("/{appointmentId}/cancel")
+    ResponseEntity<AppointmentDTO> cancelAppointment(@PathVariable Integer appointmentId) {
+        return ResponseEntity.ok(appointmentMapper.mapToAppointmentDTO(appointmentService.cancelAppointment(appointmentId)));
     }
 
 }
