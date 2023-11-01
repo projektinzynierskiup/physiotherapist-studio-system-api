@@ -116,8 +116,8 @@ public class AppointmentServiceImpl implements AppointmentService {
     if (startDate.getDayOfMonth() == endDate.getDayOfMonth()) {
         int hours = endDate.getHour() - startDate.getHour();
         for (int i = 0; i<hours; i++){
-            startDate = startDate.plusHours(i);
             endDate = startDate.plusHours(i + 1);
+            startDate = startDate.plusHours(i);
             Appointment appointment = new Appointment();
             appointment.setStartDate(startDate);
             appointment.setEndDate(endDate);
