@@ -9,7 +9,7 @@ import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface AppointmentMapper {
-    @Mapping(target = "users", ignore = true)
+    @Mapping(target = "user", ignore = true)
     AppointmentDTO mapToAppointmentDTO(Appointment appointment);
     List<AppointmentDTO> mapAppointmentListToAppointmentDTOList(List<Appointment> appointmentList);
 }

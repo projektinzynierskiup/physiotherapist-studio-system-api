@@ -8,10 +8,10 @@ import up.krakow.pchysioterapist.api.dto.UsersDTO;
 import up.krakow.pchysioterapist.api.mapper.MassageMapper;
 import up.krakow.pchysioterapist.api.mapper.UsersMapper;
 import up.krakow.pchysioterapist.api.model.Appointment;
-import up.krakow.pchysioterapist.api.model.Massage;
 import up.krakow.pchysioterapist.api.repository.AppointmentRepository;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
@@ -46,8 +46,8 @@ public class AppointmentServiceImpl implements AppointmentService {
                 new NoSuchElementException("Appointment with id: " + appointmentId + "does not exist!"));
         appointment.setStartDate(dto.getStartDate());
         appointment.setEndDate(dto.getEndDate());
-//        appointment.setAppointmentType(dto.getType());
-//        appointment.setUserId(dto.getUserId());
+        appointment.setMassage(dto.getMassage());
+        appointment.setUsers(dto.getUser());
         appointmentRepository.save(appointment);
         return appointment;
     }
@@ -58,24 +58,24 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
-    public List<Appointment> findByStartDateBetweenOrderByStartDateAsc(LocalDate startDate) {
+    public List<Appointment> findByStartDateBetweenOrderByStartDateAsc(LocalDateTime startDate) {
         return appointmentRepository.findByStartDateBetweenOrderByStartDateAsc(startDate, startDate.plusDays(7));
     }
 
 
 
     @Override
-    public List<CalendarDTO> getWeeklycalendar(LocalDate startDate) {
+    public List<CalendarDTO> getWeeklyCalendar(LocalDateTime startDate) {
         return findByStartDateBetweenOrderByStartDateAsc(startDate).stream()
                 .collect(Collectors.groupingBy(Appointment::getStartDate))
                 .entrySet().stream()
                 .sorted(Map.Entry.comparingByKey())
                 .map(entry -> {
-                    LocalDate date = entry.getKey();
+                    LocalDateTime date = LocalDateTime.from(LocalDate.from(entry.getKey()));
                     List<UsersDTO> usersDTOList = entry.getValue().stream()
                             .map(app -> {
                                 UsersDTO usersDTO = usersMapper.mapUsersToUsersDTO(app.getUsers());
-                                usersDTO.setLocalTime(app.getStartTime());
+                                usersDTO.setLocalTime(app.getStartDate().toLocalTime());
                                 usersDTO.setMassageDTO(massageMapper.massageToMassageDTO(app.getMassage()));
                                 return usersDTO;
                             })

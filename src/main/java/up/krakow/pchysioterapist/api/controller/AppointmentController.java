@@ -8,8 +8,6 @@ import up.krakow.pchysioterapist.api.mapper.AppointmentMapper;
 import up.krakow.pchysioterapist.api.service.AppointmentService;
 import up.krakow.pchysioterapist.api.utils.ControllerEndpoints;
 
-import java.util.UUID;
-
 @RestController
 @RequestMapping(value = ControllerEndpoints.GUEST + "/appointment")
 @AllArgsConstructor

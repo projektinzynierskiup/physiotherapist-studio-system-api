@@ -5,11 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.boot.autoconfigure.mail.MailSenderAutoConfiguration;
-import up.krakow.pchysioterapist.api.model.enums.EAppointmentType;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
+import java.time.LocalDateTime;
 import java.util.Set;
 
 @Entity
@@ -24,12 +21,8 @@ public class Appointment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(insertable=false, updatable=false)
     private Integer id;
-    private LocalDate startDate;
-    private LocalDate endDate;
-    @Column(name = "start_time")
-    private LocalTime startTime;
-    @Column(name = "end_time")
-    private LocalTime endTime;
+    private LocalDateTime startDate;
+    private LocalDateTime endDate;
 
     @ManyToOne
     @JoinColumn(name="user_id", nullable=false)

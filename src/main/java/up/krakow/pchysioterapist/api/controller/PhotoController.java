@@ -19,7 +19,7 @@ public class PhotoController {
 
     private OfferPhotoMapper offerPhotoMapper;
 
-    @PostMapping
+    @PostMapping("/offer-photo")
     ResponseEntity<OfferPhotoDTO> addOfferPhoto(@RequestBody OfferPhotoDTO dto) {
         return ResponseEntity.ok(offerPhotoMapper.mapToOfferPhotoDTO(offerPhotoService.addOfferPhoto(dto)));
     }
