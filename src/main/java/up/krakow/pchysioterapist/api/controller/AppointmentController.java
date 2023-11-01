@@ -8,6 +8,8 @@ import up.krakow.pchysioterapist.api.mapper.AppointmentMapper;
 import up.krakow.pchysioterapist.api.service.AppointmentService;
 import up.krakow.pchysioterapist.api.utils.ControllerEndpoints;
 
+import java.util.List;
+
 @RestController
 @RequestMapping(value = ControllerEndpoints.GUEST + "/appointment")
 @AllArgsConstructor
@@ -20,6 +22,11 @@ public class AppointmentController {
     @GetMapping("/{appointmentId}")
     ResponseEntity<AppointmentDTO> getAppointment(@PathVariable Integer appointmentId) {
         return ResponseEntity.ok(appointmentMapper.mapToAppointmentDTO(appointmentService.getAppointment(appointmentId)));
+    }
+
+    @GetMapping("/all/free")
+    ResponseEntity<List<AppointmentDTO>> getAllFreeAppointments() {
+        return ResponseEntity.ok(appointmentMapper.mapAppointmentListToAppointmentDTOList(appointmentService.getAllFreeAppointments()));
     }
 
     @PutMapping("/{appointmentId}/book")
