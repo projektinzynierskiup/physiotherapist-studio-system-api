@@ -20,7 +20,6 @@ public class Appointment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(insertable=false, updatable=false)
     private Integer id;
     private LocalDateTime startDate;
     private LocalDateTime endDate;
