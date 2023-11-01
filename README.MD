@@ -208,16 +208,22 @@ public class AppointmentDTO {
     private LocalDateTime endDate;
     private Users user;
     private Massage massage;
+    private String status;
 }
 ```
 
-**POST /guest/appointment**
+```
+public enum EAppointmentStatus {
+
+     FREE, BOOKED
+ }
+ ```
 
 **GET /guest/appointment/{appointmentId}**
 
-**PUT /guest/appointment/{appointmentId}**
+**PUT /guest/appointment/{appointmentId}/book** - zmienia status Appointment na BOOKED
 
-**DELETE /guest/appointment/{appointmentId}**
+**PUT /guest/appointment/{appointmentId}/cancel** - zmienia status Appointment na FREE
 
 ### Endpoint Offer - /guest/offer
 ```
@@ -253,8 +259,23 @@ public class OfferPhotoDTO {
 ```
 
 **POST /guest/offer-photo**
+
 **GET /guest/offer-photo/{offerPhotoId}**
+
 **PUT /guest/offer-photo/{offerPhotoId}**
+
 **DELETE /guest//offer-photo/{offerPhotoId}**
+
+### Endpointy dla MODA - /mod**
+
+**POST /mod/appointment** - tworzenie Appointment
+
+**POST /mod/appointment/all-day** - (startDate, endDate) tworzenie listy Appointment w danym dniu
+
+**GET /mod/appointment/{appointmentId}** 
+
+**PUT /mod/appointment/{appointmentId}**
+
+**DELETE /mod/appointment/{appointmentId}**
 
 
