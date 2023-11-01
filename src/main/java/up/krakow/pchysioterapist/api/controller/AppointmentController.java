@@ -22,14 +22,14 @@ public class AppointmentController {
         return ResponseEntity.ok(appointmentMapper.mapToAppointmentDTO(appointmentService.getAppointment(appointmentId)));
     }
 
-    @PutMapping("/{appointmentId}")
+    @PutMapping("/{appointmentId}/book")
     ResponseEntity<AppointmentDTO> bookAppointment(@PathVariable Integer appointmentId) {
         return ResponseEntity.ok(appointmentMapper.mapToAppointmentDTO(appointmentService.bookAppointment(appointmentId)));
     }
 
-    @DeleteMapping("/{appointmentId}")
-    void cancelAppointment(@PathVariable Integer appointmentId) {
-        appointmentService.cancelAppointment(appointmentId);
+    @PutMapping("/{appointmentId}/cancel")
+    ResponseEntity<AppointmentDTO> cancelAppointment(@PathVariable Integer appointmentId) {
+        return ResponseEntity.ok(appointmentMapper.mapToAppointmentDTO(appointmentService.cancelAppointment(appointmentId)));
     }
 
 }
