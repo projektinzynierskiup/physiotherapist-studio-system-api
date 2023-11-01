@@ -57,7 +57,7 @@ public class JwtUtils {
         Claims claims = getJwtParserInstance()
                 .parseClaimsJws(token)
                 .getBody();
-        return claims.getSubject();
+        return claims.get("email").toString();
     }
 
     public JwtParser getJwtParserInstance() {

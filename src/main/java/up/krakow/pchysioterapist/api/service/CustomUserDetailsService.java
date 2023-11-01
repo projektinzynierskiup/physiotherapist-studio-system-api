@@ -6,6 +6,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import up.krakow.pchysioterapist.api.model.Users;
+import up.krakow.pchysioterapist.api.model.enums.ERole;
 import up.krakow.pchysioterapist.api.repository.UsersRepository;
 
 @Service
@@ -15,7 +16,8 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Users users = usersRepository.findByUsername(username);
+        System.out.println(username);
+        Users users = usersRepository.findByEmailAndRoleNot(username, ERole.GUEST).get();
         return Users.builder()
                 .username(users.getUsername())
                 .password(users.getPassword())
