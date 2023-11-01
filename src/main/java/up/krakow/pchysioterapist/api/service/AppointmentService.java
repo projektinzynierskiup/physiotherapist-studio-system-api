@@ -13,6 +13,8 @@ public interface AppointmentService {
 
     Appointment getAppointment(Integer appointmentId);
 
+    List<Appointment> getAllFreeAppointments();
+
     Appointment editAppointment(AppointmentDTO dto, Integer appointmentId);
 
     Appointment bookAppointment(Integer appointmentId);

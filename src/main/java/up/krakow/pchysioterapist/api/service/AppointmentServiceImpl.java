@@ -10,6 +10,7 @@ import up.krakow.pchysioterapist.api.mapper.MassageMapper;
 import up.krakow.pchysioterapist.api.mapper.UsersMapper;
 import up.krakow.pchysioterapist.api.model.Appointment;
 import up.krakow.pchysioterapist.api.model.enums.EAppointmentStatus;
+import up.krakow.pchysioterapist.api.model.enums.EAppointmentType;
 import up.krakow.pchysioterapist.api.repository.AppointmentRepository;
 
 import java.time.LocalDate;
@@ -41,6 +42,11 @@ public class AppointmentServiceImpl implements AppointmentService {
     public Appointment getAppointment(Integer appointmentId) {
         return appointmentRepository.findById(appointmentId).orElseThrow(() ->
                 new NoSuchElementException("Appointment with id: " + appointmentId + "does not exist!"));
+    }
+
+    @Override
+    public List<Appointment> getAllFreeAppointments() {
+        return appointmentRepository.findAllByStatus(String.valueOf(EAppointmentStatus.FREE));
     }
 
     @Override
@@ -123,6 +129,7 @@ public class AppointmentServiceImpl implements AppointmentService {
             appointment.setEndDate(endDate);
             appointment.setStatus(String.valueOf(EAppointmentStatus.FREE));
             appointments.add(appointment);
+            appointmentRepository.save(appointment);
         }
     } else throw new DatesException("Wybrane daty muszą być w tym samym dniu!");
     return appointments;
