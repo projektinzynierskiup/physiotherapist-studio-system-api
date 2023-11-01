@@ -15,7 +15,13 @@ public interface AppointmentService {
 
     Appointment editAppointment(AppointmentDTO dto, Integer appointmentId);
 
+    Appointment bookAppointment(Integer appointmentId);
+
     void deleteAppointment(Integer appointmentId);
+
+    Appointment cancelAppointment(Integer appointmentId);
     List<Appointment> findByStartDateBetweenOrderByStartDateAsc(LocalDateTime startDate);
     List<CalendarDTO> getWeeklyCalendar(LocalDateTime startDate);
+
+    List<Appointment> createAppointmentsForDay(LocalDateTime startDate, LocalDateTime endDate);
 }

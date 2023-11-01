@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import up.krakow.pchysioterapist.api.model.enums.EAppointmentStatus;
 
 import java.time.LocalDateTime;
 import java.util.Set;
@@ -23,6 +24,7 @@ public class Appointment {
     private Integer id;
     private LocalDateTime startDate;
     private LocalDateTime endDate;
+    private String status;
 
     @ManyToOne
     @JoinColumn(name="user_id", nullable=false)

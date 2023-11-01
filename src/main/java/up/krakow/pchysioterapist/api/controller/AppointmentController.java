@@ -17,24 +17,19 @@ public class AppointmentController {
 
     private AppointmentMapper appointmentMapper;
 
-    @PostMapping
-    ResponseEntity<AppointmentDTO> createAppointment(@RequestBody AppointmentDTO dto) {
-        return ResponseEntity.ok(appointmentMapper.mapToAppointmentDTO(appointmentService.createAppointment(dto)));
-    }
-
     @GetMapping("/{appointmentId}")
     ResponseEntity<AppointmentDTO> getAppointment(@PathVariable Integer appointmentId) {
         return ResponseEntity.ok(appointmentMapper.mapToAppointmentDTO(appointmentService.getAppointment(appointmentId)));
     }
 
     @PutMapping("/{appointmentId}")
-    ResponseEntity<AppointmentDTO> createAppointment(@RequestBody AppointmentDTO dto, @PathVariable Integer appointmentId) {
-        return ResponseEntity.ok(appointmentMapper.mapToAppointmentDTO(appointmentService.editAppointment(dto, appointmentId)));
+    ResponseEntity<AppointmentDTO> bookAppointment(@PathVariable Integer appointmentId) {
+        return ResponseEntity.ok(appointmentMapper.mapToAppointmentDTO(appointmentService.bookAppointment(appointmentId)));
     }
 
     @DeleteMapping("/{appointmentId}")
-    void deleteAppointment(@PathVariable Integer appointmentId) {
-        appointmentService.deleteAppointment(appointmentId);
+    void cancelAppointment(@PathVariable Integer appointmentId) {
+        appointmentService.cancelAppointment(appointmentId);
     }
 
 }

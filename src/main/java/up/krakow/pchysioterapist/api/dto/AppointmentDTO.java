@@ -1,7 +1,5 @@
 package up.krakow.pchysioterapist.api.dto;
 
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,4 +19,5 @@ public class AppointmentDTO {
     private LocalDateTime endDate;
     private Users user;
     private Massage massage;
+    private String status;
 }
