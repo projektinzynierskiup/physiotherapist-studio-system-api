@@ -56,6 +56,7 @@ public class UserServiceImpl implements UserService{
         usersRepository.save(users);
     }
 
+    @Transactional
     @Override
     public void registerUser(UsersDTO usersDTO) {
         try {
