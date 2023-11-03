@@ -1,5 +1,6 @@
 package up.krakow.pchysioterapist.api.service;
 
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import up.krakow.pchysioterapist.api.dto.OpinionDTO;
@@ -8,7 +9,6 @@ import up.krakow.pchysioterapist.api.model.Opinion;
 import up.krakow.pchysioterapist.api.repository.OpinionRepository;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 @Service
 public class OpinionServiceImpl implements OpinionService{
@@ -16,10 +16,18 @@ public class OpinionServiceImpl implements OpinionService{
     private OpinionMapper opinionMapper;
     @Autowired
     private OpinionRepository opinionRepository;
+    @Transactional
     @Override
     public void save(OpinionDTO opinionDTO) {
         Opinion opinion = opinionMapper.opinionDTOToOpinion(opinionDTO);
         opinion.setLocalDate(LocalDate.now());
         opinionRepository.save(opinion);
+    }
+
+    @Transactional
+    @Override
+    public void delete(Integer id) {
+        Opinion opinion = opinionRepository.findById(id).get();
+        opinionRepository.delete(opinion);
     }
 }
