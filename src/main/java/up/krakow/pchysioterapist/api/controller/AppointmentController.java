@@ -30,8 +30,8 @@ public class AppointmentController {
     }
 
     @PutMapping("/{appointmentId}/book")
-    ResponseEntity<AppointmentDTO> bookAppointment(@PathVariable Integer appointmentId) {
-        return ResponseEntity.ok(appointmentMapper.mapToAppointmentDTO(appointmentService.bookAppointment(appointmentId)));
+    ResponseEntity<AppointmentDTO> bookAppointment(@PathVariable Integer appointmentId, AppointmentDTO dto) {
+        return ResponseEntity.ok(appointmentMapper.mapToAppointmentDTO(appointmentService.bookAppointment(appointmentId, dto)));
     }
 
     @PutMapping("/{appointmentId}/cancel")

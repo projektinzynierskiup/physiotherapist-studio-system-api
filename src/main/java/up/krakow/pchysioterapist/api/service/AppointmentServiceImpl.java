@@ -62,10 +62,12 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
-    public Appointment bookAppointment(Integer appointmentId) {
+    public Appointment bookAppointment(Integer appointmentId, AppointmentDTO dto) {
         Appointment appointment = appointmentRepository.findById(appointmentId).orElseThrow(() ->
                 new NoSuchElementException("Appointment with id: " + appointmentId + "does not exist!"));
         appointment.setStatus(String.valueOf(EAppointmentStatus.BOOKED));
+        appointment.setUsers(dto.getUser());
+        appointment.setMassage(dto.getMassage());
         appointmentRepository.save(appointment);
         return appointment;
     }
@@ -122,8 +124,13 @@ public class AppointmentServiceImpl implements AppointmentService {
     if (startDate.getDayOfMonth() == endDate.getDayOfMonth()) {
         int hours = endDate.getHour() - startDate.getHour();
         for (int i = 0; i<hours; i++){
-            endDate = startDate.plusHours(i + 1);
-            startDate = startDate.plusHours(i);
+            if (i == 0)
+            {
+                startDate = startDate.plusHours(0);
+            } else {
+                startDate = startDate.plusHours(1);
+            }
+            endDate = startDate.plusHours(1);
             Appointment appointment = new Appointment();
             appointment.setStartDate(startDate);
             appointment.setEndDate(endDate);
