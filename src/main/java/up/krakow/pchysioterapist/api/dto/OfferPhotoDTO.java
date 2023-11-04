@@ -4,9 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import up.krakow.pchysioterapist.api.model.Offer;
-
-import java.util.UUID;
 
 @Getter
 @Setter

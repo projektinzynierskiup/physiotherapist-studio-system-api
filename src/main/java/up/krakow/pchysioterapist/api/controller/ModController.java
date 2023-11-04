@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import up.krakow.pchysioterapist.api.dto.AppointmentDTO;
+import up.krakow.pchysioterapist.api.dto.StartEndDateDTO;
 import up.krakow.pchysioterapist.api.mapper.AppointmentMapper;
 import up.krakow.pchysioterapist.api.service.AppointmentService;
 import up.krakow.pchysioterapist.api.utils.ControllerEndpoints;
@@ -26,10 +27,9 @@ public class ModController {
     }
 
     @PostMapping("/appointment/all-day")
-    ResponseEntity<List<AppointmentDTO>> addAppointmentDate(@RequestParam("startDate") String startDate,
-                                                            @RequestParam("endDate") String endDate) {
-        LocalDateTime start = LocalDateTime.parse(startDate);
-        LocalDateTime end = LocalDateTime.parse(endDate);
+    ResponseEntity<List<AppointmentDTO>> addAppointmentDate(@RequestBody StartEndDateDTO dto) {
+        LocalDateTime start = LocalDateTime.parse(dto.getStartDate());
+        LocalDateTime end = LocalDateTime.parse(dto.getEndDate());
         return ResponseEntity.ok(appointmentMapper.mapAppointmentListToAppointmentDTOList(appointmentService.createAppointmentsForDay(start, end)));
     }
 

@@ -10,15 +10,11 @@ import up.krakow.pchysioterapist.api.mapper.MassageMapper;
 import up.krakow.pchysioterapist.api.mapper.UsersMapper;
 import up.krakow.pchysioterapist.api.model.Appointment;
 import up.krakow.pchysioterapist.api.model.enums.EAppointmentStatus;
-import up.krakow.pchysioterapist.api.model.enums.EAppointmentType;
 import up.krakow.pchysioterapist.api.repository.AppointmentRepository;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.NoSuchElementException;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -34,6 +30,10 @@ public class AppointmentServiceImpl implements AppointmentService {
         Appointment appointment = new Appointment();
         appointment.setStartDate(dto.getStartDate());
         appointment.setEndDate(dto.getEndDate());
+        appointment.setMassage(dto.getMassage());
+        appointment.setStatus(dto.getStatus());
+        appointment.setUsers(dto.getUser());
+        appointment.setUrlKey(UUID.randomUUID().toString());
         appointmentRepository.save(appointment);
         return appointment;
     }
@@ -57,15 +57,18 @@ public class AppointmentServiceImpl implements AppointmentService {
         appointment.setEndDate(dto.getEndDate());
         appointment.setMassage(dto.getMassage());
         appointment.setUsers(dto.getUser());
+        appointment.setStatus(dto.getStatus());
         appointmentRepository.save(appointment);
         return appointment;
     }
 
     @Override
-    public Appointment bookAppointment(Integer appointmentId) {
+    public Appointment bookAppointment(Integer appointmentId, AppointmentDTO dto) {
         Appointment appointment = appointmentRepository.findById(appointmentId).orElseThrow(() ->
                 new NoSuchElementException("Appointment with id: " + appointmentId + "does not exist!"));
         appointment.setStatus(String.valueOf(EAppointmentStatus.BOOKED));
+        appointment.setUsers(dto.getUser());
+        appointment.setMassage(dto.getMassage());
         appointmentRepository.save(appointment);
         return appointment;
     }
@@ -80,6 +83,8 @@ public class AppointmentServiceImpl implements AppointmentService {
         Appointment appointment = appointmentRepository.findById(appointmentId).orElseThrow(() ->
                 new NoSuchElementException("Appointment with id: " + appointmentId + "does not exist!"));
         appointment.setStatus(String.valueOf(EAppointmentStatus.FREE));
+        appointment.setUsers(null);
+        appointment.setMassage(null);
         appointmentRepository.save(appointment);
         return appointment;
     }
@@ -122,8 +127,13 @@ public class AppointmentServiceImpl implements AppointmentService {
     if (startDate.getDayOfMonth() == endDate.getDayOfMonth()) {
         int hours = endDate.getHour() - startDate.getHour();
         for (int i = 0; i<hours; i++){
-            endDate = startDate.plusHours(i + 1);
-            startDate = startDate.plusHours(i);
+            if (i == 0)
+            {
+                startDate = startDate.plusHours(0);
+            } else {
+                startDate = startDate.plusHours(1);
+            }
+            endDate = startDate.plusHours(1);
             Appointment appointment = new Appointment();
             appointment.setStartDate(startDate);
             appointment.setEndDate(endDate);

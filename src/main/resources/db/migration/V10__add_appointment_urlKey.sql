@@ -1,0 +1,1 @@
+alter table physioterapist.appointment add column "url_key" VARCHAR(64);

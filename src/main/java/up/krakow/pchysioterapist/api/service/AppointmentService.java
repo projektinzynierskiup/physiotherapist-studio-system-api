@@ -17,7 +17,7 @@ public interface AppointmentService {
 
     Appointment editAppointment(AppointmentDTO dto, Integer appointmentId);
 
-    Appointment bookAppointment(Integer appointmentId);
+    Appointment bookAppointment(Integer appointmentId, AppointmentDTO dto);
 
     void deleteAppointment(Integer appointmentId);
 
