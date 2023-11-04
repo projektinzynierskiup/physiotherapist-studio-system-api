@@ -10,15 +10,11 @@ import up.krakow.pchysioterapist.api.mapper.MassageMapper;
 import up.krakow.pchysioterapist.api.mapper.UsersMapper;
 import up.krakow.pchysioterapist.api.model.Appointment;
 import up.krakow.pchysioterapist.api.model.enums.EAppointmentStatus;
-import up.krakow.pchysioterapist.api.model.enums.EAppointmentType;
 import up.krakow.pchysioterapist.api.repository.AppointmentRepository;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.NoSuchElementException;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -34,6 +30,10 @@ public class AppointmentServiceImpl implements AppointmentService {
         Appointment appointment = new Appointment();
         appointment.setStartDate(dto.getStartDate());
         appointment.setEndDate(dto.getEndDate());
+        appointment.setMassage(dto.getMassage());
+        appointment.setStatus(dto.getStatus());
+        appointment.setUsers(dto.getUser());
+        appointment.setUrlKey(UUID.randomUUID().toString());
         appointmentRepository.save(appointment);
         return appointment;
     }
@@ -57,6 +57,7 @@ public class AppointmentServiceImpl implements AppointmentService {
         appointment.setEndDate(dto.getEndDate());
         appointment.setMassage(dto.getMassage());
         appointment.setUsers(dto.getUser());
+        appointment.setStatus(dto.getStatus());
         appointmentRepository.save(appointment);
         return appointment;
     }

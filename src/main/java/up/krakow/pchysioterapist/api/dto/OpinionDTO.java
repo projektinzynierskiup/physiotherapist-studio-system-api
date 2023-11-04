@@ -1,6 +1,5 @@
 package up.krakow.pchysioterapist.api.dto;
 
-import jakarta.persistence.Column;
 import lombok.*;
 
 import javax.validation.constraints.NotNull;

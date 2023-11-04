@@ -24,6 +24,7 @@ public class Appointment {
     private LocalDateTime startDate;
     private LocalDateTime endDate;
     private String status;
+    private String urlKey;
 
     @ManyToOne
     @JoinColumn(name="user_id", nullable=false)
