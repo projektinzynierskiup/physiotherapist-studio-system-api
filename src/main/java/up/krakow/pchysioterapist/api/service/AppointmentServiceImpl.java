@@ -82,6 +82,8 @@ public class AppointmentServiceImpl implements AppointmentService {
         Appointment appointment = appointmentRepository.findById(appointmentId).orElseThrow(() ->
                 new NoSuchElementException("Appointment with id: " + appointmentId + "does not exist!"));
         appointment.setStatus(String.valueOf(EAppointmentStatus.FREE));
+        appointment.setUsers(null);
+        appointment.setMassage(null);
         appointmentRepository.save(appointment);
         return appointment;
     }
