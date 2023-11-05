@@ -9,6 +9,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import up.krakow.pchysioterapist.api.dto.InfoDTO;
 import up.krakow.pchysioterapist.api.dto.OpinionDTO;
 import up.krakow.pchysioterapist.api.model.Opinion;
 import up.krakow.pchysioterapist.api.repository.OpinionRepository;
@@ -22,9 +23,9 @@ public class OpinionController {
     private final OpinionService opinionService;
     private final OpinionRepository opinionRepository;
     @PostMapping
-    public ResponseEntity<String> createOpinion(@RequestBody @Valid OpinionDTO opinionDTO) {
+    public ResponseEntity<InfoDTO> createOpinion(@RequestBody @Valid OpinionDTO opinionDTO) {
         opinionService.save(opinionDTO);
-        return ResponseEntity.ok("hii");
+        return ResponseEntity.ok(new InfoDTO("Dziękujemy za dodanie opinii"));
     }
 
     @GetMapping("/{page}")

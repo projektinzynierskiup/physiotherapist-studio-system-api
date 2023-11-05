@@ -278,4 +278,162 @@ public class OfferPhotoDTO {
 
 **DELETE /mod/appointment/{appointmentId}**
 
+----
 
+### Endpoint: Email - /mod/email
+**POST /confimration**
+
+````
+public class Email {
+private int visitId;
+private String recipientEmail;
+private LocalDateTime startTime;
+private LocalDateTime endTime;
+private String username;
+private String eventName;
+private String description;
+private EEmailStatus emailStatus;
+}
+````
+**recipientEmail** - email klienta  
+**startTime** - data i godzina rozpoczęcia wizyty   
+**startTime** - data i godzina zakonczenia wizyty  
+**username** - imie klienta  
+**eventName** - dany masaz  
+**description** - opis (domyślny bądź opcjonalny)  
+**emailStatus** - String z typem decyzji:  
+  
+*ACCEPTATION* - wizyta została zaakceptowana i klient otrzymuje email z potwierdzeniem  
+*CHANGE* - wizyta została zmieniona i klient otrzymuje email z nowym terminem wizyty  
+*REJECTION* - odmowa wizyty, anulowanie jej wraz ze zmianą statusu w bazie, email do klienta z odmowa
+*BAN* - odmowa wizyty, anulowanie jej wraz ze zmianą statusu w bazie, email do klienta z odmowa, zablokowanie
+możliwości składania wizyt w systemie pod dany nr telefonu lub email. W przypadku złego *emailStatus*
+aplikacja zwraca status code 401
+
+*Status code: 200*  
+*return:```InfoDTO```*
+```json
+{
+    "info": "Wykonano"
+}
+```
+
+*Status code: 401*  
+Nic nie zwraca, jedynie status code
+---
+### Endpoint: Opinion - /[guest, mod]/opinion
+**POST** /guest/opinion
+```
+public class OpinionDTO {
+    private String username;
+    private String description;
+    private Integer rate;
+}
+```  
+**username** - nazwa użytkownika pod którą zostanie wyświetlona opinia  
+**description** - treść opinii  
+**rate** - ocena w skali 1-5  
+
+*Status code: 200*  
+*return: InfoDTO*  
+```json
+{
+    "info": "Dziękujemy za dodanie opinii"
+}
+```  
+*Status code: 419*  
+*return: InfoDTO*  
+```json
+{
+    "info": "Przepraszamy. Wystąpił błąd."
+}
+```  
+**GET** /guest/opinion/{page}
+```
+public class Opinion {
+    private Integer id;
+    private String username;
+    private String description;
+    private Integer rate;
+    private LocalDate localDate;
+}
+```
+*Status code: 200*  
+*return: Opinion*
+```json
+{
+    "content": [
+        {
+            "id": 19,
+            "username": "5455555555",
+            "description": "5ref",
+            "rate": 5,
+            "localDate": "2023-11-02"
+        },
+        {
+            "id": 18,
+            "username": "1111111",
+            "description": "asadsa",
+            "rate": 11,
+            "localDate": "2023-11-02"
+        },
+        {
+            "id": 17,
+            "username": "fdsfds",
+            "description": "fsad",
+            "rate": 4,
+            "localDate": "2023-11-02"
+        },
+        {
+            "id": 16,
+            "username": "jkbj",
+            "description": "fsa",
+            "rate": 3,
+            "localDate": "2023-11-02"
+        },
+        {
+            "id": 15,
+            "username": "alloha",
+            "description": "fassfa",
+            "rate": 2,
+            "localDate": "2023-11-02"
+        }
+    ],
+    "pageable": {
+        "pageNumber": 1,
+        "pageSize": 5,
+        "sort": {
+            "empty": false,
+            "sorted": true,
+            "unsorted": false
+        },
+        "offset": 5,
+        "paged": true,
+        "unpaged": false
+    },
+    "last": false,
+    "totalPages": 5,
+    "totalElements": 24,
+    "first": false,
+    "numberOfElements": 5,
+    "size": 5,
+    "number": 1,
+    "sort": {
+        "empty": false,
+        "sorted": true,
+        "unsorted": false
+    },
+    "empty": false
+}
+```  
+**DELETE** /mod/opinion/{id}  
+Usuwa opinie z danym ID  
+
+*Status code: 200*  
+*reuturn: InfoDTO*  
+```json
+{
+  "info": "Usunięto opinie z ID: "  <id>
+}
+```
+---

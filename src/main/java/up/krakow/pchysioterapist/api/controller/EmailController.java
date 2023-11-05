@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import up.krakow.pchysioterapist.api.dto.InfoDTO;
 import up.krakow.pchysioterapist.api.model.Email;
 import up.krakow.pchysioterapist.api.service.EmailService;
 import up.krakow.pchysioterapist.api.service.EmailServiceImpl;
@@ -21,8 +22,8 @@ public class EmailController {
     private EmailService emailService;
 
     @PostMapping(value = "/confirmation")
-    public ResponseEntity<String> confirmation(@RequestBody Email email) throws MessagingException, IOException {
+    public ResponseEntity<InfoDTO> confirmation(@RequestBody Email email) throws MessagingException, IOException {
         emailService.execute(email);
-        return ResponseEntity.ok("git");
+        return ResponseEntity.ok(new InfoDTO("Wykonano"));
     }
 }
