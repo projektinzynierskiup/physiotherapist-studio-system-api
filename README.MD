@@ -305,7 +305,7 @@ private EEmailStatus emailStatus;
   
 *ACCEPTATION* - wizyta została zaakceptowana i klient otrzymuje email z potwierdzeniem  
 *CHANGE* - wizyta została zmieniona i klient otrzymuje email z nowym terminem wizyty  
-*REJECTION* - odmowa wizyty, anulowanie jej wraz ze zmianą statusu w bazie, email do klienta z odmowa
+*REJECTION* - odmowa wizyty, anulowanie jej wraz ze zmianą statusu w bazie, email do klienta z odmowa  
 *BAN* - odmowa wizyty, anulowanie jej wraz ze zmianą statusu w bazie, email do klienta z odmowa, zablokowanie
 możliwości składania wizyt w systemie pod dany nr telefonu lub email. W przypadku złego *emailStatus*
 aplikacja zwraca status code 401
