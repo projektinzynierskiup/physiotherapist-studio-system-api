@@ -7,10 +7,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import up.krakow.pchysioterapist.api.dto.InfoDTO;
-import up.krakow.pchysioterapist.api.exception.BadEmailTypeRequestException;
-import up.krakow.pchysioterapist.api.exception.BadPasswordException;
-import up.krakow.pchysioterapist.api.exception.UnauthorizedException;
-import up.krakow.pchysioterapist.api.exception.UserExistsException;
+import up.krakow.pchysioterapist.api.exception.*;
 
 @ControllerAdvice
 public class ExceptionAdviceController {
@@ -35,9 +32,15 @@ public class ExceptionAdviceController {
         return ResponseHelper.response400(e.getMessage());
     }
 
-    @ExceptionHandler(UnauthorizedException.class)
-    @ResponseStatus(HttpStatus.UNAUTHORIZED) // 401 status code
-    public ResponseEntity<InfoDTO> handleUnauthorizedException(UnauthorizedException e) {
-        return new ResponseEntity<>(new InfoDTO(e.getMessage()), HttpStatus.UNAUTHORIZED);
+    @ExceptionHandler(UserIsSignedToNewsletterException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity<InfoDTO> userIsSignedToNewsletterException(UserIsSignedToNewsletterException e) {
+        return ResponseHelper.response400(e.getMessage());
+    }
+
+    @ExceptionHandler(EmailDoesNotExistException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity<InfoDTO> emailDoesNotExistException(EmailDoesNotExistException e) {
+        return ResponseHelper.response400(e.getMessage());
     }
 }
