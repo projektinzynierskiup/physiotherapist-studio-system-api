@@ -18,6 +18,6 @@ public class OpinionModController {
     @DeleteMapping("/{id}")
     public ResponseEntity<InfoDTO> delete(@PathVariable Integer id) {
         opinionService.delete(id);
-        return ResponseEntity.ok(new InfoDTO("Usunięto opinie o ID: " + id));
+        return ResponseEntity.ok(new InfoDTO("Usunięto opinie z ID: " + id));
     }
 }
