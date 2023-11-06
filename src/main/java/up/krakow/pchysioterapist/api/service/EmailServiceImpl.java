@@ -10,10 +10,12 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import up.krakow.pchysioterapist.api.model.Email;
 import up.krakow.pchysioterapist.api.model.configuration.EmailConfiguration;
+import up.krakow.pchysioterapist.api.model.enums.EEmailStatus;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.EnumSet;
 import java.util.UUID;
 
 @Service
@@ -30,7 +32,8 @@ public class EmailServiceImpl implements EmailService{
                                String eventName,
                                String defaultDescription,
                                String description,
-                               String decision) throws MessagingException, IOException {
+                               String decision,
+                               EEmailStatus emailStatus) throws MessagingException, IOException {
         MimeMessage mimeMessage = emailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
 
@@ -38,10 +41,12 @@ public class EmailServiceImpl implements EmailService{
         helper.setSubject(decision);
         helper.setText(defaultDescription + description);
 
-        String icsContent = generateICSContent(startTime, endTime, eventName, description);
-
-        ByteArrayDataSource dataSource = new ByteArrayDataSource(icsContent, "text/calendar");
-        helper.addAttachment("invitation.ics", dataSource);
+        if (EnumSet.of(emailStatus.ACCEPTATION,
+                emailStatus.CHANGE).contains(emailStatus)) {
+            String icsContent = generateICSContent(startTime, endTime, eventName, description);
+            ByteArrayDataSource dataSource = new ByteArrayDataSource(icsContent, "text/calendar");
+            helper.addAttachment("invitation.ics", dataSource);
+        }
 
         emailSender.send(mimeMessage);
     }
@@ -76,7 +81,20 @@ public class EmailServiceImpl implements EmailService{
                         email.getEventName(),
                         emailConfiguration.getDefaultAcceptDescription(),
                         email.getDescription(),
-                        emailConfiguration.getAcceptation());
+                        emailConfiguration.getAcceptation(),
+                        email.getEmailStatus());
+
+                //zmiana statusu w bazie
+                break;
+            case CHANGE:
+                sendInvitation(email.getRecipientEmail(),
+                        email.getStartTime(),
+                        email.getEndTime(),
+                        email.getEventName(),
+                        emailConfiguration.getDefaultAcceptDescription(),
+                        email.getDescription(),
+                        emailConfiguration.getChange(),
+                        email.getEmailStatus());
 
                 //zmiana statusu w bazie
                 break;
@@ -88,7 +106,8 @@ public class EmailServiceImpl implements EmailService{
                         email.getEventName(),
                         emailConfiguration.getDefaultRejectDescription(),
                         email.getDescription(),
-                        emailConfiguration.getRejection());
+                        emailConfiguration.getRejection(),
+                        email.getEmailStatus());
 
                 //usuniecie rekordu z bazy
                 break;
@@ -100,7 +119,8 @@ public class EmailServiceImpl implements EmailService{
                         email.getEventName(),
                         emailConfiguration.getDefaultRejectDescription(),
                         email.getDescription(),
-                        emailConfiguration.getRejection());
+                        emailConfiguration.getRejection(),
+                        email.getEmailStatus());
 
                 //zablokowanie możliwości umawiania sie na wizyty przez GUESTA+
                 //usunięcie rekordu z bazy
