@@ -7,8 +7,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import up.krakow.pchysioterapist.api.model.Email;
+import up.krakow.pchysioterapist.api.model.RestartPassword;
 import up.krakow.pchysioterapist.api.model.configuration.EmailConfiguration;
 import up.krakow.pchysioterapist.api.model.enums.EEmailStatus;
 
@@ -47,6 +49,19 @@ public class EmailServiceImpl implements EmailService{
             ByteArrayDataSource dataSource = new ByteArrayDataSource(icsContent, "text/calendar");
             helper.addAttachment("invitation.ics", dataSource);
         }
+
+        emailSender.send(mimeMessage);
+    }
+
+    @Async
+    public void restartPassworEmail(String email, RestartPassword restartPassword) throws MessagingException {
+        MimeMessage mimeMessage = emailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
+
+        helper.setTo(email);
+        helper.setSubject("Zresetuj swoje haslo");
+        String resetPasswordUrl = "localhost:4200/guest/users/restartpassword/" + restartPassword.getUuid();
+        helper.setText("<html><body>Cześć. Kliknij w link, aby <a href='" + resetPasswordUrl + "'>" + resetPasswordUrl + "</a> ustaw nowe hasło.</body></html>", true);
 
         emailSender.send(mimeMessage);
     }

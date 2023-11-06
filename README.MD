@@ -437,3 +437,83 @@ Usuwa opinie z danym ID
 }
 ```
 ---
+### Endpoint: USERS /guest/users  
+**POST** /restartpassword/{email}  
+Proces weryfikacyjny czy user o takim emailu istnieje i nie ma roli GUEST. Jeżeli user istnieje
+jest tworzony obiekt RegisterPassword w celu zapisania nowego żądania resetu hasła. Do USERa jest wysyłane unikalny
+link ze zmienną uuid
+```
+public class RestartPassword {
+    private Integer id;
+    private String uuid;
+    private Integer usersId;
+    private LocalDateTime startLocalDateTime;
+    private LocalDateTime endLocalDateTime;
+}
+```  
+id - id RestartPassword  
+uuid - uniwersalny klucz  
+usersId - id usera otrzymany za pomoca emailu  
+startLocalDateTime - czas i data utworzenia żądania  
+endLocalDateTime - startLocalDateTime + 15 min  
+
+*Status code: 200*  
+*return: InfoDTO*  
+```json
+{
+    "info": "W celu zresetowania swojego hasla sprawdz email"
+}
+```  
+*Status code: 400*  
+*return: InfoDTO*  
+```json
+{
+    "info": "Nie odnaleziono osoby o takim emailu"
+}
+```  
+  
+**GET** /restartpassword/{uuid}  
+User wchodzi pod url, który otrzymał w emailu ze zmienną UUID, który został wygenerowany przy POST.
+Przy GET uuid jest weryfikowane. Jeżeli żądanie zostanie zautoryzowane uuid zostaje zwracany na front dla PUT  
+*Status code: 200*  
+*return: InfoDTO*  
+```json
+{
+    "info": "ea83ee37-f521-4ac0-9299-ebaab1d74c3a"
+}
+```  
+*Status code: 400*  
+*return: InfoDTO*  
+```json
+{
+    "info": "Wystąpił błąd z uuid"
+}
+```  
+
+**PUT** /restartpassword  
+Otrzymuje obiekt *RestartPasswordDTO*, który jest ostatecznie walidowany oraz odpowiada za aktualizacje hasła
+dla USERa
+```
+public class RestartPasswordDTO {
+    private String uuid;
+    private String password;
+}
+```  
+uuid - uuid, które zostało zwrócone przy żądaniu GET  
+password - hasło, które ma 8-31 znaków bez białych znaków  
+
+*Status code: 200*  
+*return: InfoDTO*  
+```json
+{
+    "info": "Zmieniono haslo"
+}
+```  
+*Status code: 400*  
+*return: InfoDTO*  
+```json
+{
+    "info": "Wystąpił błąd z uuid"
+}
+```
+---

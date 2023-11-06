@@ -43,4 +43,9 @@ public class ExceptionAdviceController {
     public ResponseEntity<InfoDTO> emailDoesNotExistException(EmailDoesNotExistException e) {
         return ResponseHelper.response400(e.getMessage());
     }
+
+    @ExceptionHandler(LocalDateTimeValidationException.class)
+    public ResponseEntity<InfoDTO> validationError(LocalDateTimeValidationException e) {
+        return ResponseHelper.response400(e.getMessage());
+    }
 }
