@@ -15,4 +15,5 @@ public class ControllerEndpoints {
     public static final String EAPPOINTMENT_TYPE = "/eappointment";
     public static final String CALENDAR = "/calendar";
     public static final String OPINION = "/opinion";
+    public static final String USERS = "/users";
 }

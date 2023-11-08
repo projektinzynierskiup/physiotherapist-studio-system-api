@@ -2,6 +2,7 @@ package up.krakow.pchysioterapist.api.service;
 
 import jakarta.mail.MessagingException;
 import up.krakow.pchysioterapist.api.model.Email;
+import up.krakow.pchysioterapist.api.model.RestartPassword;
 import up.krakow.pchysioterapist.api.model.enums.EEmailStatus;
 
 import java.io.IOException;
@@ -22,4 +23,6 @@ public interface EmailService {
                               String eventName,
                               String description);
     void execute(Email email) throws MessagingException, IOException;
+    void restartPassworEmail(String email, RestartPassword restartPassword) throws MessagingException;
+
 }
