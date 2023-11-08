@@ -40,7 +40,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 
     @Override
     public Appointment getAppointment(Integer appointmentId) {
-        return appointmentRepository.findById(appointmentId).orElseThrow(() ->
+        return appointmentRepository.findByAppointmentId(appointmentId).orElseThrow(() ->
                 new NoSuchElementException("Appointment with id: " + appointmentId + "does not exist!"));
     }
 
