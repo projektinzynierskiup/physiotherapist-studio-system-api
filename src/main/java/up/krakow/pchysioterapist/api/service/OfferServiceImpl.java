@@ -28,7 +28,7 @@ public class OfferServiceImpl implements OfferService{
 
     @Override
     public Offer getOfferById(Integer offerId) {
-        return offerRepository.findById(offerId).orElseThrow(() ->
+        return offerRepository.findByOfferId(offerId).orElseThrow(() ->
                 new NoSuchElementException("Offer with id:" + offerId + " does not exist!"));
     }
 
