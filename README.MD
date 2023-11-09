@@ -322,7 +322,8 @@ aplikacja zwraca status code 401
 Nic nie zwraca, jedynie status code
 ---
 ### Endpoint: Opinion - /[guest, mod]/opinion
-**POST** /guest/opinion
+**POST** /guest/opinion  
+Opinie można dodawać raz na dobę w celu zapobiegania spamu
 ```
 public class OpinionDTO {
     private String username;
