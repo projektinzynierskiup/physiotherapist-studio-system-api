@@ -1,0 +1,1 @@
+ALTER TABLE physioterapist.newsletter ADD COLUMN delete_key uuid;

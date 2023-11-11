@@ -43,12 +43,25 @@ public class EmailServiceImpl implements EmailService{
         helper.setSubject(decision);
         helper.setText(defaultDescription + description);
 
-        if (EnumSet.of(emailStatus.ACCEPTATION,
-                emailStatus.CHANGE).contains(emailStatus)) {
+        if (EnumSet.of(EEmailStatus.ACCEPTATION,
+                EEmailStatus.CHANGE).contains(emailStatus)) {
             String icsContent = generateICSContent(startTime, endTime, eventName, description);
             ByteArrayDataSource dataSource = new ByteArrayDataSource(icsContent, "text/calendar");
             helper.addAttachment("invitation.ics", dataSource);
         }
+
+        emailSender.send(mimeMessage);
+    }
+
+    @Override
+    public void sendNewsletterConfirmation(String recipientEmail, UUID deleteKey) throws MessagingException {
+        MimeMessage mimeMessage = emailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
+
+        helper.setTo(recipientEmail);
+        helper.setSubject("Newsletter");
+        String deleteNewsletterUrl = "localhost:4200/guest/newsletter/" + deleteKey;
+        helper.setText("<html><body><p>Zapisano do newslettera!</p><br>Kliknij w link, aby wypisać się z newslettera <a href=''"+ deleteNewsletterUrl + "'>Usuń z newslettera</a></body></html>", true);
 
         emailSender.send(mimeMessage);
     }
@@ -88,61 +101,61 @@ public class EmailServiceImpl implements EmailService{
     @Override
     public void execute(Email email) throws MessagingException, IOException {
         switch (email.getEmailStatus()) {
-            case ACCEPTATION:
+            case ACCEPTATION ->
                 //id wizyty - findby visit
-                sendInvitation(email.getRecipientEmail(),
-                        email.getStartTime(),
-                        email.getEndTime(),
-                        email.getEventName(),
-                        emailConfiguration.getDefaultAcceptDescription(),
-                        email.getDescription(),
-                        emailConfiguration.getAcceptation(),
-                        email.getEmailStatus());
+                    sendInvitation(email.getRecipientEmail(),
+                            email.getStartTime(),
+                            email.getEndTime(),
+                            email.getEventName(),
+                            emailConfiguration.getDefaultAcceptDescription(),
+                            email.getDescription(),
+                            emailConfiguration.getAcceptation(),
+                            email.getEmailStatus());
 
-                //zmiana statusu w bazie
-                break;
-            case CHANGE:
-                sendInvitation(email.getRecipientEmail(),
-                        email.getStartTime(),
-                        email.getEndTime(),
-                        email.getEventName(),
-                        emailConfiguration.getDefaultAcceptDescription(),
-                        email.getDescription(),
-                        emailConfiguration.getChange(),
-                        email.getEmailStatus());
 
-                //zmiana statusu w bazie
-                break;
-            case REJECTION:
+            //zmiana statusu w bazie
+            case CHANGE -> sendInvitation(email.getRecipientEmail(),
+                    email.getStartTime(),
+                    email.getEndTime(),
+                    email.getEventName(),
+                    emailConfiguration.getDefaultAcceptDescription(),
+                    email.getDescription(),
+                    emailConfiguration.getChange(),
+                    email.getEmailStatus());
+
+
+            //zmiana statusu w bazie
+            case REJECTION ->
                 //id wizyty - findby visit
-                sendInvitation(email.getRecipientEmail(),
-                        email.getStartTime(),
-                        email.getEndTime(),
-                        email.getEventName(),
-                        emailConfiguration.getDefaultRejectDescription(),
-                        email.getDescription(),
-                        emailConfiguration.getRejection(),
-                        email.getEmailStatus());
+                    sendInvitation(email.getRecipientEmail(),
+                            email.getStartTime(),
+                            email.getEndTime(),
+                            email.getEventName(),
+                            emailConfiguration.getDefaultRejectDescription(),
+                            email.getDescription(),
+                            emailConfiguration.getRejection(),
+                            email.getEmailStatus());
 
-                //usuniecie rekordu z bazy
-                break;
-            case BAN:
+
+            //usuniecie rekordu z bazy
+            case BAN ->
                 //id wizyty - findby visit
-                sendInvitation(email.getRecipientEmail(),
-                        email.getStartTime(),
-                        email.getEndTime(),
-                        email.getEventName(),
-                        emailConfiguration.getDefaultRejectDescription(),
-                        email.getDescription(),
-                        emailConfiguration.getRejection(),
-                        email.getEmailStatus());
+                    sendInvitation(email.getRecipientEmail(),
+                            email.getStartTime(),
+                            email.getEndTime(),
+                            email.getEventName(),
+                            emailConfiguration.getDefaultRejectDescription(),
+                            email.getDescription(),
+                            emailConfiguration.getRejection(),
+                            email.getEmailStatus());
 
-                //zablokowanie możliwości umawiania sie na wizyty przez GUESTA+
-                //usunięcie rekordu z bazy
-                break;
-            default:
+
+            //zablokowanie możliwości umawiania sie na wizyty przez GUESTA+
+            //usunięcie rekordu z bazy
+            default -> {
                 log.info(email.toString());
                 throw new MessagingException("Bad credentails");
             }
+        }
     }
 }

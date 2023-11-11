@@ -7,6 +7,7 @@ import up.krakow.pchysioterapist.api.model.enums.EEmailStatus;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 public interface EmailService {
     void sendInvitation(String recipientEmail,
@@ -17,6 +18,9 @@ public interface EmailService {
                    String description,
                         String decision,
                         EEmailStatus emailStatus) throws MessagingException, IOException;
+
+    void sendNewsletterConfirmation(String recipientEmail,
+                                    UUID deleteKey) throws MessagingException, IOException;
 
     String generateICSContent(LocalDateTime startTime,
                               LocalDateTime endTime,
