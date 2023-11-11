@@ -293,6 +293,7 @@ public class NewsletterDTO {
 
 **POST /guest/newsletter** - przyjmuję NewsletterDTO(w zasadzie sam email), wysyła email przy zapisie
 Sprawdza czy user jest juz zapisany do newslettera
+Zwraca 200 lub 400
 Przykładowy Json:
 ```json
 {
