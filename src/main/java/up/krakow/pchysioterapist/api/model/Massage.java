@@ -24,8 +24,7 @@ public class Massage {
     private String massageName;
     private String description;
     @Column(name = "appointment_type")
-    @Enumerated(EnumType.STRING)
-    private EAppointmentType appointmentType;
+    private String appointmentType;
 
     @ManyToMany(mappedBy = "massages")
     Set<Appointment> appointments;
