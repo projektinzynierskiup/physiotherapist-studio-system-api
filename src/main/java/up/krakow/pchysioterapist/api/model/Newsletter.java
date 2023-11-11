@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.UUID;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -18,4 +20,5 @@ public class Newsletter {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String userEmail;
+    private UUID deleteKey;
 }
