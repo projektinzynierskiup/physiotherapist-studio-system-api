@@ -52,7 +52,7 @@ public class ModController {
         appointmentService.deleteAppointment(appointmentId);
     }
 
-    @DeleteMapping
+    @DeleteMapping("/newsletter")
     public ResponseEntity<InfoDTO> signOutFromNewsletter(@RequestBody NewsletterDTO dto) {
         newsletterService.signOutFromNewsletter(dto.getUserEmail());
         return ResponseEntity.ok(new InfoDTO("Wypisano z newslettera!"));
