@@ -48,9 +48,4 @@ public class ExceptionAdviceController {
     public ResponseEntity<InfoDTO> validationError(LocalDateTimeValidationException e) {
         return ResponseHelper.response400(e.getMessage());
     }
-
-    @ExceptionHandler(UserIsSignedToNewsletterException.class)
-    public ResponseEntity<InfoDTO> userIsSignedToNewsletter(UserIsSignedToNewsletterException e) {
-        return ResponseHelper.response400(e.getMessage());
-    }
 }
