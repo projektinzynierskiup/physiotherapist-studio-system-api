@@ -25,12 +25,6 @@ public class NewsletterController {
         return ResponseEntity.ok(new InfoDTO("Dodano do newslettera!"));
     }
 
-    @DeleteMapping
-    public ResponseEntity<InfoDTO> signOutFromNewsletter(@RequestBody NewsletterDTO dto) {
-        newsletterService.signOutFromNewsletter(dto.getUserEmail());
-        return ResponseEntity.ok(new InfoDTO("Wypisano z newslettera!"));
-    }
-
     @DeleteMapping("/{deleteKey}")
     public ResponseEntity<InfoDTO> signOutFromNewsletterByEmail(@PathVariable UUID deleteKey) {
         newsletterService.signOutFromNewsletterByEmail(deleteKey);
