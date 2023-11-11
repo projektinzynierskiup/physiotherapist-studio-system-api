@@ -278,4 +278,27 @@ public class OfferPhotoDTO {
 
 **DELETE /mod/appointment/{appointmentId}**
 
+**DELETE /mod/newsletter** - przyjmuję NewsletterDTO 
+
+### Endpoint Newsletter - /guest**
+
+```
+public class NewsletterDTO {
+
+     private Integer id;
+     private String userEmail;
+     private UUID deleteKey;
+ }
+```
+
+**POST /guest/newsletter** - przyjmuję NewsletterDTO(w zasadzie sam email), wysyła email przy zapisie
+Sprawdza czy user jest juz zapisany do newslettera
+Przykładowy Json:
+```json
+{
+    "userEmail": "user@gmail.com"
+}
+```
+**DELETE /guest/{deleteKey}** - usuwanie poprzez kliknięcie w link w emailu
+
 
