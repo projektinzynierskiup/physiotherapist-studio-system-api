@@ -11,6 +11,7 @@ import java.util.Optional;
 public interface UsersRepository extends JpaRepository<Users, Integer> {
     Users findByUsername(String username);
     Optional<Users> findByEmail(String email);
+    Optional<Users> findById(Integer id);
     Optional<Users> findByEmailAndRoleNot(String email, ERole eRole);
     default Optional<Users> findByEmailWhoIsNotGuest(String email) {
         return findByEmailAndRoleNot(email, ERole.GUEST);

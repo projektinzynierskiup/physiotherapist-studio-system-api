@@ -4,9 +4,8 @@ import up.krakow.pchysioterapist.api.dto.AppointmentDTO;
 import up.krakow.pchysioterapist.api.dto.CalendarDTO;
 import up.krakow.pchysioterapist.api.model.Appointment;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
-import java.util.UUID;
 
 public interface AppointmentService {
 
@@ -14,9 +13,17 @@ public interface AppointmentService {
 
     Appointment getAppointment(Integer appointmentId);
 
+    List<Appointment> getAllFreeAppointments();
+
     Appointment editAppointment(AppointmentDTO dto, Integer appointmentId);
 
+    Appointment bookAppointment(Integer appointmentId, AppointmentDTO dto);
+
     void deleteAppointment(Integer appointmentId);
-    List<Appointment> findByStartDateBetweenOrderByStartDateAsc(LocalDate startDate);
-    List<CalendarDTO> getWeeklycalendar(LocalDate startDate);
+
+    Appointment cancelAppointment(Integer appointmentId);
+    List<Appointment> findByStartDateBetweenOrderByStartDateAsc(LocalDateTime startDate);
+    List<CalendarDTO> getWeeklyCalendar(LocalDateTime startDate);
+
+    List<Appointment> createAppointmentsForDay(LocalDateTime startDate, LocalDateTime endDate);
 }

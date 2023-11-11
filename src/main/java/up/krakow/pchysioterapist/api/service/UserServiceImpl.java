@@ -9,21 +9,21 @@ import up.krakow.pchysioterapist.api.dto.UserCredentialsDTO;
 import up.krakow.pchysioterapist.api.dto.UsersDTO;
 import up.krakow.pchysioterapist.api.exception.BadPasswordException;
 import up.krakow.pchysioterapist.api.exception.UserExistsException;
+import up.krakow.pchysioterapist.api.mapper.UsersMapper;
 import up.krakow.pchysioterapist.api.model.Users;
 import up.krakow.pchysioterapist.api.model.enums.ERole;
 import up.krakow.pchysioterapist.api.repository.UsersRepository;
 import up.krakow.pchysioterapist.api.utils.StringUtils;
-
-import java.util.UUID;
 
 @Service
 @AllArgsConstructor
 public class UserServiceImpl implements UserService{
     private final UsersRepository usersRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final UsersMapper usersMapper;
     @Override
     public Users getUserByEmail(String email) {
-        return usersRepository.findByEmail(email).orElseThrow(
+        return usersRepository.findByEmailAndRoleNot(email, ERole.GUEST).orElseThrow(
                 () -> new UsernameNotFoundException("Nie odnaleziono osoby o takim emailu"));
     }
 
@@ -43,7 +43,7 @@ public class UserServiceImpl implements UserService{
 
     @Transactional
     @Override
-    public void save(UsersDTO usersDTO) {
+    public void saveNewUser(UsersDTO usersDTO) {
         Users users = Users.builder()
                 .email(usersDTO.getEmail().toLowerCase())
                 .username(StringUtils.capitalizeFirstLetter(usersDTO.getUsername()))
@@ -56,6 +56,13 @@ public class UserServiceImpl implements UserService{
         usersRepository.save(users);
     }
 
+    @Transactional
+    @Override
+    public void updateUserDate(Users users) {
+        usersRepository.save(users);
+    }
+
+    @Transactional
     @Override
     public void registerUser(UsersDTO usersDTO) {
         try {
@@ -63,13 +70,20 @@ public class UserServiceImpl implements UserService{
             if(users != null)
                 throw new UserExistsException("Użytkownik o takim emailu jest już w bazie");
         } catch (UsernameNotFoundException e) {
-            save(usersDTO);
+            saveNewUser(usersDTO);
         }
     }
 
     @Override
-    public Integer getIdByEmail(String email) {
-        return usersRepository.findByEmail(email).get().getId();
+    public void updatePassword(Integer usersId, String password) {
+        Users users = getUserById(usersId);
+        users.setPassword(bCryptPasswordEncoder.encode(password));
+        updateUserDate(users);
     }
 
+    @Override
+    public Users getUserById(Integer id) {
+        return usersRepository.findById(id).orElseThrow(
+                () -> new UsernameNotFoundException("Nie odnaleziono osoby o takim emailu"));
+    }
 }

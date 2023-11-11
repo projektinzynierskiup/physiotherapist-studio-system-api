@@ -1,0 +1,1 @@
+alter table physioterapist.appointment add column status varchar(255) default 'FREE';
