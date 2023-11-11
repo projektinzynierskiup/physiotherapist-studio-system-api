@@ -535,11 +535,25 @@ public class NewsletterDTO {
 
 **POST /guest/newsletter** - przyjmuję NewsletterDTO(w zasadzie sam email), wysyła email przy zapisie
 Sprawdza czy user jest juz zapisany do newslettera
-Zwraca 200 lub 400
+
 Przykładowy Json:
 ```json
 {
     "userEmail": "user@gmail.com"
+}
+```
+*Status code: 200*  
+*return: InfoDTO*  
+```json
+{
+    "info": "Dodano do newslettera!"
+}
+```  
+*Status code: 400*  
+*return: InfoDTO*  
+```json
+{
+    "info": "Użytkownik jest już zapisany do newslettera!"
 }
 ```
 **DELETE /guest/{deleteKey}** - usuwanie poprzez kliknięcie w link w emailu
