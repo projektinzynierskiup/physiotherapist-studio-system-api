@@ -16,4 +16,8 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Intege
     List<Appointment> findByStartDateBetweenOrderByStartDateAsc(LocalDateTime startDate, LocalDateTime endDate);
 
     List<Appointment> findAllByStatus(String status);
+
+    List<Appointment> findByStartDateBetweenOrEndDateBetween(
+            LocalDateTime startDate1, LocalDateTime endDate1,
+            LocalDateTime startDate2, LocalDateTime endDate2);
 }
