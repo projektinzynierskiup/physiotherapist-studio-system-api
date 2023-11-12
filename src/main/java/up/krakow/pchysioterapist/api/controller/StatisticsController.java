@@ -3,10 +3,7 @@ package up.krakow.pchysioterapist.api.controller;
 
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import up.krakow.pchysioterapist.api.dto.StatisticsDTO;
 import up.krakow.pchysioterapist.api.mapper.StatisticsMapper;
 import up.krakow.pchysioterapist.api.service.StatisticsService;
@@ -24,7 +21,7 @@ public class StatisticsController {
 
     private final StatisticsMapper statisticsMapper;
 
-    @PostMapping
+    @GetMapping
     ResponseEntity<StatisticsDTO> generateStatistics(@RequestParam("year")Year year, @RequestParam("month")Month month) {
         return ResponseEntity.ok(statisticsMapper.mapToStatisticsDTO(statisticsService.generateStatistics(year, month)));
     }

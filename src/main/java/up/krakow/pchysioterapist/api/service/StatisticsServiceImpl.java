@@ -25,7 +25,12 @@ public class StatisticsServiceImpl implements StatisticsService{
         LocalDateTime endDate = LocalDateTime.from(year.atDay(year.length()));
         LocalDateTime startMonth = LocalDateTime.from(year.atMonth(month).atDay(1));
         LocalDateTime endMonth = LocalDateTime.from(year.atMonth(month).atDay(month.maxLength()));
-        Statistics statistics = new Statistics();
+        Statistics statistics;
+        if (statisticsRepository.findByYearAndMonth(year.getValue(), month.getValue()) != null)
+            statistics = statisticsRepository.findByYearAndMonth(year.getValue(), month.getValue());
+        else statistics = new Statistics();
+        statistics.setYearNumber(year.getValue());
+        statistics.setMonthNumber(month.getValue());
         int numberOfAppointmentsAYear = statisticsRepository.getNumberOfAppointments(startDate, endDate);
         statistics.setNumberOfAppointmentsAYear(numberOfAppointmentsAYear);
         int numberOfAppointmentsAMonth = statisticsRepository.getNumberOfAppointments(startMonth, endMonth);

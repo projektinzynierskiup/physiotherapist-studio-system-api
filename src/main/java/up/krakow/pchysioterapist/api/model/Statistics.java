@@ -29,4 +29,6 @@ public class Statistics {
     private double averageMonthIncome;
     private String mostWantedMassageYear;
     private String mostWantedMassageMonth;
+    private int yearNumber;
+    private int monthNumber;
 }

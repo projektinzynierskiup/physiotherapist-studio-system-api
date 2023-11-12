@@ -18,4 +18,7 @@ public interface StatisticsRepository  extends JpaRepository<Statistics, Integer
 
     @Query(value = "select a.massage_id from physioterapist.appointment as a join physioterapist.massage as m on m.id = a.massage_id where (a.start_date between ?1 and ?2) and m.appointment_type = ?3 and a.status = 'FINISHED'", nativeQuery = true)
     int getNumberOfMassagesByType(LocalDateTime startDate, LocalDateTime endDate, String appointmentType);
+
+    @Query(value = "select s.* from physioterapist.statistics as s where s.year_number = ?1 and s.month_number = ?2", nativeQuery = true)
+    Statistics findByYearAndMonth(int year, int mont);
 }
