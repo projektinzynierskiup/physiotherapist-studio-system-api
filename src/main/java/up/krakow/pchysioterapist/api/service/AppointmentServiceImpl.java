@@ -96,6 +96,8 @@ public class AppointmentServiceImpl implements AppointmentService {
     public Appointment bookAppointment(Integer appointmentId, AppointmentDTO dto) {
         Appointment appointment = appointmentRepository.findByAppointmentId(appointmentId).orElseThrow(() ->
                 new NoSuchElementException("Appointment with id: " + appointmentId + " does not exist!"));
+        if (appointment.getStatus().equals(EAppointmentStatus.BOOKED.toString()))
+            throw new AppointmentAlreadyBookedException("Termin jest już zarezerwowany!");
         appointment.setStatus(String.valueOf(EAppointmentStatus.BOOKED));
         appointment.setMassage(massageService.getMassageById(dto.getMassageId()));
         appointment.setUsers(userService.getUserById(dto.getUserId()));
