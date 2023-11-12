@@ -42,9 +42,19 @@ public class ModController {
         return ResponseEntity.ok(appointmentMapper.mapToAppointmentDTO(appointmentService.getAppointment(appointmentId)));
     }
 
+    @GetMapping("/appointment/all/finished")
+    ResponseEntity<List<AppointmentDTO>> getAllFinishedAppointments() {
+        return ResponseEntity.ok(appointmentMapper.mapAppointmentListToAppointmentDTOList(appointmentService.getAllFinishedAppointments()));
+    }
+
     @PutMapping("/appointment/{appointmentId}")
     ResponseEntity<AppointmentDTO> updateAppointment(@RequestBody AppointmentDTO dto, @PathVariable Integer appointmentId) {
         return ResponseEntity.ok(appointmentMapper.mapToAppointmentDTO(appointmentService.editAppointment(dto, appointmentId)));
+    }
+
+    @PutMapping("/appointment/{appointmentId}/finished")
+    ResponseEntity<AppointmentDTO> setAppointmentStatusToFinished(@PathVariable Integer appointmentId) {
+        return ResponseEntity.ok(appointmentMapper.mapToAppointmentDTO(appointmentService.setStatusToFinished(appointmentId)));
     }
 
     @DeleteMapping("/appointment/{appointmentId}")

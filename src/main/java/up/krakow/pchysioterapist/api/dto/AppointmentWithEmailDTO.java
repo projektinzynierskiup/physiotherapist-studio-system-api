@@ -11,11 +11,14 @@ import java.time.LocalDateTime;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class AppointmentDTO {
+public class AppointmentWithEmailDTO {
+
     private Integer id;
     private LocalDateTime startDate;
     private LocalDateTime endDate;
     private Integer userId;
     private Integer massageId;
     private String status;
+    private String userEmail;
+    private String userPhone;
 }

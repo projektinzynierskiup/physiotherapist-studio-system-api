@@ -31,6 +31,6 @@ public class UsersDTO {
     @Pattern(regexp = ValidatorUtils.NO_WHITE_SPACE, message = "Nie może zawierać białych znaków")
     private String password;
     private LocalTime localTime;
-
+    private String phone;
     private MassageDTO massageDTO;
 }
