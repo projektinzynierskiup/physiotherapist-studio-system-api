@@ -148,7 +148,6 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
-    // Główna metoda do pobierania kalendarza tygodniowego
     public List<CalendarDTO> getWeeklyCalendar(LocalDateTime startDate) {
         List<Appointment> appointmentList = findByStartDateBetweenOrderByStartDateAsc(startDate);
         List<AppointmentDTO> appointmentDTOList = createAppointmentDTOList(appointmentList);
@@ -156,7 +155,6 @@ public class AppointmentServiceImpl implements AppointmentService {
         return createCalendarDTOList(appointmentMap);
     }
 
-    // Tworzy listę AppointmentDTO z listy Appointment
     private List<AppointmentDTO> createAppointmentDTOList(List<Appointment> appointmentList) {
         List<AppointmentDTO> appointmentDTOList = new ArrayList<>();
         for (Appointment appointment : appointmentList) {
@@ -167,7 +165,6 @@ public class AppointmentServiceImpl implements AppointmentService {
         return appointmentDTOList;
     }
 
-    // Uzupełnia AppointmentDTO o dodatkowe informacje
     private void enrichAppointmentDTO(AppointmentDTO appointmentDTO) {
         if (appointmentDTO.getUserId() != null)
             appointmentDTO.setUsersDTO(usersMapper.mapUsersToUsersDTO(userService.getUserById(appointmentDTO.getUserId())));
@@ -175,7 +172,6 @@ public class AppointmentServiceImpl implements AppointmentService {
             appointmentDTO.setMassageDTO(massageMapper.massageToMassageDTO(massageService.getMassageById(appointmentDTO.getMassageId())));
     }
 
-    // Grupuje AppointmentDTO według daty
     private Map<LocalDate, List<AppointmentDTO>> groupAppointmentsByDate(List<AppointmentDTO> appointmentDTOList) {
         Map<LocalDate, List<AppointmentDTO>> appointmentMap = new TreeMap<>();
         for (AppointmentDTO appointmentDTO : appointmentDTOList) {
@@ -184,7 +180,6 @@ public class AppointmentServiceImpl implements AppointmentService {
             dateAppointments.add(appointmentDTO);
         }
 
-        // Sortowanie każdej listy według czasu rozpoczęcia
         for (List<AppointmentDTO> dailyAppointments : appointmentMap.values()) {
             dailyAppointments.sort(Comparator.comparing(AppointmentDTO::getStartDate));
         }
@@ -192,7 +187,6 @@ public class AppointmentServiceImpl implements AppointmentService {
         return appointmentMap;
     }
 
-    // Tworzy listę CalendarDTO z mapy grupowanych terminów
     private List<CalendarDTO> createCalendarDTOList(Map<LocalDate, List<AppointmentDTO>> appointmentMap) {
         List<CalendarDTO> calendarDTOList = new ArrayList<>();
         for (Map.Entry<LocalDate, List<AppointmentDTO>> entry : appointmentMap.entrySet()) {
