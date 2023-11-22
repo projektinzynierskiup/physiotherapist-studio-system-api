@@ -5,10 +5,10 @@ import org.springframework.stereotype.Service;
 import up.krakow.pchysioterapist.api.dto.AppointmentDTO;
 import up.krakow.pchysioterapist.api.dto.AppointmentWithEmailDTO;
 import up.krakow.pchysioterapist.api.dto.CalendarDTO;
-import up.krakow.pchysioterapist.api.dto.UsersDTO;
 import up.krakow.pchysioterapist.api.exception.AppointmentAlreadyBookedException;
 import up.krakow.pchysioterapist.api.exception.DatesException;
 import up.krakow.pchysioterapist.api.exception.TimeSlotNotAvailableException;
+import up.krakow.pchysioterapist.api.mapper.AppointmentMapper;
 import up.krakow.pchysioterapist.api.mapper.MassageMapper;
 import up.krakow.pchysioterapist.api.mapper.UsersMapper;
 import up.krakow.pchysioterapist.api.model.Appointment;
@@ -20,7 +20,6 @@ import up.krakow.pchysioterapist.api.repository.AppointmentRepository;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -31,6 +30,7 @@ public class AppointmentServiceImpl implements AppointmentService {
     private final MassageService massageService;
 
     private final UserService userService;
+    private final AppointmentMapper appointmentMapper;
     private final UsersMapper usersMapper;
     private final MassageMapper massageMapper;
 
@@ -147,32 +147,57 @@ public class AppointmentServiceImpl implements AppointmentService {
         return appointmentRepository.findByStartDateBetweenOrderByStartDateAsc(startDate, startDate.plusDays(7));
     }
 
-
-
     @Override
     public List<CalendarDTO> getWeeklyCalendar(LocalDateTime startDate) {
-        return findByStartDateBetweenOrderByStartDateAsc(startDate).stream()
-                .collect(Collectors.groupingBy(Appointment::getStartDate))
-                .entrySet().stream()
-                .sorted(Map.Entry.comparingByKey())
-                .map(entry -> {
-                    LocalDateTime date = LocalDateTime.from(LocalDate.from(entry.getKey()));
-                    List<UsersDTO> usersDTOList = entry.getValue().stream()
-                            .map(app -> {
-                                UsersDTO usersDTO = usersMapper.mapUsersToUsersDTO(app.getUsers());
-                                usersDTO.setLocalTime(app.getStartDate().toLocalTime());
-                                usersDTO.setMassageDTO(massageMapper.massageToMassageDTO(app.getMassage()));
-                                return usersDTO;
-                            })
-                            .collect(Collectors.toList());
-
-                    CalendarDTO calendarDTO = new CalendarDTO();
-                    calendarDTO.setLocalDate(date);
-                    calendarDTO.setUsersDTOList(usersDTOList);
-                    return calendarDTO;
-                })
-                .collect(Collectors.toList());
+        List<Appointment> appointmentList = findByStartDateBetweenOrderByStartDateAsc(startDate);
+        List<AppointmentDTO> appointmentDTOList = createAppointmentDTOList(appointmentList);
+        Map<LocalDate, List<AppointmentDTO>> appointmentMap = groupAppointmentsByDate(appointmentDTOList);
+        return createCalendarDTOList(appointmentMap);
     }
+
+    private List<AppointmentDTO> createAppointmentDTOList(List<Appointment> appointmentList) {
+        List<AppointmentDTO> appointmentDTOList = new ArrayList<>();
+        for (Appointment appointment : appointmentList) {
+            AppointmentDTO appointmentDTO = appointmentMapper.mapToAppointmentDTO(appointment);
+            enrichAppointmentDTO(appointmentDTO);
+            appointmentDTOList.add(appointmentDTO);
+        }
+        return appointmentDTOList;
+    }
+
+    private void enrichAppointmentDTO(AppointmentDTO appointmentDTO) {
+        if (appointmentDTO.getUserId() != null)
+            appointmentDTO.setUsersDTO(usersMapper.mapUsersToUsersDTO(userService.getUserById(appointmentDTO.getUserId())));
+        if (appointmentDTO.getMassageId() != null)
+            appointmentDTO.setMassageDTO(massageMapper.massageToMassageDTO(massageService.getMassageById(appointmentDTO.getMassageId())));
+    }
+
+    private Map<LocalDate, List<AppointmentDTO>> groupAppointmentsByDate(List<AppointmentDTO> appointmentDTOList) {
+        Map<LocalDate, List<AppointmentDTO>> appointmentMap = new TreeMap<>();
+        for (AppointmentDTO appointmentDTO : appointmentDTOList) {
+            LocalDate date = appointmentDTO.getStartDate().toLocalDate();
+            List<AppointmentDTO> dateAppointments = appointmentMap.computeIfAbsent(date, k -> new ArrayList<>());
+            dateAppointments.add(appointmentDTO);
+        }
+
+        for (List<AppointmentDTO> dailyAppointments : appointmentMap.values()) {
+            dailyAppointments.sort(Comparator.comparing(AppointmentDTO::getStartDate));
+        }
+
+        return appointmentMap;
+    }
+
+    private List<CalendarDTO> createCalendarDTOList(Map<LocalDate, List<AppointmentDTO>> appointmentMap) {
+        List<CalendarDTO> calendarDTOList = new ArrayList<>();
+        for (Map.Entry<LocalDate, List<AppointmentDTO>> entry : appointmentMap.entrySet()) {
+            CalendarDTO calendarDTO = new CalendarDTO();
+            calendarDTO.setLocalDate(entry.getKey().atStartOfDay());
+            calendarDTO.setAppointmentDTOList(entry.getValue());
+            calendarDTOList.add(calendarDTO);
+        }
+        return calendarDTOList;
+    }
+
 
     @Override
     public List<Appointment> createAppointmentsForDay(LocalDateTime startDate, LocalDateTime endDate) {
