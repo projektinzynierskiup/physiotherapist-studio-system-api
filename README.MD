@@ -12,6 +12,11 @@ Role są zbudowane w hierarchii odwróconej piramidy.
 
 ---
 
+### Swagger API
+**localhost:8080/swagger-ui/index.html**
+
+---
+
 ### Proces autorzyacjny  
 W przypadku, gdy osoba została uwierzytelniona i ma już token JWT w cookies podczas
 wysyłania zapytania na endpoint, który jest jej umożliwiony dzięki roli na 
