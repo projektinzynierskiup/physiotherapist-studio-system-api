@@ -14,6 +14,7 @@ import up.krakow.pchysioterapist.api.utils.ControllerEndpoints;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
@@ -28,6 +29,10 @@ public class CalendarController {
     private final AppointmentServiceImpl appointmentService;
     @GetMapping("/{monday}")
     public ResponseEntity<List<CalendarDTO>> getWeeklyCalendar(@PathVariable String monday) {
-        return ResponseEntity.ok(appointmentService.getWeeklyCalendar(LocalDateTime.parse(monday, DateTimeFormatter.ISO_DATE)));
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate date = LocalDate.parse(monday, dateFormatter);
+        LocalDateTime localDateTime = LocalDateTime.of(date, LocalTime.MIDNIGHT);
+        System.out.println(localDateTime);
+        return ResponseEntity.ok(appointmentService.getWeeklyCalendar(localDateTime));
     }
 }
