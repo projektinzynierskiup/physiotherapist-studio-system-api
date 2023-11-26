@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import up.krakow.pchysioterapist.api.dto.AppointmentDTO;
+import up.krakow.pchysioterapist.api.dto.AppointmentWithEmailDTO;
 import up.krakow.pchysioterapist.api.mapper.AppointmentMapper;
 import up.krakow.pchysioterapist.api.service.AppointmentService;
 import up.krakow.pchysioterapist.api.utils.ControllerEndpoints;
@@ -30,8 +31,13 @@ public class AppointmentController {
     }
 
     @PutMapping("/{appointmentId}/book")
-    ResponseEntity<AppointmentDTO> bookAppointment(@PathVariable Integer appointmentId, AppointmentDTO dto) {
+    ResponseEntity<AppointmentDTO> bookAppointment(@PathVariable Integer appointmentId, @RequestBody AppointmentDTO dto) {
         return ResponseEntity.ok(appointmentMapper.mapToAppointmentDTO(appointmentService.bookAppointment(appointmentId, dto)));
+    }
+
+    @PutMapping("/{appointmentId}/book/guest")
+    ResponseEntity<AppointmentDTO> bookAppointmentAsGuest(@PathVariable Integer appointmentId, @RequestBody AppointmentWithEmailDTO dto) {
+        return ResponseEntity.ok(appointmentMapper.mapToAppointmentDTO(appointmentService.bookAppointmentAsGuest(appointmentId, dto)));
     }
 
     @PutMapping("/{appointmentId}/cancel")

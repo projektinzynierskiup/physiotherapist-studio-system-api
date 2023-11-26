@@ -9,8 +9,9 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 @Builder
 public class CalendarDTO {
     private LocalDateTime localDate;
-    private List<UsersDTO> usersDTOList;
+    private List<AppointmentDTO> appointmentDTOList;
 }

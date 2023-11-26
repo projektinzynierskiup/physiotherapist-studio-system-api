@@ -28,6 +28,11 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
+    public Users getGuestByEmail(String email) {
+        return usersRepository.findGuestByEmail(email);
+    }
+
+    @Override
     public boolean isUserValid(UserCredentialsDTO userCredentialsDTO) {
         Users users = getUserByEmail(userCredentialsDTO.getEmail());
         return isPasswordValid(users.getPassword(), userCredentialsDTO.getPassword());
@@ -65,12 +70,20 @@ public class UserServiceImpl implements UserService{
     @Transactional
     @Override
     public void registerUser(UsersDTO usersDTO) {
-        try {
-            Users users = getUserByEmail(usersDTO.getEmail());
-            if(users != null)
-                throw new UserExistsException("Użytkownik o takim emailu jest już w bazie");
-        } catch (UsernameNotFoundException e) {
-            saveNewUser(usersDTO);
+        Users guestUser = getGuestByEmail(usersDTO.getEmail());
+        if (guestUser != null){
+            guestUser.setUsername(usersDTO.getUsername());
+            guestUser.setSurname(usersDTO.getSurname());
+            guestUser.setRole(ERole.USER);
+            usersRepository.save(guestUser);
+        } else {
+            try {
+                Users users = getUserByEmail(usersDTO.getEmail());
+                if (users != null)
+                    throw new UserExistsException("Użytkownik o takim emailu jest już w bazie");
+            } catch (UsernameNotFoundException e) {
+                saveNewUser(usersDTO);
+            }
         }
     }
 
@@ -85,5 +98,10 @@ public class UserServiceImpl implements UserService{
     public Users getUserById(Integer id) {
         return usersRepository.findById(id).orElseThrow(
                 () -> new UsernameNotFoundException("Nie odnaleziono osoby o takim emailu"));
+    }
+
+    @Override
+    public void saveUser(Users users) {
+        usersRepository.save(users);
     }
 }

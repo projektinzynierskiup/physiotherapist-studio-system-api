@@ -1,6 +1,8 @@
 package up.krakow.pchysioterapist.api.service;
 
-import org.springframework.stereotype.Service;
+import up.krakow.pchysioterapist.api.model.Massage;
 
 public interface MassageService {
+
+    Massage getMassageById(Integer massageId);
 }

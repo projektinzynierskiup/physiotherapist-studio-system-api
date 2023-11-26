@@ -1,5 +1,6 @@
 package up.krakow.pchysioterapist.api.config;
 
+import jdk.jfr.Frequency;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -38,6 +39,7 @@ public class Security implements WebMvcConfigurer {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/swagger-ui/**", "/v3/**").permitAll()
                         .requestMatchers(ControllerEndpoints.GUEST + "/**").permitAll()
                         .requestMatchers(ControllerEndpoints.USER + "/**").hasAnyAuthority("USER")
                         .requestMatchers(ControllerEndpoints.MOD + "/**").hasAnyAuthority("MOD", "ADMIN")
@@ -49,7 +51,7 @@ public class Security implements WebMvcConfigurer {
                 .addFilterBefore(new JwtAuthenticationFilter(
                         new JwtUtils(),
                         new CustomUserDetailsService(usersRepository)), UsernamePasswordAuthenticationFilter.class)
-                .httpBasic(Customizer.withDefaults());
+                .httpBasic(httpBasic -> httpBasic.disable());
         return http.build();
     }
 

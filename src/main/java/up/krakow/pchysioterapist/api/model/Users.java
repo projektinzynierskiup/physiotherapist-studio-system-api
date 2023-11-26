@@ -29,6 +29,7 @@ public class Users implements UserDetails {
     @Enumerated(EnumType.STRING)
     private ERole role;
     private boolean enabled;
+    private String phone;
 
     @OneToMany(mappedBy="users")
     private Set<Appointment> appointments;

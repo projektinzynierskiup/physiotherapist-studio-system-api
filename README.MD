@@ -12,6 +12,11 @@ Role są zbudowane w hierarchii odwróconej piramidy.
 
 ---
 
+### Swagger API
+**localhost:8080/swagger-ui/index.html**
+
+---
+
 ### Proces autorzyacjny  
 W przypadku, gdy osoba została uwierzytelniona i ma już token JWT w cookies podczas
 wysyłania zapytania na endpoint, który jest jej umożliwiony dzięki roli na 
@@ -33,8 +38,7 @@ public class MassageDTO {
     private Integer id;  
     private String massageName;  
     private String description;  
-    @Enumerated(EnumType.STRING)  
-    private EAppointmentType appointmentType;  
+    private String appointmentType;  
 }
 ````
 
@@ -67,7 +71,9 @@ public class UsersDTO {
 private String email;  
 private String username;  
 private String surname;  
-private String password;  
+private String password; 
+private String phone;
+private boolean enabled;
 ````
 
 Warunki:  
@@ -145,6 +151,7 @@ public class UsersDTO {
     private String password;
     private LocalTime localTime;
     private MassageDTO massageDTO;
+    private String phone;
 }
 ```
 ```
@@ -206,22 +213,44 @@ public class AppointmentDTO {
     private Integer id;
     private LocalDateTime startDate;
     private LocalDateTime endDate;
-    private Users user;
-    private Massage massage;
+    private Integer userId;
+    private Integer massageId;
     private String status;
+}
+```
+
+```
+public class AppointmentWithEmailDTO {
+
+    private Integer id;
+    private LocalDateTime startDate;
+    private LocalDateTime endDate;
+    private Integer userId;
+    private Integer massageId;
+    private String status;
+    private String userEmail;
+    private String userPhone;
 }
 ```
 
 ```
 public enum EAppointmentStatus {
 
-     FREE, BOOKED
+     FREE, BOOKED, FINISHED
  }
  ```
 
 **GET /guest/appointment/{appointmentId}**
 
-**PUT /guest/appointment/{appointmentId}/book** - zmienia status Appointment na BOOKED
+**GET /guest/appointment/free** - bierze wszystkie Appointment ze statusem FREE
+
+**PUT /guest/appointment/{appointmentId}/book** - zmienia status Appointment na BOOKED (dla zalogowanego uytkownika)
+
+Przyjmuję AppointmentDTO
+
+**PUT /guest/appointment/{appointmentId}/book/guest** - zmienia status Appointment na BOOKED (dla uytkowników nie zalogowanych) 
+
+Przyjmuję AppointmentWithEmailDTO
 
 **PUT /guest/appointment/{appointmentId}/cancel** - zmienia status Appointment na FREE
 
@@ -231,8 +260,9 @@ public class AppointmentDTO {
     private Integer id;
     private LocalDateTime startDate;
     private LocalDateTime endDate;
-    private Users user;
-    private Massage massage;
+    private Integer userId;
+    private Integer massageId;
+    private String status;
 }
 ```
 
@@ -274,7 +304,11 @@ public class OfferPhotoDTO {
 
 **GET /mod/appointment/{appointmentId}** 
 
+**GET /mod/appointment/all/finished** - zwraca wszystkie Appointment ze statusem FINISHED
+
 **PUT /mod/appointment/{appointmentId}**
+
+**PUT /mod/appointment/{appointmentId}/finished** - zmienia status Appointment na FINISHED
 
 **DELETE /mod/appointment/{appointmentId}**
 

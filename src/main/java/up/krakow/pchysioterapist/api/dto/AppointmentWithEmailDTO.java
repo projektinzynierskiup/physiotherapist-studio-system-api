@@ -1,6 +1,9 @@
 package up.krakow.pchysioterapist.api.dto;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 
@@ -8,14 +11,14 @@ import java.time.LocalDateTime;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
-public class AppointmentDTO {
+public class AppointmentWithEmailDTO {
+
     private Integer id;
     private LocalDateTime startDate;
     private LocalDateTime endDate;
     private Integer userId;
-    private UsersDTO usersDTO;
     private Integer massageId;
-    private MassageDTO massageDTO;
     private String status;
+    private String userEmail;
+    private String userPhone;
 }

@@ -48,4 +48,16 @@ public class ExceptionAdviceController {
     public ResponseEntity<InfoDTO> validationError(LocalDateTimeValidationException e) {
         return ResponseHelper.response400(e.getMessage());
     }
+
+    @ExceptionHandler(AppointmentAlreadyBookedException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity<InfoDTO> appointmentAlreadyBookedException(AppointmentAlreadyBookedException e) {
+        return ResponseHelper.response400(e.getMessage());
+    }
+
+    @ExceptionHandler(TimeSlotNotAvailableException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity<InfoDTO> timeSlotNotAvailableException(TimeSlotNotAvailableException e) {
+        return ResponseHelper.response400(e.getMessage());
+    }
 }

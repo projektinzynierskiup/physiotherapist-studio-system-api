@@ -1,11 +1,7 @@
 package up.krakow.pchysioterapist.api.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import up.krakow.pchysioterapist.api.model.enums.EAppointmentStatus;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.Set;

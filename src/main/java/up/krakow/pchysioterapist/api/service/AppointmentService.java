@@ -1,6 +1,7 @@
 package up.krakow.pchysioterapist.api.service;
 
 import up.krakow.pchysioterapist.api.dto.AppointmentDTO;
+import up.krakow.pchysioterapist.api.dto.AppointmentWithEmailDTO;
 import up.krakow.pchysioterapist.api.dto.CalendarDTO;
 import up.krakow.pchysioterapist.api.model.Appointment;
 
@@ -15,9 +16,15 @@ public interface AppointmentService {
 
     List<Appointment> getAllFreeAppointments();
 
+    List<Appointment> getAllFinishedAppointments();
+
     Appointment editAppointment(AppointmentDTO dto, Integer appointmentId);
 
+    Appointment setStatusToFinished(Integer appointmentId);
+
     Appointment bookAppointment(Integer appointmentId, AppointmentDTO dto);
+
+    Appointment bookAppointmentAsGuest(Integer appointmentId, AppointmentWithEmailDTO dto);
 
     void deleteAppointment(Integer appointmentId);
 
