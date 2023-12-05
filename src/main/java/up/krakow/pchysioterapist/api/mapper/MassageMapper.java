@@ -12,6 +12,7 @@ import java.util.Set;
 @Mapper(componentModel = "spring")
 public interface MassageMapper {
     MassageDTO massageToMassageDTO(Massage massage);
+    Massage massageDtoToMassage(MassageDTO massageDTO);
     List<MassageDTO> massageToMassageDTO(List<Massage> massage);
     Set<MassageDTO> massageToMassageDTOSet(Set<Massage> massage);
 }
