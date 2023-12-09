@@ -22,7 +22,7 @@ public class StatisticsController {
     private final StatisticsMapper statisticsMapper;
 
     @GetMapping
-    ResponseEntity<StatisticsDTO> generateStatistics(@RequestParam("year")Year year, @RequestParam("month")Month month) {
-        return ResponseEntity.ok(statisticsMapper.mapToStatisticsDTO(statisticsService.generateStatistics(year, month)));
+    ResponseEntity<StatisticsDTO> generateStatistics(@RequestParam("year")Integer year, @RequestParam("month")Integer month) {
+        return ResponseEntity.ok(statisticsMapper.mapToStatisticsDTO(statisticsService.generateStatistics(Year.of(year), Month.of(month))));
     }
 }

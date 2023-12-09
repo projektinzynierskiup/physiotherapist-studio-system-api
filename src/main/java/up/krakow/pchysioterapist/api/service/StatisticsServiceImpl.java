@@ -7,6 +7,7 @@ import up.krakow.pchysioterapist.api.model.Statistics;
 import up.krakow.pchysioterapist.api.model.enums.EAppointmentType;
 import up.krakow.pchysioterapist.api.repository.StatisticsRepository;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.time.Year;
@@ -21,10 +22,10 @@ public class StatisticsServiceImpl implements StatisticsService{
 
     @Override
     public Statistics generateStatistics(Year year, Month month) {
-        LocalDateTime startDate = LocalDateTime.from(year.atDay(1));
-        LocalDateTime endDate = LocalDateTime.from(year.atDay(year.length()));
-        LocalDateTime startMonth = LocalDateTime.from(year.atMonth(month).atDay(1));
-        LocalDateTime endMonth = LocalDateTime.from(year.atMonth(month).atDay(month.maxLength()));
+        LocalDate startDate = LocalDate.from(year.atDay(1));
+        LocalDate endDate = LocalDate.from(year.atDay(year.length()));
+        LocalDate startMonth = LocalDate.from(year.atMonth(month).atDay(1));
+        LocalDate endMonth = LocalDate.from(year.atMonth(month).atDay(month.maxLength()));
         Statistics statistics;
         if (statisticsRepository.findByYearAndMonth(year.getValue(), month.getValue()) != null)
             statistics = statisticsRepository.findByYearAndMonth(year.getValue(), month.getValue());
@@ -39,17 +40,17 @@ public class StatisticsServiceImpl implements StatisticsService{
         statistics.setYearIncome(yearIncome);
         double monthIncome = statisticsRepository.getIncome(startMonth, endMonth);
         statistics.setAverageMonthIncome(monthIncome);
-        statisticsRepository.save(statistics);
         List<NumberType> numberOfMassagesAYear = getNumberOfMassages(startDate, endDate);
         statistics.setNumberOfMassagesAYear(numberOfMassagesAYear);
         List<NumberType> numberOfMassagesMonth = getNumberOfMassages(startMonth, endMonth);
         statistics.setNumberOfMassagesAMonth(numberOfMassagesMonth);
         statistics.setMostWantedMassageYear(getMostWantedMassage(numberOfMassagesAYear));
         statistics.setMostWantedMassageMonth(getMostWantedMassage(numberOfMassagesMonth));
+        statisticsRepository.save(statistics);
         return statistics;
     }
 
-    public List<NumberType> getNumberOfMassages(LocalDateTime start, LocalDateTime end) {
+    public List<NumberType> getNumberOfMassages(LocalDate start, LocalDate end) {
         List<NumberType> numberTypes = new ArrayList<>();
         List<EAppointmentType> types = List.of(EAppointmentType.values());
         for (EAppointmentType type: types){
