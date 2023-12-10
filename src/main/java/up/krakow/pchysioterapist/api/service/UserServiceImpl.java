@@ -5,9 +5,11 @@ import lombok.AllArgsConstructor;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import up.krakow.pchysioterapist.api.dto.PasswordDTO;
 import up.krakow.pchysioterapist.api.dto.UserCredentialsDTO;
 import up.krakow.pchysioterapist.api.dto.UsersDTO;
 import up.krakow.pchysioterapist.api.exception.BadPasswordException;
+import up.krakow.pchysioterapist.api.exception.PasswordException;
 import up.krakow.pchysioterapist.api.exception.UserExistsException;
 import up.krakow.pchysioterapist.api.mapper.UsersMapper;
 import up.krakow.pchysioterapist.api.model.Users;
@@ -28,8 +30,26 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
+    public void deleteAccount(Integer id) {
+        Users users = getUserById(id);
+        usersRepository.delete(users);
+    }
+
+    @Override
     public Users getGuestByEmail(String email) {
         return usersRepository.findGuestByEmail(email);
+    }
+
+    @Override
+    public void updatePasswordForUser(PasswordDTO passwordDTO) {
+        Users users = getUserById(passwordDTO.getId());
+        if(bCryptPasswordEncoder.matches(passwordDTO.getOldPassword(), users.getPassword()) &&
+                passwordDTO.getPassword().equals(passwordDTO.getRepeatPassword())) {
+                users.setPassword(bCryptPasswordEncoder.encode(passwordDTO.getPassword()));
+                saveUser(users);
+        } else {
+            throw new PasswordException("Hasła sa nieprawidłowe");
+        }
     }
 
     @Override
@@ -87,6 +107,8 @@ public class UserServiceImpl implements UserService{
         }
     }
 
+
+
     @Override
     public void updatePassword(Integer usersId, String password) {
         Users users = getUserById(usersId);
@@ -98,6 +120,19 @@ public class UserServiceImpl implements UserService{
     public Users getUserById(Integer id) {
         return usersRepository.findById(id).orElseThrow(
                 () -> new UsernameNotFoundException("Nie odnaleziono osoby o takim emailu"));
+    }
+
+    @Override
+    public void changeDetails(UsersDTO usersDTO) {
+        Users users = Users.builder()
+                .id(usersDTO.getId())
+                .enabled(true)
+                .role(ERole.USER)
+                .surname(usersDTO.getSurname())
+                .username(usersDTO.getUsername())
+                .email(usersDTO.getEmail())
+                .build();
+        updateUserDate(users);
     }
 
     @Override
