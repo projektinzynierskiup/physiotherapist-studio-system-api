@@ -298,9 +298,19 @@ public class OfferPhotoDTO {
 
 ### Endpointy dla MODA - /mod**
 
+```
+public class StartEndDateDTO {
+
+    private String startDate;
+    private String endDate;
+}
+```
+
 **POST /mod/appointment** - tworzenie Appointment
 
-**POST /mod/appointment/all-day** - (startDate, endDate) tworzenie listy Appointment w danym dniu
+**POST /mod/appointment/list** - (Lista StartEndDateDTO jako request body) tworzenie listy Appointment
+
+**POST /mod/appointment/date** - tworzenie Appointment za pomocą obiektu StartEndDateDTO
 
 **GET /mod/appointment/{appointmentId}** 
 
