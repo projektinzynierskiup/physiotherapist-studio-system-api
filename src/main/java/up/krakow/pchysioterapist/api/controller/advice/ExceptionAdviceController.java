@@ -21,6 +21,11 @@ public class ExceptionAdviceController {
         return ResponseHelper.response400(e.getMessage());
     }
 
+    @ExceptionHandler(PasswordException.class)
+    public ResponseEntity<InfoDTO> handlePasswordException(PasswordException e) {
+        return ResponseHelper.response400(e.getMessage());
+    }
+
     @ExceptionHandler(BadPasswordException.class)
     public ResponseEntity<InfoDTO> handleBadPasswordException(BadPasswordException e) {
         return ResponseHelper.response400(e.getMessage());
