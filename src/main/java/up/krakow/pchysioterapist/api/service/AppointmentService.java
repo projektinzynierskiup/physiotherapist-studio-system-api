@@ -3,6 +3,7 @@ package up.krakow.pchysioterapist.api.service;
 import up.krakow.pchysioterapist.api.dto.AppointmentDTO;
 import up.krakow.pchysioterapist.api.dto.AppointmentWithEmailDTO;
 import up.krakow.pchysioterapist.api.dto.CalendarDTO;
+import up.krakow.pchysioterapist.api.dto.StartEndDateDTO;
 import up.krakow.pchysioterapist.api.model.Appointment;
 
 import java.time.LocalDateTime;
@@ -32,5 +33,7 @@ public interface AppointmentService {
     List<Appointment> findByStartDateBetweenOrderByStartDateAsc(LocalDateTime startDate);
     List<CalendarDTO> getWeeklyCalendar(LocalDateTime startDate);
 
-    List<Appointment> createAppointmentsForDay(LocalDateTime startDate, LocalDateTime endDate);
+    Appointment creteAppointmentForDate(LocalDateTime startDate, LocalDateTime endDate);
+
+    List<Appointment> createAppointmentsForDay(List<StartEndDateDTO> dto);
 }

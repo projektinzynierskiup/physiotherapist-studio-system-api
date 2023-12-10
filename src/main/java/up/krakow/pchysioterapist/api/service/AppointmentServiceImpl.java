@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import up.krakow.pchysioterapist.api.dto.AppointmentDTO;
 import up.krakow.pchysioterapist.api.dto.AppointmentWithEmailDTO;
 import up.krakow.pchysioterapist.api.dto.CalendarDTO;
+import up.krakow.pchysioterapist.api.dto.StartEndDateDTO;
 import up.krakow.pchysioterapist.api.exception.AppointmentAlreadyBookedException;
 import up.krakow.pchysioterapist.api.exception.DatesException;
 import up.krakow.pchysioterapist.api.exception.TimeSlotNotAvailableException;
@@ -198,30 +199,33 @@ public class AppointmentServiceImpl implements AppointmentService {
         return calendarDTOList;
     }
 
+    @Override
+    public Appointment creteAppointmentForDate(LocalDateTime startDate, LocalDateTime endDate) {
+        if(!checkIfDateIsFree(startDate, endDate))
+            throw new TimeSlotNotAvailableException("Proszę wybrać inną datę, ta jest już zajęta.");
+        Appointment appointment = new Appointment();
+        appointment.setStartDate(startDate);
+        appointment.setEndDate(endDate);
+        appointment.setStatus(String.valueOf(EAppointmentStatus.FREE));
+        return appointmentRepository.save(appointment);
+    }
+
 
     @Override
-    public List<Appointment> createAppointmentsForDay(LocalDateTime startDate, LocalDateTime endDate) {
+    public List<Appointment> createAppointmentsForDay(List<StartEndDateDTO> dto) {
         List<Appointment> appointments = new ArrayList<>();
-    if (startDate.getDayOfMonth() == endDate.getDayOfMonth()) {
-        int hours = endDate.getHour() - startDate.getHour();
-        for (int i = 0; i<hours; i++){
-            if (i == 0)
-            {
-                startDate = startDate.plusHours(0);
-            } else {
-                startDate = startDate.plusHours(1);
-            }
-            endDate = startDate.plusMinutes(55);
-            if(!checkIfDateIsFree(startDate, endDate))
+        for (StartEndDateDTO date: dto){
+            LocalDateTime start = LocalDateTime.parse(date.getStartDate());
+            LocalDateTime end = LocalDateTime.parse(date.getEndDate());
+            if(!checkIfDateIsFree(start, end))
                 throw new TimeSlotNotAvailableException("Proszę wybrać inną datę, ta jest już zajęta.");
             Appointment appointment = new Appointment();
-            appointment.setStartDate(startDate);
-            appointment.setEndDate(endDate);
+            appointment.setStartDate(start);
+            appointment.setEndDate(end);
             appointment.setStatus(String.valueOf(EAppointmentStatus.FREE));
             appointments.add(appointment);
             appointmentRepository.save(appointment);
         }
-    } else throw new DatesException("Wybrane daty muszą być w tym samym dniu!");
     return appointments;
     }
 
