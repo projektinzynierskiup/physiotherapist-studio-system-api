@@ -30,11 +30,16 @@ public class ModController {
         return ResponseEntity.ok(appointmentMapper.mapToAppointmentDTO(appointmentService.createAppointment(dto)));
     }
 
-    @PostMapping("/appointment/all-day")
-    ResponseEntity<List<AppointmentDTO>> addAppointmentDate(@RequestBody StartEndDateDTO dto) {
+    @PostMapping("appointment/date")
+    ResponseEntity<AppointmentDTO> createAppointmentForDate(@RequestBody StartEndDateDTO dto) {
         LocalDateTime start = LocalDateTime.parse(dto.getStartDate());
         LocalDateTime end = LocalDateTime.parse(dto.getEndDate());
-        return ResponseEntity.ok(appointmentMapper.mapAppointmentListToAppointmentDTOList(appointmentService.createAppointmentsForDay(start, end)));
+        return ResponseEntity.ok(appointmentMapper.mapToAppointmentDTO(appointmentService.creteAppointmentForDate(start, end)));
+    }
+
+    @PostMapping("/appointment/list")
+    ResponseEntity<List<AppointmentDTO>> addAppointmentDate(@RequestBody List<StartEndDateDTO> dto) {
+        return ResponseEntity.ok(appointmentMapper.mapAppointmentListToAppointmentDTOList(appointmentService.createAppointmentsForDay(dto)));
     }
 
     @GetMapping("/appointment/{appointmentId}")
