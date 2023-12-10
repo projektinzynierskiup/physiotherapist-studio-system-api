@@ -211,7 +211,7 @@ public class AppointmentServiceImpl implements AppointmentService {
             } else {
                 startDate = startDate.plusHours(1);
             }
-            endDate = startDate.plusHours(1);
+            endDate = startDate.plusMinutes(55);
             if(!checkIfDateIsFree(startDate, endDate))
                 throw new TimeSlotNotAvailableException("Proszę wybrać inną datę, ta jest już zajęta.");
             Appointment appointment = new Appointment();
