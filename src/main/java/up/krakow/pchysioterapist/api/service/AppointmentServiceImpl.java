@@ -62,7 +62,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 
     @Override
     public List<Appointment> getAllFreeAppointments() {
-        return appointmentRepository.findAllByStatus(String.valueOf(EAppointmentStatus.FREE));
+        return appointmentRepository.findAllByStatusAndStartDateBetween(String.valueOf(EAppointmentStatus.FREE), LocalDateTime.now(), LocalDateTime.now().plusDays(5));
     }
 
     @Override
