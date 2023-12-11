@@ -266,15 +266,9 @@ public class AppointmentDTO {
 }
 ```
 
-**POST /guest/offer**
-
 **GET /guest/offer/{offerId}**
 
 **GET /guest/offer/all**
-
-**PUT /guest/offer/{offerId}**
-
-**DELETE /guest/offer/{offerId}**
 
 ### Endpoint Offer Photo - /guest**
 ```
@@ -323,6 +317,12 @@ public class StartEndDateDTO {
 **DELETE /mod/appointment/{appointmentId}**
 
 **DELETE /mod/newsletter** - przyjmuję NewsletterDTO
+
+**POST /mod/offer** - tworzenie oferty (OfferDTO)
+
+**PUT /mod/offer/{offerId}** - update oferty, przyjmuje id
+
+**DELETE /mod/offer/{offerId}** - usuwanie ofert, przyjmuje id
 
 
 ----
