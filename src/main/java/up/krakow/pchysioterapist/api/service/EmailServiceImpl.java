@@ -61,7 +61,7 @@ public class EmailServiceImpl implements EmailService{
         helper.setTo(recipientEmail);
         helper.setSubject("Newsletter");
         String deleteNewsletterUrl = "localhost:4200/guest/newsletter/" + deleteKey;
-        helper.setText("<html><body><p>Zapisano do newslettera!</p><br>Kliknij w link, aby wypisać się z newslettera <a href=''"+ deleteNewsletterUrl + "'>Usuń z newslettera</a></body></html>", true);
+        helper.setText("<html><body><p>Zapisano do newslettera!</p><br>Kliknij w link, aby wypisać się z newslettera <a href=\""+ deleteNewsletterUrl + "\">Usuń z newslettera</a></body></html>", true);
 
         emailSender.send(mimeMessage);
     }
@@ -74,7 +74,7 @@ public class EmailServiceImpl implements EmailService{
         helper.setTo(email);
         helper.setSubject("Zresetuj swoje haslo");
         String resetPasswordUrl = "localhost:4200/guest/users/restartpassword/" + restartPassword.getUuid();
-        helper.setText("<html><body>Cześć. Kliknij w link, aby <a href='" + resetPasswordUrl + "'>" + resetPasswordUrl + "</a> ustaw nowe hasło.</body></html>", true);
+        helper.setText("<html><body>Cześć. Kliknij w <a href=\"" + resetPasswordUrl + "\">" + "link" + "</a>, aby ustawić nowe hasło.</body></html>", true);
 
         emailSender.send(mimeMessage);
     }
