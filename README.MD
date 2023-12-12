@@ -242,7 +242,27 @@ public enum EAppointmentStatus {
 
 **GET /guest/appointment/{appointmentId}**
 
-**GET /guest/appointment/free** - bierze wszystkie Appointment ze statusem FREE
+**GET /guest/appointment/free** - bierze wszystkie Appointment ze statusem FREE, zwraca:
+
+```
+public class AppointmentResponseDTO {
+
+    private LocalDateTime localDate;
+    private List<SimpleAppointmentDTO> simpleAppointmentDTO;
+}
+
+```
+
+gdzie: 
+
+```
+public class SimpleAppointmentDTO {
+
+    private Integer id;
+    private LocalDateTime startDate;
+    private LocalDateTime endDate;
+}
+```
 
 **PUT /guest/appointment/{appointmentId}/book** - zmienia status Appointment na BOOKED (dla zalogowanego uytkownika)
 
