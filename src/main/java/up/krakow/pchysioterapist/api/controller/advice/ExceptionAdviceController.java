@@ -13,7 +13,16 @@ import up.krakow.pchysioterapist.api.exception.*;
 public class ExceptionAdviceController {
     @ExceptionHandler(UsernameNotFoundException.class)
     public ResponseEntity<InfoDTO> handleUsernameNotFoundException(UsernameNotFoundException e) {
-//        return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        return ResponseHelper.response400(e.getMessage());
+    }
+
+    @ExceptionHandler(StatuateException.class)
+    public ResponseEntity<InfoDTO> handleStatuateException(StatuateException e) {
+        return ResponseHelper.response400(e.getMessage());
+    }
+
+    @ExceptionHandler(PasswordException.class)
+    public ResponseEntity<InfoDTO> handlePasswordException(PasswordException e) {
         return ResponseHelper.response400(e.getMessage());
     }
 

@@ -36,6 +36,8 @@ public class JwtUtils {
                 .claim("email", users.getEmail())
                 .claim("id", users.getId())
                 .claim("username", users.getUsername())
+                .claim("surname", users.getSurname())
+                .claim("phone", users.getPhone())
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(new Date().getTime() + JwtConstants.JWT_EXPIRATION))
                 .signWith(SignatureAlgorithm.HS256, JwtConstants.JWT_SECRET)

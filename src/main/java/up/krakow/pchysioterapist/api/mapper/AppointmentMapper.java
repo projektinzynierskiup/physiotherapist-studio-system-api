@@ -4,6 +4,7 @@ import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import up.krakow.pchysioterapist.api.dto.AppointmentDTO;
+import up.krakow.pchysioterapist.api.dto.SimpleAppointmentDTO;
 import up.krakow.pchysioterapist.api.model.Appointment;
 
 import java.util.List;
@@ -19,4 +20,8 @@ public interface AppointmentMapper {
     AppointmentDTO mapToAppointmentDTO(Appointment appointment);
 
     List<AppointmentDTO> mapAppointmentListToAppointmentDTOList(List<Appointment> appointmentList);
+    @Mapping(target = "id")
+    @Mapping(target = "startDate")
+    @Mapping(target = "endDate")
+    List<SimpleAppointmentDTO> mapToSimpleAppointmentDTOList(List<Appointment> appointmentList);
 }
