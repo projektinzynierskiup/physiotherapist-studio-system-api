@@ -1,9 +1,6 @@
 package up.krakow.pchysioterapist.api.service;
 
-import up.krakow.pchysioterapist.api.dto.AppointmentDTO;
-import up.krakow.pchysioterapist.api.dto.AppointmentWithEmailDTO;
-import up.krakow.pchysioterapist.api.dto.CalendarDTO;
-import up.krakow.pchysioterapist.api.dto.StartEndDateDTO;
+import up.krakow.pchysioterapist.api.dto.*;
 import up.krakow.pchysioterapist.api.model.Appointment;
 
 import java.time.LocalDateTime;
@@ -15,7 +12,7 @@ public interface AppointmentService {
 
     Appointment getAppointment(Integer appointmentId);
 
-    List<Appointment> getAllFreeAppointments();
+    List<AppointmentResponseDTO> getAllFreeAppointments();
 
     List<Appointment> getAllFinishedAppointments();
 

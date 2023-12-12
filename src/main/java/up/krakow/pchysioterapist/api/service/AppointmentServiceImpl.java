@@ -2,10 +2,7 @@ package up.krakow.pchysioterapist.api.service;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import up.krakow.pchysioterapist.api.dto.AppointmentDTO;
-import up.krakow.pchysioterapist.api.dto.AppointmentWithEmailDTO;
-import up.krakow.pchysioterapist.api.dto.CalendarDTO;
-import up.krakow.pchysioterapist.api.dto.StartEndDateDTO;
+import up.krakow.pchysioterapist.api.dto.*;
 import up.krakow.pchysioterapist.api.exception.AppointmentAlreadyBookedException;
 import up.krakow.pchysioterapist.api.exception.DatesException;
 import up.krakow.pchysioterapist.api.exception.TimeSlotNotAvailableException;
@@ -62,8 +59,10 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
-    public List<Appointment> getAllFreeAppointments() {
-        return appointmentRepository.findAllByStatusAndStartDateBetween(String.valueOf(EAppointmentStatus.FREE), LocalDateTime.now(), LocalDateTime.now().plusDays(5));
+    public List<AppointmentResponseDTO> getAllFreeAppointments() {
+        List<Appointment> appointments = appointmentRepository.findAllByStatusAndStartDateBetween(String.valueOf(EAppointmentStatus.FREE), LocalDateTime.now(), LocalDateTime.now().plusDays(5));
+        Map<LocalDate, List<SimpleAppointmentDTO>> appointmentMap = groupSimpleAppointmentsByDate(appointmentMapper.mapToSimpleAppointmentDTOList(appointments));
+        return createSimpleAppointmentDTOList(appointmentMap);
     }
 
     @Override
@@ -188,6 +187,22 @@ public class AppointmentServiceImpl implements AppointmentService {
         return appointmentMap;
     }
 
+    private Map<LocalDate, List<SimpleAppointmentDTO>> groupSimpleAppointmentsByDate(List<SimpleAppointmentDTO> appointmentDTOList) {
+        Map<LocalDate, List<SimpleAppointmentDTO>> appointmentMap = new TreeMap<>();
+        for (SimpleAppointmentDTO appointmentDTO : appointmentDTOList) {
+            LocalDate date = appointmentDTO.getStartDate().toLocalDate();
+            List<SimpleAppointmentDTO> dateAppointments = appointmentMap.computeIfAbsent(date, k -> new ArrayList<>());
+            dateAppointments.add(appointmentDTO);
+        }
+
+        for (List<SimpleAppointmentDTO> dailyAppointments : appointmentMap.values()) {
+            dailyAppointments.sort(Comparator.comparing(SimpleAppointmentDTO::getStartDate));
+        }
+
+        return appointmentMap;
+    }
+
+
     private List<CalendarDTO> createCalendarDTOList(Map<LocalDate, List<AppointmentDTO>> appointmentMap) {
         List<CalendarDTO> calendarDTOList = new ArrayList<>();
         for (Map.Entry<LocalDate, List<AppointmentDTO>> entry : appointmentMap.entrySet()) {
@@ -197,6 +212,17 @@ public class AppointmentServiceImpl implements AppointmentService {
             calendarDTOList.add(calendarDTO);
         }
         return calendarDTOList;
+    }
+
+    private List<AppointmentResponseDTO> createSimpleAppointmentDTOList(Map<LocalDate, List<SimpleAppointmentDTO>> appointmentMap) {
+        List<AppointmentResponseDTO> appointmentDTOS = new ArrayList<>();
+        for (Map.Entry<LocalDate, List<SimpleAppointmentDTO>> entry : appointmentMap.entrySet()) {
+            AppointmentResponseDTO dto = new AppointmentResponseDTO();
+            dto.setLocalDate(entry.getKey().atStartOfDay());
+            dto.setSimpleAppointmentDTO(entry.getValue());
+            appointmentDTOS.add(dto);
+        }
+        return appointmentDTOS;
     }
 
     @Override
