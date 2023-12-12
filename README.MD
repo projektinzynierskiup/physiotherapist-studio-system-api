@@ -242,7 +242,27 @@ public enum EAppointmentStatus {
 
 **GET /guest/appointment/{appointmentId}**
 
-**GET /guest/appointment/free** - bierze wszystkie Appointment ze statusem FREE
+**GET /guest/appointment/all/free** - bierze wszystkie Appointment ze statusem FREE, zwraca:
+
+```
+public class AppointmentResponseDTO {
+
+    private LocalDateTime localDate;
+    private List<SimpleAppointmentDTO> simpleAppointmentDTO;
+}
+
+```
+
+gdzie: 
+
+```
+public class SimpleAppointmentDTO {
+
+    private Integer id;
+    private LocalDateTime startDate;
+    private LocalDateTime endDate;
+}
+```
 
 **PUT /guest/appointment/{appointmentId}/book** - zmienia status Appointment na BOOKED (dla zalogowanego uytkownika)
 
@@ -266,15 +286,9 @@ public class AppointmentDTO {
 }
 ```
 
-**POST /guest/offer**
-
 **GET /guest/offer/{offerId}**
 
 **GET /guest/offer/all**
-
-**PUT /guest/offer/{offerId}**
-
-**DELETE /guest/offer/{offerId}**
 
 ### Endpoint Offer Photo - /guest**
 ```
@@ -298,9 +312,19 @@ public class OfferPhotoDTO {
 
 ### Endpointy dla MODA - /mod**
 
+```
+public class StartEndDateDTO {
+
+    private String startDate;
+    private String endDate;
+}
+```
+
 **POST /mod/appointment** - tworzenie Appointment
 
-**POST /mod/appointment/all-day** - (startDate, endDate) tworzenie listy Appointment w danym dniu
+**POST /mod/appointment/list** - (Lista StartEndDateDTO jako request body) tworzenie listy Appointment
+
+**POST /mod/appointment/date** - tworzenie Appointment za pomocą obiektu StartEndDateDTO
 
 **GET /mod/appointment/{appointmentId}** 
 
@@ -313,6 +337,12 @@ public class OfferPhotoDTO {
 **DELETE /mod/appointment/{appointmentId}**
 
 **DELETE /mod/newsletter** - przyjmuję NewsletterDTO
+
+**POST /mod/offer** - tworzenie oferty (OfferDTO)
+
+**PUT /mod/offer/{offerId}** - update oferty, przyjmuje id
+
+**DELETE /mod/offer/{offerId}** - usuwanie ofert, przyjmuje id
 
 
 ----
