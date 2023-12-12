@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import up.krakow.pchysioterapist.api.dto.AppointmentDTO;
+import up.krakow.pchysioterapist.api.dto.AppointmentResponseDTO;
 import up.krakow.pchysioterapist.api.dto.AppointmentWithEmailDTO;
 import up.krakow.pchysioterapist.api.mapper.AppointmentMapper;
 import up.krakow.pchysioterapist.api.service.AppointmentService;
@@ -26,8 +27,8 @@ public class AppointmentController {
     }
 
     @GetMapping("/all/free")
-    ResponseEntity<List<AppointmentDTO>> getAllFreeAppointments() {
-        return ResponseEntity.ok(appointmentMapper.mapAppointmentListToAppointmentDTOList(appointmentService.getAllFreeAppointments()));
+    ResponseEntity<List<AppointmentResponseDTO>> getAllFreeAppointments() {
+        return ResponseEntity.ok(appointmentService.getAllFreeAppointments());
     }
 
     @PutMapping("/{appointmentId}/book")
