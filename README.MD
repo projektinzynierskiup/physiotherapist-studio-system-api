@@ -242,7 +242,7 @@ public enum EAppointmentStatus {
 
 **GET /guest/appointment/{appointmentId}**
 
-**GET /guest/appointment/free** - bierze wszystkie Appointment ze statusem FREE, zwraca:
+**GET /guest/appointment/all/free** - bierze wszystkie Appointment ze statusem FREE, zwraca:
 
 ```
 public class AppointmentResponseDTO {
