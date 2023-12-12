@@ -73,11 +73,11 @@ public class UserServiceImpl implements UserService{
                 .email(usersDTO.getEmail().toLowerCase())
                 .username(StringUtils.capitalizeFirstLetter(usersDTO.getUsername()))
                 .surname(StringUtils.capitalizeFirstLetter(usersDTO.getSurname()))
+                .phone(usersDTO.getPhone())
                 .password(bCryptPasswordEncoder.encode(usersDTO.getPassword()))
                 .role(ERole.USER)
                 .enabled(true)
                 .build();
-
         usersRepository.save(users);
     }
 
@@ -91,11 +91,9 @@ public class UserServiceImpl implements UserService{
     @Override
     public void registerUser(UsersDTO usersDTO) {
         Users guestUser = getGuestByEmail(usersDTO.getEmail());
+        System.out.println("null? " + guestUser != null);
         if (guestUser != null){
-            guestUser.setUsername(usersDTO.getUsername());
-            guestUser.setSurname(usersDTO.getSurname());
-            guestUser.setRole(ERole.USER);
-            usersRepository.save(guestUser);
+            saveNewUser(usersDTO);
         } else {
             try {
                 Users users = getUserByEmail(usersDTO.getEmail());
