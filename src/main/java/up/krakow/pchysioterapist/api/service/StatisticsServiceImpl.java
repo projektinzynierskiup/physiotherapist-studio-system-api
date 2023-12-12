@@ -31,14 +31,15 @@ public class StatisticsServiceImpl implements StatisticsService{
             statistics = statisticsRepository.findByYearAndMonth(year.getValue(), month.getValue());
         else statistics = new Statistics();
         statistics.setYearNumber(year.getValue());
+        statistics.setId(1);
         statistics.setMonthNumber(month.getValue());
-        int numberOfAppointmentsAYear = statisticsRepository.getNumberOfAppointments(startDate, endDate);
+        int numberOfAppointmentsAYear = statisticsRepository.getNumberOfAppointments(startDate, endDate).orElse(0);
         statistics.setNumberOfAppointmentsAYear(numberOfAppointmentsAYear);
-        int numberOfAppointmentsAMonth = statisticsRepository.getNumberOfAppointments(startMonth, endMonth);
+        int numberOfAppointmentsAMonth = statisticsRepository.getNumberOfAppointments(startMonth, endMonth).orElse(0);
         statistics.setNumberOfAppointmentsAMonth(numberOfAppointmentsAMonth);
-        double yearIncome = statisticsRepository.getIncome(startDate, endDate);
+        double yearIncome = statisticsRepository.getIncome(startDate, endDate).orElse(0.0);
         statistics.setYearIncome(yearIncome);
-        double monthIncome = statisticsRepository.getIncome(startMonth, endMonth);
+        double monthIncome = statisticsRepository.getIncome(startMonth, endMonth).orElse(0.0);
         statistics.setAverageMonthIncome(monthIncome);
         List<NumberType> numberOfMassagesAYear = getNumberOfMassages(startDate, endDate);
         statistics.setNumberOfMassagesAYear(numberOfMassagesAYear);
@@ -55,7 +56,7 @@ public class StatisticsServiceImpl implements StatisticsService{
         List<EAppointmentType> types = List.of(EAppointmentType.values());
         for (EAppointmentType type: types){
             NumberType numberType = new NumberType();
-            numberType.setNumberOf(statisticsRepository.getNumberOfMassagesByType(start, end, type.toString()));
+            numberType.setNumberOf(statisticsRepository.getNumberOfMassagesByType(start, end, type.toString()).orElse(0));
             numberType.setTypeOf(type.toString());
             numberTypes.add(numberType);
         }
