@@ -1,0 +1,1 @@
+ALTER TABLE physioterapist.appointment DROP COLUMN start_time, DROP COLUMN end_time;

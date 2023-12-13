@@ -14,6 +14,5 @@ public class MassageDTO {
     private Integer id;
     private String massageName;
     private String description;
-    @Enumerated(EnumType.STRING)
-    private EAppointmentType appointmentType;
+    private String appointmentType;
 }
