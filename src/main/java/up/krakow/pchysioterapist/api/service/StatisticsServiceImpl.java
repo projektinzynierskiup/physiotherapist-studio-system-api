@@ -31,7 +31,6 @@ public class StatisticsServiceImpl implements StatisticsService{
             statistics = statisticsRepository.findByYearAndMonth(year.getValue(), month.getValue());
         else statistics = new Statistics();
         statistics.setYearNumber(year.getValue());
-        statistics.setId(1);
         statistics.setMonthNumber(month.getValue());
         int numberOfAppointmentsAYear = statisticsRepository.getNumberOfAppointments(startDate, endDate).orElse(0);
         statistics.setNumberOfAppointmentsAYear(numberOfAppointmentsAYear);

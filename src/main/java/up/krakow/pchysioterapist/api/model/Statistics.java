@@ -23,11 +23,20 @@ public class Statistics {
     private int numberOfAppointmentsAYear;
     @Column(name = "number_of_appointments_a_month")
     private int numberOfAppointmentsAMonth;
-    @ManyToMany
-    @Column(name = "number_of_massages_a_year")
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "statistics_massages_a_year",
+            joinColumns = @JoinColumn(name = "statistics_id"),
+            inverseJoinColumns = @JoinColumn(name = "number_type_id")
+    )
     private List<NumberType> numberOfMassagesAYear;
-    @ManyToMany
-    @Column(name = "number_of_massages_a_month")
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "statistics_massages_a_month",
+            joinColumns = @JoinColumn(name = "statistics_id"),
+            inverseJoinColumns = @JoinColumn(name = "number_type_id")
+    )
     private List<NumberType> numberOfMassagesAMonth;
     private double yearIncome;
     private double averageMonthIncome;
