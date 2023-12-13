@@ -344,6 +344,35 @@ public class StartEndDateDTO {
 
 **DELETE /mod/offer/{offerId}** - usuwanie ofert, przyjmuje id
 
+**GET /mod/statistics** - przyjmuje Integer year, Integer month jako parametry, zwraca statystyki:
+
+```
+public class StatisticsDTO {
+
+    private Integer id;
+    private int numberOfAppointmentsAYear;
+    private int numberOfAppointmentsAMonth;
+    private List<NumberType> numberOfMassagesAYear;
+    private List<NumberType> numberOfMassagesAMonth;
+    private double yearIncome;
+    private double averageMonthIncome;
+    private String mostWantedMassageYear;
+    private String mostWantedMassageMonth;
+    private int yearNumber;
+    private int monthNumber;
+}
+```
+
+```
+public class NumberType {
+
+    private Integer id;
+    private int numberOf;
+    private String typeOf;
+
+}
+```
+
 
 ----
 
