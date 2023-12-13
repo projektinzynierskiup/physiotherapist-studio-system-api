@@ -255,4 +255,31 @@ public class AppointmentServiceImpl implements AppointmentService {
     return appointments;
     }
 
+    @Override
+    public List<AppointmentDTO> getHistory(Integer id) {
+        return getUserAppointmentList(appointmentRepository.findByUsersIdAndStartDateBefore(id, LocalDateTime.now()), id);
+    }
+
+    @Override
+    public List<AppointmentDTO> getFuture(Integer id) {
+        return getUserAppointmentList(appointmentRepository.findByUsersIdAndStartDateAfter(id, LocalDateTime.now()), id);
+    }
+
+    @Override
+    public List<AppointmentDTO> getUserAppointmentList(List<Appointment> list, Integer id) {
+        List<AppointmentDTO> appointmentDTOList = new ArrayList<>();
+        for(Appointment e: list) {
+            AppointmentDTO appointmentDTO = AppointmentDTO.builder()
+                    .usersDTO(usersMapper.mapUsersToUsersDTO(userService.getUserById(id)))
+                    .massageDTO(massageMapper.massageToMassageDTO(e.getMassage()))
+                    .startDate(e.getStartDate())
+                    .endDate(e.getEndDate())
+                    .build();
+            appointmentDTO.getUsersDTO().setPassword(null);
+            appointmentDTOList.add(appointmentDTO);
+        }
+
+        return appointmentDTOList;
+    }
+
 }
