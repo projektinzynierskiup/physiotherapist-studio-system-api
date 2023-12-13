@@ -41,7 +41,7 @@ public class Security implements WebMvcConfigurer {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/swagger-ui/**", "/v3/**").permitAll()
                         .requestMatchers(ControllerEndpoints.GUEST + "/**").permitAll()
-                        .requestMatchers(ControllerEndpoints.USER + "/**").hasAnyAuthority("USER")
+                        .requestMatchers(ControllerEndpoints.USER + "/**").hasAnyAuthority("USER", "MOD", "ADMIN")
                         .requestMatchers(ControllerEndpoints.MOD + "/**").hasAnyAuthority("MOD", "ADMIN")
                         .requestMatchers(ControllerEndpoints.ADMIN + "/**").hasAnyAuthority("ADMIN")
                         .anyRequest().authenticated()

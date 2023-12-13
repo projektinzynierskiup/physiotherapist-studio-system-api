@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
+@Builder
 public class AppointmentDTO {
     private Integer id;
     private LocalDateTime startDate;

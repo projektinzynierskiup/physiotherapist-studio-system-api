@@ -1,5 +1,6 @@
 package up.krakow.pchysioterapist.api.service;
 
+import org.hibernate.persister.entity.SingleTableEntityPersister;
 import up.krakow.pchysioterapist.api.dto.*;
 import up.krakow.pchysioterapist.api.model.Appointment;
 
@@ -33,4 +34,7 @@ public interface AppointmentService {
     Appointment creteAppointmentForDate(LocalDateTime startDate, LocalDateTime endDate);
 
     List<Appointment> createAppointmentsForDay(List<StartEndDateDTO> dto);
+    List<AppointmentDTO> getHistory(Integer id);
+    List<AppointmentDTO> getFuture(Integer id);
+    List<AppointmentDTO> getUserAppointmentList(List<Appointment> list, Integer id);
 }
