@@ -17,4 +17,5 @@ public class ControllerEndpoints {
     public static final String OPINION = "/opinion";
     public static final String USERS = "/users";
     public static final String STATUATE = "/statuate";
+    public static final String APPOINTMENT = "/appointment";
 }
