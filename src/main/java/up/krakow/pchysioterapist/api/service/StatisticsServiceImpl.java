@@ -13,6 +13,7 @@ import java.time.Month;
 import java.time.Year;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 @Service
 @AllArgsConstructor
@@ -53,8 +54,10 @@ public class StatisticsServiceImpl implements StatisticsService{
     public List<NumberType> getNumberOfMassages(LocalDate start, LocalDate end) {
         List<NumberType> numberTypes = new ArrayList<>();
         List<EAppointmentType> types = List.of(EAppointmentType.values());
+        Random random = new Random();
         for (EAppointmentType type: types){
             NumberType numberType = new NumberType();
+            numberType.setId(random.nextInt());
             numberType.setNumberOf(statisticsRepository.getNumberOfMassagesByType(start, end, type.toString()).orElse(0));
             numberType.setTypeOf(type.toString());
             numberTypes.add(numberType);
