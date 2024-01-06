@@ -122,14 +122,11 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public void changeDetails(UsersDTO usersDTO) {
-        Users users = Users.builder()
-                .id(usersDTO.getId())
-                .enabled(true)
-                .role(ERole.USER)
-                .surname(usersDTO.getSurname())
-                .username(usersDTO.getUsername())
-                .email(usersDTO.getEmail())
-                .build();
+        Users users = getUserById(usersDTO.getId());
+        users.setSurname(usersDTO.getSurname());
+        users.setUsername(usersDTO.getUsername());
+        users.setEmail(usersDTO.getEmail());
+        users.setPhone(usersDTO.getPhone());
         updateUserDate(users);
     }
 
