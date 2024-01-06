@@ -16,5 +16,5 @@ public class OfferDTO {
     private String name;
     private double duration;
     private int price;
-    private Massage massage;
+    private Integer massageId;
 }
