@@ -38,7 +38,7 @@ public class MassageServiceImpl implements MassageService{
 
     @Override
     public void update(MassageDTO massageDTO) {
-        Massage massage = massageRepository.findById(massage.DTO.getId);
+        Massage massage = massageRepository.findById(massageDTO.getId);
 
         massage.setMassageName(massageDTO.getMassageName());
         massage.setDescription(massageDTO.getDescription());
