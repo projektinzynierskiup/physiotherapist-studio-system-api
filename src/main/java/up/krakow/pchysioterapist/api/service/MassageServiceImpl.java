@@ -38,12 +38,12 @@ public class MassageServiceImpl implements MassageService{
 
     @Override
     public void update(MassageDTO massageDTO) {
-        massageRepository.save(
-                Massage.builder()
-                    .id(massageDTO.getId())
-                    .massageName(massageDTO.getMassageName())
-                    .description(massageDTO.getDescription())
-                    .appointmentType(massageDTO.getAppointmentType())
-                .build());
+        Massage massage = massageRepository.findById(massageDTO.getId()).get();
+
+        massage.setMassageName(massageDTO.getMassageName());
+        massage.setDescription(massageDTO.getDescription());
+        massage.setAppointmentType(massageDTO.getAppointmentType());
+
+        massageRepository.save(massage);
     }
 }

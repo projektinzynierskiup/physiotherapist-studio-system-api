@@ -15,6 +15,7 @@ import java.util.NoSuchElementException;
 public class OfferServiceImpl implements OfferService{
 
     private final OfferRepository offerRepository;
+    private final MassageService massageService;
 
     @Override
     public Offer createOffer(OfferDTO dto) {
@@ -39,6 +40,7 @@ public class OfferServiceImpl implements OfferService{
         offer.setDuration(dto.getDuration());
         offer.setName(dto.getName());
         offer.setPrice(dto.getPrice());
+        offer.setMassage(massageService.getMassageById(dto.getMassageId()));
         offerRepository.save(offer);
         return offer;
     }
