@@ -31,4 +31,8 @@ public class NewsletterController {
         return ResponseEntity.ok(new InfoDTO("Wypisano z newslettera!"));
     }
 
+    @GetMapping("/{newsletterEmail}")
+    public ResponseEntity<Boolean> isInNewsletter(@PathVariable String newsletterEmail) {
+        return ResponseEntity.ok(newsletterService.isSignedIn(newsletterEmail));
+    }
 }
