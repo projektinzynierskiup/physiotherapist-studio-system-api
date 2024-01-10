@@ -28,7 +28,8 @@ public class NewsletterServiceImpl implements NewsletterService{
 
     @Override
     public void remove(String email) {
-        newsletterRepository.deleteByUserEmail(email);
+        Newsletter newsletter = newsletterRepository.findByUserEmail(email);
+        newsletterRepository.delete(newsletter);
     }
 
     @Override
