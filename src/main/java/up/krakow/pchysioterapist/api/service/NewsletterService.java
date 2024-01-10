@@ -13,5 +13,6 @@ public interface NewsletterService {
     void signOutFromNewsletter(String userEmail);
 
     void signOutFromNewsletterByEmail(UUID deleteKey);
-     boolean isSignedIn(String email);
+    boolean isSignedIn(String email);
+    void remove(String email);
 }

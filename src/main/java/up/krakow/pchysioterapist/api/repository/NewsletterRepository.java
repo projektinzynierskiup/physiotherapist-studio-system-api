@@ -12,4 +12,5 @@ public interface NewsletterRepository extends JpaRepository<Newsletter, Integer>
     Newsletter findByUserEmail(String userEmail);
 
     void deleteByDeleteKey(UUID deleteKey);
+    void deleteByUserEmail(String userEmail);
 }

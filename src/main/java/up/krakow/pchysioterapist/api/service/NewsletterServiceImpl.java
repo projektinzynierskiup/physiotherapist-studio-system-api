@@ -27,6 +27,11 @@ public class NewsletterServiceImpl implements NewsletterService{
     }
 
     @Override
+    public void remove(String email) {
+        newsletterRepository.deleteByUserEmail(email);
+    }
+
+    @Override
     public Newsletter signToNewsletter(String userEmail) throws MessagingException, IOException {
         Newsletter newsletter = newsletterRepository.findByUserEmail(userEmail);
         if (newsletter == null){
