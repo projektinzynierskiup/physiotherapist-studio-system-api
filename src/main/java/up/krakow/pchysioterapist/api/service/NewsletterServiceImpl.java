@@ -21,6 +21,12 @@ public class NewsletterServiceImpl implements NewsletterService{
     private final EmailService emailService;
 
     @Override
+    public boolean isSignedIn(String email) {
+        Newsletter newsletter = newsletterRepository.findByUserEmail(email);
+        return newsletter != null;
+    }
+
+    @Override
     public Newsletter signToNewsletter(String userEmail) throws MessagingException, IOException {
         Newsletter newsletter = newsletterRepository.findByUserEmail(userEmail);
         if (newsletter == null){
