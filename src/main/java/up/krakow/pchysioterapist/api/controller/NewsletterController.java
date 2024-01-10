@@ -32,7 +32,9 @@ public class NewsletterController {
     }
 
     @GetMapping("/{newsletterEmail}")
-    public ResponseEntity<Boolean> isInNewsletter(@PathVariable String newsletterEmail) {
-        return ResponseEntity.ok(newsletterService.isSignedIn(newsletterEmail));
+    public ResponseEntity<InfoDTO> isInNewsletter(@PathVariable String newsletterEmail) {
+        boolean z = newsletterService.isSignedIn(newsletterEmail);
+
+        return ResponseEntity.ok(new InfoDTO(z == true ? "true" : "false"));
     }
 }
