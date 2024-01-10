@@ -1,0 +1,1 @@
+ALTER TABLE physioterapist.offer_photo ALTER COLUMN photo_byte TYPE bytea USING photo_byte[1];

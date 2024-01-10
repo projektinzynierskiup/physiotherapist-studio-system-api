@@ -3,6 +3,7 @@ package up.krakow.pchysioterapist.api.controller;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import up.krakow.pchysioterapist.api.dto.InfoDTO;
 import up.krakow.pchysioterapist.api.dto.OfferPhotoDTO;
 import up.krakow.pchysioterapist.api.mapper.OfferPhotoMapper;
 import up.krakow.pchysioterapist.api.service.OfferPhotoService;
@@ -11,7 +12,7 @@ import up.krakow.pchysioterapist.api.utils.ControllerEndpoints;
 import java.util.UUID;
 
 @RestController
-@RequestMapping(value = ControllerEndpoints.GUEST)
+@RequestMapping(value = ControllerEndpoints.MOD)
 @AllArgsConstructor
 public class PhotoController {
 
@@ -32,6 +33,11 @@ public class PhotoController {
     @PutMapping("/offer-photo/{offerPhotoId}")
     ResponseEntity<OfferPhotoDTO> updateOfferPhoto(@RequestBody OfferPhotoDTO dto, @PathVariable Integer offerPhotoId) {
         return ResponseEntity.ok(offerPhotoMapper.mapToOfferPhotoDTO(offerPhotoService.updateOfferPhoto(dto, offerPhotoId)));
+    }
+
+    @GetMapping("/test123")
+    ResponseEntity<InfoDTO> test() {
+        return ResponseEntity.ok(new InfoDTO("test"));
     }
 
     @DeleteMapping("/offer-photo/{offerPhotoId}")

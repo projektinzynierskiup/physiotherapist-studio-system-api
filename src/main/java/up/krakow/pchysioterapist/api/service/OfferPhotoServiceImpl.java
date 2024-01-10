@@ -21,6 +21,7 @@ public class OfferPhotoServiceImpl implements OfferPhotoService{
         offerPhoto.setPhotoByte(dto.getPhotoByte());
         offerPhoto.setPhotoName(dto.getPhotoName());
         offerPhoto.setPhotoType(dto.getPhotoType());
+        offerPhoto.setOfferId(dto.getOfferId());
         offerPhotoRepository.save(offerPhoto);
         return offerPhoto;
     }
@@ -38,6 +39,7 @@ public class OfferPhotoServiceImpl implements OfferPhotoService{
         offerPhoto.setPhotoByte(dto.getPhotoByte());
         offerPhoto.setPhotoName(dto.getPhotoName());
         offerPhoto.setPhotoType(dto.getPhotoType());
+        offerPhoto.setOfferId(dto.getOfferId());
         offerPhotoRepository.save(offerPhoto);
         return offerPhoto;
     }
