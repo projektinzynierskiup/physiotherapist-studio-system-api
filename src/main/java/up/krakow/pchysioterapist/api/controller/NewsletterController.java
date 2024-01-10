@@ -38,7 +38,7 @@ public class NewsletterController {
         return ResponseEntity.ok(new InfoDTO(z == true ? "true" : "false"));
     }
 
-    @DeleteMapping("/{email}")
+    @DeleteMapping("/email/{email}")
     public ResponseEntity<InfoDTO> remove(@PathVariable String email) {
         newsletterService.remove(email);
         return ResponseEntity.ok(new InfoDTO("Usunieto z newslettera"));
