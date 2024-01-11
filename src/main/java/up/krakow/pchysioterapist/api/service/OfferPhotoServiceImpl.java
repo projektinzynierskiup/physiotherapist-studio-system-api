@@ -6,6 +6,7 @@ import up.krakow.pchysioterapist.api.dto.OfferPhotoDTO;
 import up.krakow.pchysioterapist.api.model.OfferPhoto;
 import up.krakow.pchysioterapist.api.repository.OfferPhotoRepository;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.UUID;
 
@@ -30,6 +31,11 @@ public class OfferPhotoServiceImpl implements OfferPhotoService{
     public OfferPhoto getOfferPhoto(Integer offerPhotoId) {
         return offerPhotoRepository.findById(offerPhotoId).orElseThrow(() ->
                 new NoSuchElementException("Photo with id: " + offerPhotoId + "does not exist"));
+    }
+
+    @Override
+    public List<OfferPhoto> getAllOfferPhoto() {
+        return offerPhotoRepository.findAll();
     }
 
     @Override

@@ -9,7 +9,7 @@ import up.krakow.pchysioterapist.api.mapper.OfferPhotoMapper;
 import up.krakow.pchysioterapist.api.service.OfferPhotoService;
 import up.krakow.pchysioterapist.api.utils.ControllerEndpoints;
 
-import java.util.UUID;
+import java.util.List;
 
 @RestController
 @RequestMapping(value = ControllerEndpoints.MOD)
@@ -28,6 +28,11 @@ public class PhotoController {
     @GetMapping("/offer-photo/{offerPhotoId}")
     ResponseEntity<OfferPhotoDTO> getOfferPhoto(@PathVariable Integer offerPhotoId) {
         return ResponseEntity.ok(offerPhotoMapper.mapToOfferPhotoDTO(offerPhotoService.getOfferPhoto(offerPhotoId)));
+    }
+
+    @GetMapping("/offer-photo/all")
+    ResponseEntity<List<OfferPhotoDTO>> getAllOfferPhoto() {
+        return ResponseEntity.ok(offerPhotoMapper.mapToListOfferPhotoDTO(offerPhotoService.getAllOfferPhoto()));
     }
 
     @PutMapping("/offer-photo/{offerPhotoId}")
