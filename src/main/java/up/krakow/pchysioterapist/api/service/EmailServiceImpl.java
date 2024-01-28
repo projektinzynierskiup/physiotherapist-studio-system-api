@@ -73,8 +73,9 @@ public class EmailServiceImpl implements EmailService{
 
         helper.setTo(email);
         helper.setSubject("Zresetuj swoje haslo");
-        String restartPasswordUrl = "http://localhost:4200/guest/users/restartpassword/" + restartPassword.getUuid();
-        helper.setText("<html><body><p>Rozpoczął się proces restartowania hasła dla systemu masaży</p><br>Kliknij w link, aby <a href=\""+ restartPasswordUrl + "\">zrestartować swoje hasło.</a></body></html>", true);
+        String restartPasswordUrl = "localhost:4200/guest/users/restartpassword/" + restartPassword.getUuid();
+        System.out.println(restartPasswordUrl);
+        helper.setText("<html><head></head><body style=\"color: black;\"><p>Rozpoczął się proces restartowania hasła dla systemu masaży</p><br>Kliknij w link, aby <a style=\"color: #15c; text-decoration:underline; cursos: pointer;\">zrestartować swoje hasło.</a></body></html>", true);
         emailSender.send(mimeMessage);
     }
 
