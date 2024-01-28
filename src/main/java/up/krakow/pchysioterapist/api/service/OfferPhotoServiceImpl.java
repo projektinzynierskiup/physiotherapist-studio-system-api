@@ -6,6 +6,7 @@ import up.krakow.pchysioterapist.api.dto.OfferPhotoDTO;
 import up.krakow.pchysioterapist.api.model.OfferPhoto;
 import up.krakow.pchysioterapist.api.repository.OfferPhotoRepository;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.UUID;
 
@@ -21,6 +22,7 @@ public class OfferPhotoServiceImpl implements OfferPhotoService{
         offerPhoto.setPhotoByte(dto.getPhotoByte());
         offerPhoto.setPhotoName(dto.getPhotoName());
         offerPhoto.setPhotoType(dto.getPhotoType());
+        offerPhoto.setOfferId(dto.getOfferId());
         offerPhotoRepository.save(offerPhoto);
         return offerPhoto;
     }
@@ -32,12 +34,18 @@ public class OfferPhotoServiceImpl implements OfferPhotoService{
     }
 
     @Override
+    public List<OfferPhoto> getAllOfferPhoto() {
+        return offerPhotoRepository.findAll();
+    }
+
+    @Override
     public OfferPhoto updateOfferPhoto(OfferPhotoDTO dto, Integer offerPhotoId) {
         OfferPhoto offerPhoto = offerPhotoRepository.findById(offerPhotoId).orElseThrow(() ->
                 new NoSuchElementException("Photo with id: " + offerPhotoId + "does not exist"));
         offerPhoto.setPhotoByte(dto.getPhotoByte());
         offerPhoto.setPhotoName(dto.getPhotoName());
         offerPhoto.setPhotoType(dto.getPhotoType());
+        offerPhoto.setOfferId(dto.getOfferId());
         offerPhotoRepository.save(offerPhoto);
         return offerPhoto;
     }

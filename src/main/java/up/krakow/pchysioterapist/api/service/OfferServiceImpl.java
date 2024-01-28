@@ -23,6 +23,7 @@ public class OfferServiceImpl implements OfferService{
         offer.setDuration(dto.getDuration());
         offer.setName(dto.getName());
         offer.setPrice(dto.getPrice());
+        offer.setMassage(massageService.getMassageById(dto.getMassageId()));
         offerRepository.save(offer);
         return offer;
     }
